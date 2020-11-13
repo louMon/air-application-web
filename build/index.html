@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<meta name="Description" content="Website of qAIRa Drones" />
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+		<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+		<link rel="stylesheet" type="text/css" href="style.css" />
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-164240175-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-164240175-1');
+</script>
+<!-- Hotjar Tracking Code for qairamap.qairadrones.com -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1788317,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+		<title>qAIRa Map</title>
+	</head>
+
+	<body>
+		<header></header>
+
+		<main>
+			<!-- Spinner -->
+
+			<div class="center" id="loader">
+				<div class="preloader-wrapper active">
+					<div class="spinner-layer spinner-green-only">
+						<div class="circle-clipper left">
+							<div class="circle"></div>
+						</div>
+						<div class="gap-patch">
+							<div class="circle"></div>
+						</div>
+						<div class="circle-clipper right">
+							<div class="circle"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="content-page"></div>
+		</main>
+
+		<!-- Footer -->
+		<footer class="page-footer center">© 2020 Grupo Qaira S.A.C.</footer>
+
+		<script src="https://cdn.plot.ly/plotly-latest.min.js" defer=""></script>
+		<script type="text/javascript" src="js/socket.io.min.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDqrNaRtt0c6vhC55vQ9v12nhqt-rDhREg" defer=""></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script src="https://sdk.amazonaws.com/js/aws-sdk-2.774.0.min.js"></script>
+		<script type="module" src="index.bundle.js"></script>
+	</body>
+</html>
