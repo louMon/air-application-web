@@ -169,6 +169,21 @@ const goToFirmware = ()=>{
     window.location.reload();  
 };
 
+const goToForecasting = () => {
+	window.location.assign('..#/forecasting');
+	window.location.reload();
+};
+
+const goToSpatialRealTime = () => {
+	window.location.assign('..#/spatial_real_time');
+	window.location.reload();
+};
+
+const goToSpatialHistorical = () => {
+	window.location.assign('..#/spatial_historical');
+	window.location.reload();
+};
+
 export { goToLogin,
      goToLogout,
      goToDownload,
@@ -187,7 +202,10 @@ export { goToLogin,
 	 goToFirmware,
 	 goInit,
 	 goInitLog,
-	 goToConfig
+	 goToConfig,
+	 goToForecasting,
+	 goToSpatialRealTime,
+	 goToSpatialHistorical
 	 
 		}
 		

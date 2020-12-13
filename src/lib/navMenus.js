@@ -411,6 +411,31 @@ const login = `
 const loginMobile = `
 <li id="login-menu-mobile"><a>Login</a></li>
 `;
+
+const forecasting = `
+<li id="forecasting-menu"><a>Forecasting</a></li>
+`;
+
+const forecastingMobile = `
+<li id="forecasting-menu-mobile"><a>Forecasting</a></li>
+`;
+
+const spatialRealTime = `
+<li id="spatial-real-time-menu"><a>Tiempo Real Espacial</a></li>
+`;
+
+const spatialRealTimeMobile = `
+<li id="spatial-real-time-menu-mobile"><a>Tiempo Real Espacial</a></li>
+`;
+
+const spatialHistorical = `
+<li id="spatial-historical-menu"><a>Histórico Espacial</a></li>
+`;
+
+const spatialHistoricalMobile = `
+<li id="spatial-historical-menu-mobile"><a>Histórico Espacial</a></li>
+`;
+
 const bulletinLima=`
 <a href="http://smia.munlima.gob.pe/documentos-publicacion/recientes?tipoDocumento=10&titulo=vigilancia+de+la+calidad+del+aire+en+lima+metropolitana&tipoDocumentoNorma=ALL&idTematica=ALL&ambitoAplicacion=ALL&submit_search=true">Boletines</a>
 `;
@@ -733,5 +758,11 @@ ppbToECAdash,
 download,
 downloadMob,
 configAdm,
-configAdmMob
+configAdmMob,
+forecasting,
+forecastingMobile,
+spatialRealTime,
+spatialRealTimeMobile,
+spatialHistorical,
+spatialHistoricalMobile
 };

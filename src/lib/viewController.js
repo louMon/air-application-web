@@ -9,14 +9,13 @@ import { viewDwnGraphs } from '../views/downloadGraphsView.js';
 import { viewBinnacle } from '../views/binnacleView.js';
 import { viewQhawaxList } from '../views/qhawaxListView.js';
 import { viewCompanysList} from '../views/companyListView.js';
-import { viewQhawaxInstallationList} from '../views/installationListView.js';
-import { viewQhawaxInstallationEdit}from '../views/installationEditView.js';
 import { viewQhawaxInstallation} from '../views/installationQhawaxView.js';
 import { viewRegisterBinnacle} from '../views/registerBinnacleView.js';
-import { viewCalibration} from '../views/calibrationView.js';
-import { viewFirmware} from '../views/firmwareView.js';
-import { viewClientMap}from '../views/clientMapView.js';
-import { viewConfig}from '../views/configView.js'
+
+import { viewGeneratePosition} from '../views/maintainPositionsView.js';
+import { viewForecasting} from '../views/forecastingView.js';
+import { viewSpatialRealTime} from '../views/spatialRealTimeView.js';
+import { viewSpatialHistorical} from '../views/spatialHistoricalView.js';
 
 const company_id = Number(sessionStorage.getItem('companyID'));
 const user_name = sessionStorage.getItem('companyName');
@@ -28,7 +27,7 @@ const changeView = router => {
 	container.innerHTML = ``;
 	switch (router) {
 		case '':
-			return container.appendChild(viewFreeMap(0));
+			return container.appendChild(viewGeneratePosition());
 
 		case '#/':
 			return container.appendChild(viewFreeMap(0));
@@ -85,38 +84,21 @@ const changeView = router => {
 			return company_id === 1
 				? container.appendChild(viewCompanysList(company_id))
 				: container.appendChild(viewTheLogin());
-		case '#/qhawax_installation_list':
-			return company_id === 1
-				? container.appendChild(viewQhawaxInstallationList(company_id))
-				: container.appendChild(viewTheLogin());
 		case '#/qhawax_installation':
 			return company_id === 1
 				? container.appendChild(viewQhawaxInstallation(company_id))
-				: container.appendChild(viewTheLogin());
-		case '#/qhawax_installation_edit':
-			return company_id === 1
-				? container.appendChild(viewQhawaxInstallationEdit(company_id))
 				: container.appendChild(viewTheLogin());
 		case '#/register_binnacle':
 			return company_id === 1
 				? container.appendChild(viewRegisterBinnacle(company_id))
 				: container.appendChild(viewTheLogin());
-		case '#/calibration':
-			return company_id === 1
-				? container.appendChild(viewCalibration(company_id))
-				: container.appendChild(viewTheLogin());
-		case '#/firmware':
-			return company_id === 1
-				? container.appendChild(viewFirmware(company_id))
-				: container.appendChild(viewTheLogin());
-		case '#/clientmap':
-			return company_id
-				? container.appendChild(viewClientMap(company_id))
-				: container.appendChild(viewTheLogin());
-		case '#/configuration':
-			return company_id === 1
-				? container.appendChild(viewConfig(company_id))
-				: container.appendChild(viewTheLogin());
+		case '#/forecasting':
+			return container.appendChild(viewForecasting());
+		case '#/spatial_real_time':
+			return container.appendChild(viewSpatialRealTime());
+		case '#/spatial_historical':
+			return container.appendChild(viewSpatialHistorical());
+
 	}
 	
 };

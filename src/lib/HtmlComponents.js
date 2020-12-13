@@ -37,6 +37,177 @@ const viewMap = `
 </div>
 `;
 
+const viewSearchingPanelHistorical = `   
+<div class="wrapper_map" id="wrapper_map">
+<div class="animate__animated animate__fadeInDown" id="map"></div>
+<div class="animate__animated animate__zoomIn z-depth-4 none" id="over_map_infowindow"></div>
+<div class="animate__animated animate__zoomIn" id="over_map">
+
+<div class="card-pannel z-depth-5">
+    <h6 class="center-align"><b>Histórico Espacial</b></h6>
+    <form action="">
+      <div class="row">
+      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante:</b></p>
+      <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
+
+        <div class="col s2">
+        <label for="no2-gas"> <input id="no2-gas" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>NO2</span></label>
+        </div>
+
+        <div class="col s2">
+        <label for="co-gas"><input id="co-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>CO</span></label>
+        </div>
+        
+        <div class="col s2">
+        <label for="so2-gas"><input id="so2-gas" class="with-gap" name="group1" type="radio" value="5min-average" /><span>SO2</span></label>
+        </div>
+
+
+        <div class="col s2">
+        <label for="o3-gas"> <input id="o3-gas" class="with-gap" name="group1" type="radio" value="hourly-average" /><span>O3</span></label>
+        </div>
+
+        <div class="col s2">
+        <label for="h2s-gas"><input id="h2s-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>H2S</span></label>
+        </div>
+
+        <div class="col s2">
+        <input id="h2s-gas" class="with-gap" name="group1" type="hidden" value="raw-data" />
+        </div>
+      
+
+      </div>
+
+      <div class="row">
+      <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
+
+      <div class="col s2">
+      <label for="pm1-dust"><input id="pm1-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM1</span></label>
+      </div>
+
+      <div class="col s2">
+      <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
+      </div>
+      
+      <div class="col s2">
+      <label for="pm10-dust"><input id="pm10-dust" class="with-gap" name="group1" type="radio" value="5min-average" /><span>PM10</span></label>
+      </div>
+
+      </div>
+    </form>
+    <form action="">
+      <div class="row">
+      <p class="left-align" style="padding-left:20px"><b>Selecciona el periodo de tiempo:</b></p>
+
+      <div class="col s4">
+      <label for="24h-last"> <input id="24h-last" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>Ultimas 24 horas</span></label>
+      </div>
+
+      <div class="col s4">
+      <label for="48h-last"><input id="48h-last" class="with-gap" name="group1" type="radio" value="raw-data" /><span>Ultimas 48 horas</span></label>
+      </div>
+      
+      <div class="col s4">
+      <label for="72h-last"><input id="72h-last" class="with-gap" name="group1" type="radio" value="5min-average" /><span>Ultimas 72 horas</span></label>
+      </div>
+
+      </div>
+    </form>
+    <div class="row">
+      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">send</i></button></p></div>
+      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">send</i></button></p></div>
+      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Reiniciar<i class="material-icons right">send</i></button></p></div>
+    </div>
+</div>
+
+
+</div>
+</div>
+<!-- Modal Graphics -->
+<div id="modalGraphic" class="modal">
+<a id="close" class="modal-close right responsive-img modal-images-close">X</a>
+<div class="modal-content center" id="graphicValues">
+</div>
+</div>
+`;
+
+
+const viewSearchingPanelForecasting = `   
+<div class="wrapper_map" id="wrapper_map">
+<div class="animate__animated animate__fadeInDown" id="map"></div>
+<div class="animate__animated animate__zoomIn z-depth-4 none" id="over_map_infowindow"></div>
+<div class="animate__animated animate__zoomIn" id="over_map">
+
+<div class="card-pannel z-depth-5">
+    <h6 class="center-align"><b>Forecasting Temporal</b></h6>
+    <form action="">
+      <div class="row">
+      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante:</b></p>
+      <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
+
+        <div class="col s2">
+        <label for="no2-gas"> <input id="no2-gas" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>NO2</span></label>
+        </div>
+
+        <div class="col s2">
+        <label for="co-gas"><input id="co-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>CO</span></label>
+        </div>
+        
+        <div class="col s2">
+        <label for="so2-gas"><input id="so2-gas" class="with-gap" name="group1" type="radio" value="5min-average" /><span>SO2</span></label>
+        </div>
+
+
+        <div class="col s2">
+        <label for="o3-gas"> <input id="o3-gas" class="with-gap" name="group1" type="radio" value="hourly-average" /><span>O3</span></label>
+        </div>
+
+        <div class="col s2">
+        <label for="h2s-gas"><input id="h2s-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>H2S</span></label>
+        </div>
+
+        <div class="col s2">
+        <input id="h2s-gas" class="with-gap" name="group1" type="hidden" value="raw-data" />
+        </div>
+      
+
+      </div>
+
+      <div class="row">
+      <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
+
+      <div class="col s2">
+      <label for="pm1-dust"><input id="pm1-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM1</span></label>
+      </div>
+
+      <div class="col s2">
+      <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
+      </div>
+      
+      <div class="col s2">
+      <label for="pm10-dust"><input id="pm10-dust" class="with-gap" name="group1" type="radio" value="5min-average" /><span>PM10</span></label>
+      </div>
+
+      </div>
+    </form>
+    <div class="row">
+      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">send</i></button></p></div>
+      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">send</i></button></p></div>
+      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Reiniciar<i class="material-icons right">send</i></button></p></div>
+    </div>
+</div>
+
+
+</div>
+</div>
+<!-- Modal Graphics -->
+<div id="modalGraphic" class="modal">
+<a id="close" class="modal-close right responsive-img modal-images-close">X</a>
+<div class="modal-content center" id="graphicValues">
+</div>
+</div>
+`;
+
 const infowindow = (qhawax) =>`
 <p>${qhawax.name}: ${qhawax.comercial_name}</p>
 <div class="col s12">
@@ -1557,5 +1728,7 @@ export { viewMap,
   calibration,
   firmware,
   qhawaxInstallEditForm,
-  configuration
+  configuration,
+  viewSearchingPanelHistorical,
+  viewSearchingPanelForecasting
 }

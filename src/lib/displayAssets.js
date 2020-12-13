@@ -1,5 +1,4 @@
 import { qhawaxSwitchStatus, qhawaxChangeMode} from '../views/qhawaxListView.js';
-import { uninstallQhawax } from '../views/installationListView.js';
 import { usersList} from '../views/companyListView.js';
 import { qhawaxLeaf} from './mapAssets.js';
 import { createCompanyReq} from '../requests/post.js';
@@ -223,7 +222,6 @@ const displayList = (element, qhawax_list,page,location) =>{
     paginationSetup(element, qhawax_list,rows_per_page,location )
     switch (location) {
         case 'qhawax_list':qhawaxSwitchStatus(element);qhawaxChangeMode(element); break;
-        case 'qhawax_installation_list':uninstallQhawax(element);break;
         case 'company_list':usersList(element);break;
         default:
             break;
