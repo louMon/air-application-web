@@ -15,8 +15,16 @@ spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelHistorical} from '../lib/HtmlComponents.js'
-import { requestAllQhawaxByCompany} from '../requests/get.js';
+import { requestAllQhawaxByCompany,getSpatialMeasurement} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
+
+let selectedParameters = {};
+
+const utilHistorical = async (selectedParameters) => {
+	const json = await getSpatialMeasurement(selectedParameters);
+	console.log(json)
+	//setTimeout(()=>window.location.reload(), 2000)
+};
 
 const viewSpatialHistorical = () => {
 	const mapElem = document.createElement('div');
@@ -61,6 +69,46 @@ const viewSpatialHistorical = () => {
 		zoom: 14,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
+
+	const playBtn =mapElem.querySelector('#play');
+	const pauseBtn =mapElem.querySelector('#pause');
+	const restartBtn =mapElem.querySelector('#restart');
+
+	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
+	const selectionPollutantUnit = mapElem.querySelectorAll('input[name=unit]');
+	const selectionHours = mapElem.querySelectorAll('input[name=hours]');
+
+	selectedParameters.pollutant = 'no2-gas';
+	selectedParameters.unit = 'ppb';
+	selectedParameters.hours = '24h-last';
+
+	selectionPollutant.forEach(radio =>{
+		radio.addEventListener('click',()=>{
+			selectedParameters.pollutant=radio.id;
+		})
+		
+	})
+
+	selectionPollutantUnit.forEach(radio =>{
+		radio.addEventListener('click',()=>{
+			selectedParameters.unit=radio.id;
+		})
+		
+	})
+
+	selectionHours.forEach(radio =>{
+		radio.addEventListener('click',()=>{
+			selectedParameters.hours=radio.id;
+		})
+		
+	})
+
+	playBtn.addEventListener('click',(e)=>{
+       
+        e.preventDefault();
+        console.log(selectedParameters);
+        utilHistorical(selectedParameters);
+    });
 
 	return mapElem;
 

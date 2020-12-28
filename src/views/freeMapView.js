@@ -32,7 +32,7 @@ const viewFreeMap = company => {
 	menuNavMobile.innerHTML = spinMob+loginMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
 	mapElem.innerHTML = viewMap;
 	chooseSpinnerMenu(company);
-
+	// aqui inicia todo el menu
 	const loginBtn = document.querySelector('#login-menu');
 	const loginMobBtn = document.querySelector('#login-menu-mobile');
 
@@ -65,7 +65,7 @@ const viewFreeMap = company => {
 
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
-	
+	// hazta aqui todo el menu
 	styledNavBar(company);
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {

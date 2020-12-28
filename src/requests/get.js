@@ -77,6 +77,14 @@ const URL = (p,init,end) =>{
         case '5min-average': return`${sourceAPI}air_five_minutes_measurements_period/?qhawax_id=${p.id}&company_id=${p.company}&initial_timestamp=${init}&final_timestamp=${end}`;
     }
 }
+
+const getSpatialMeasurement = async(p) =>{
+    const root = 'http://0.0.0.0:5000/api/'
+    const url = `${root}get_historical_of_spatial/?pollutant=${p.pollutant}&last_hours=${p.hours}&pollutant_unit=${p.unit}`;
+    const response = await fetch(url);
+    return await response.json();
+}
+
 const downloadData = async(p,init,end) =>{
     if (p.id==='7'
         ||p.id==='6') {
@@ -155,5 +163,6 @@ export { requestAllQhawaxByCompany,
     requestWeeklyData,
     requestGraphicsData,
     requestFirmwareVersions,
-    requestQhawaxFirmware
+    requestQhawaxFirmware,
+    getSpatialMeasurement
 }

@@ -44,35 +44,34 @@ const viewSearchingPanelHistorical = `
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
-    <h6 class="center-align"><b>Histórico Espacial</b></h6>
     <form action="">
       <div class="row">
       <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante:</b></p>
       <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
 
         <div class="col s2">
-        <label for="no2-gas"> <input id="no2-gas" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>NO2</span></label>
+        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
         </div>
 
         <div class="col s2">
-        <label for="co-gas"><input id="co-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>CO</span></label>
+        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
         </div>
         
         <div class="col s2">
-        <label for="so2-gas"><input id="so2-gas" class="with-gap" name="group1" type="radio" value="5min-average" /><span>SO2</span></label>
+        <label for="SO2"><input id="SO2" class="with-gap" name="pollutant" type="radio" value="SO2" /><span>SO2</span></label>
         </div>
 
 
         <div class="col s2">
-        <label for="o3-gas"> <input id="o3-gas" class="with-gap" name="group1" type="radio" value="hourly-average" /><span>O3</span></label>
+        <label for="O3"> <input id="O3" class="with-gap" name="pollutant" type="radio" value="O3" /><span>O3</span></label>
         </div>
 
         <div class="col s2">
-        <label for="h2s-gas"><input id="h2s-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>H2S</span></label>
+        <label for="H2S"><input id="H2S" class="with-gap" name="pollutant" type="radio" value="H2S" /><span>H2S</span></label>
         </div>
 
         <div class="col s2">
-        <input id="h2s-gas" class="with-gap" name="group1" type="hidden" value="raw-data" />
+        <input id="H2S" class="with-gap" name="pollutant" type="hidden" value="raw-data" />
         </div>
       
 
@@ -82,42 +81,63 @@ const viewSearchingPanelHistorical = `
       <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
 
       <div class="col s2">
-      <label for="pm1-dust"><input id="pm1-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM1</span></label>
-      </div>
-
-      <div class="col s2">
-      <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
+      <label for="PM2.5"><input id="PM2.5" class="with-gap" name="pollutant" type="radio" value="PM2.5" /><span>PM2.5</span></label>
       </div>
       
       <div class="col s2">
-      <label for="pm10-dust"><input id="pm10-dust" class="with-gap" name="group1" type="radio" value="5min-average" /><span>PM10</span></label>
+      <label for="PM10"><input id="PM10" class="with-gap" name="pollutant" type="radio" value="PM10" /><span>PM10</span></label>
       </div>
 
       </div>
     </form>
     <form action="">
       <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona el periodo de tiempo:</b></p>
+      <p class="left-align" style="padding-left:20px"><b>Selecciona la unidad del contaminante:</b></p>
 
-      <div class="col s4">
-      <label for="24h-last"> <input id="24h-last" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>Ultimas 24 horas</span></label>
+      <div class="col s2">
+      <label for="ppb"> <input id="ppb" class="with-gap" name="unit" type="radio" value="ppb" checked /><span>PPB</span></label>
       </div>
 
-      <div class="col s4">
-      <label for="48h-last"><input id="48h-last" class="with-gap" name="group1" type="radio" value="raw-data" /><span>Ultimas 48 horas</span></label>
+      <div class="col s2">
+      <label for="ugm3"><input id="ugm3" class="with-gap" name="unit" type="radio" value="ugm3" /><span>UG/M3</span></label>
+      </div>
+
+      </div>
+    </form>
+    <form action="">
+      <div class="row">
+      <p class="left-align" style="padding-left:20px"><b>Selecciona las últimas horas de búsqueda:</b></p>
+
+      <div class="col s2">
+      <label for="24"> <input id="24" class="with-gap" name="hours" type="radio" value="24" checked /><span>24h </span></label>
+      </div>
+
+      <div class="col s2">
+      <label for="48"><input id="48" class="with-gap" name="hours" type="radio" value="48" /><span>48h </span></label>
       </div>
       
-      <div class="col s4">
-      <label for="72h-last"><input id="72h-last" class="with-gap" name="group1" type="radio" value="5min-average" /><span>Ultimas 72 horas</span></label>
+      <div class="col s2">
+      <label for="72"><input id="72" class="with-gap" name="hours" type="radio" value="72" /><span>72h </span></label>
       </div>
 
       </div>
     </form>
     <div class="row">
-      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">send</i></button></p></div>
-      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">send</i></button></p></div>
-      <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Reiniciar<i class="material-icons right">send</i></button></p></div>
+      <div class="col s3"><p><button id="pause" class="btn waves-effect waves-light" >Pausar</button></p></div>
+      <div class="col s3"><p><button id="play" class="btn waves-effect waves-light" >Reproducir</button></p></div>
+      <div class="col s3"><p><button id="restart" class="btn waves-effect waves-light" >Reiniciar</button></p></div>
     </div>
+    <div class="row">
+      <div class="col s12 m4 l2">26/12/2020 19:00</div>
+      <div class="col s12 m4 l8">
+        <div class="container" style="margin-bottom:1em;">
+          <div class="progress" style="width: 280px">
+                <div class="determinate" id="firmware_progress_bar" style="width: 50%">01/12/2020 18:00</div>
+            </div>
+        </div>
+      </div>
+      <div class="col s12 m4 l2">27/12/2020 19:00</div>
+  </div>
 </div>
 
 
