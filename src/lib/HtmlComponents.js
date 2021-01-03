@@ -44,7 +44,7 @@ const viewSearchingPanelHistorical = `
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
-    <form action="">
+    <form id="form_update_firmware">
       <div class="row">
       <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante:</b></p>
       <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
@@ -80,11 +80,11 @@ const viewSearchingPanelHistorical = `
       <div class="row">
       <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
 
-      <div class="col s2">
+      <div class="col s3">
       <label for="PM2.5"><input id="PM2.5" class="with-gap" name="pollutant" type="radio" value="PM2.5" /><span>PM2.5</span></label>
       </div>
       
-      <div class="col s2">
+      <div class="col s3">
       <label for="PM10"><input id="PM10" class="with-gap" name="pollutant" type="radio" value="PM10" /><span>PM10</span></label>
       </div>
 
@@ -94,11 +94,11 @@ const viewSearchingPanelHistorical = `
       <div class="row">
       <p class="left-align" style="padding-left:20px"><b>Selecciona la unidad del contaminante:</b></p>
 
-      <div class="col s2">
+      <div class="col s3">
       <label for="ppb"> <input id="ppb" class="with-gap" name="unit" type="radio" value="ppb" checked /><span>PPB</span></label>
       </div>
 
-      <div class="col s2">
+      <div class="col s3">
       <label for="ugm3"><input id="ugm3" class="with-gap" name="unit" type="radio" value="ugm3" /><span>UG/M3</span></label>
       </div>
 
@@ -122,22 +122,18 @@ const viewSearchingPanelHistorical = `
 
       </div>
     </form>
-    <div class="row">
-      <div class="col s3"><p><button id="pause" class="btn waves-effect waves-light" >Pausar</button></p></div>
-      <div class="col s3"><p><button id="play" class="btn waves-effect waves-light" >Reproducir</button></p></div>
-      <div class="col s3"><p><button id="restart" class="btn waves-effect waves-light" >Reiniciar</button></p></div>
-    </div>
-    <div class="row">
-      <div class="col s12 m4 l2">26/12/2020 19:00</div>
-      <div class="col s12 m4 l8">
-        <div class="container" style="margin-bottom:1em;">
-          <div class="progress" style="width: 280px">
-                <div class="determinate" id="firmware_progress_bar" style="width: 50%">01/12/2020 18:00</div>
-            </div>
+    <form id="form_progress_spatial">
+      <div class="row">
+        <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar</button></p></div>
+        <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Reproducir</button></p></div>
+        <div class="col s4"><p><button id="restart" class="btn waves-effect waves-light" >Reiniciar</button></p></div>
+      </div>
+      <div class="row">
+        <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:7px">
+          <div class="progress-bar" style="height:20px; background-color:rgb(125,44,255); position:absolute; animation: progress-animation 5s forwards"></div>
         </div>
       </div>
-      <div class="col s12 m4 l2">27/12/2020 19:00</div>
-  </div>
+  </form>
 </div>
 
 

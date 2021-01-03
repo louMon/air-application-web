@@ -4,9 +4,6 @@ import { displayList } from '../lib/displayAssets.js';
 import { requestQhawaxFirmware, requestAllQhawaxByCompany, requestFirmwareVersions, requestQhawaxByMode } from '../requests/get.js';
 import { firmwareUpdate, newFirmware } from '../requests/post.js';
 import {sourceSocket} from '../index.js';
-const ID = 'AKIAXIHWITV57ET5GRXZ';
-const SECRET = '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';
-const BUCKET_NAME = 'qairamap-database-dev';
 const values =[];
 let page = 1;
 const location= 'qhawax_firmware_list';
@@ -14,28 +11,19 @@ const dataUpgrade = [];
 
 const progress_bar =p=> `
 <div class="container" style="margin-bottom:1em;">
-<div class="progress">
-      <div class="determinate" id="firmware_progress_bar" style="width: ${p}%">${p}%</div>
+  <div class="progress">
+        <div class="determinate" id="firmware_progress_bar" style="width: ${p}%">${p}%</div>
   </div>
 </div>
 `
-        AWS.config.region = 'us-east-1'; 
-        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-            IdentityPoolId: 'us-east-1:307e7e01-2443-44ed-bfc5-c01b96a1da49',
-        });
 
-      let s3 = new AWS.S3({
-        apiVersion: "2010-12-01",
-        accessKeyId: ID,      
-        accessSecretKey: SECRET,  
-        region: "us-east-1",
-        Bucket: 'qairamap-database-dev',
-      });
-      const request = async (element) => {
+
+    const request = async (element) => {
         const qhawax_list = await requestQhawaxFirmware();
         displayList(element, qhawax_list,page,location);
         
     };
+
     const validate = (element,values) => {
       const create = element.querySelector('#submit-btn-create');
       values.includes('')?create.classList.add('disabled'):create.classList.remove('disabled')
