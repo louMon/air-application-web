@@ -122,18 +122,18 @@ const viewSearchingPanelHistorical = `
 
       </div>
     </form>
+    <div class="row">
+      <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar</button></p></div>
+      <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Iniciar</button></p></div>
+      <div class="col s4"><p><button id="restart" class="btn waves-effect waves-light" >Volver</button></p></div>
+    </div>
     <form id="form_progress_spatial">
-      <div class="row">
-        <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar</button></p></div>
-        <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Reproducir</button></p></div>
-        <div class="col s4"><p><button id="restart" class="btn waves-effect waves-light" >Reiniciar</button></p></div>
-      </div>
       <div class="row">
         <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:7px">
           <div class="progress-bar" style="height:20px; background-color:rgb(125,44,255); position:absolute; animation: progress-animation 5s forwards"></div>
         </div>
       </div>
-  </form>
+    </form>
 </div>
 
 

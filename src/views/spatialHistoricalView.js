@@ -19,21 +19,27 @@ import { requestAllQhawaxByCompany,getSpatialMeasurement} from '../requests/get.
 import { sourceSocket } from '../index.js';
 
 let selectedParameters = {};
+let progress_form = "";
+let array_length = 0;
+let percentage = 0;
+let counter = 0;
+let increment = 0;
 
 const progress_bar =p=> `
 <div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
-  <div class="progress">
-        <div class="determinate" id="spatial_progress_bar" style="width: ${p}%">${p}%</div>
+  <div class="progress" style="height:40px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:40px; width: ${p}% ">${p}%</div>
   </div>
 </div>
 `
-
 const arrayExample = [
-{"has_qhawax": [false,false,true,false],"hour_position": [0,0,0,0],"id": [937,1441,433,1945],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,2.0,1.0,3.0]},
-{"has_qhawax": [false,false,false,true],"hour_position": [1,1,1,1],"id": [1442,1946,938,434],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [79.0,79.0,23.0,133.0]},
+{"has_qhawax": [false,false,true,false],"hour_position": [0,0,0,0],"id": [937,1441,433,1945],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,1.0,3.0]},
+{"has_qhawax": [false,false,false,true],"hour_position": [1,1,1,1],"id": [1442,1946,938,434],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,79.0,23.0,133.0]},
 {"has_qhawax": [false,false,false,true],"hour_position": [2,2,2,2],"id": [1947,1443,939,435],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [89.0,1.0,1.0,10.0]},
 {"has_qhawax": [false,true,false,false],"hour_position": [3,3,3,3],"id": [1948,436,1444, 940],"lat":[-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [10.0,25.0,1.0,49.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,20.0,3.0,356.0]}]
+{"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,20.0,3.0,356.0]},
+{"has_qhawax": [false,true,false,false],"hour_position": [5,5,5,5],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,455.0,20.0]},
+{"has_qhawax": [false,true,false,false],"hour_position": [6,6,6,6],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [6.0,1.0,3.0,1.0]}]
 
 function lookforBounds(lat, lon){
   var lat_prima_left=lat+0.0013395;
@@ -57,7 +63,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice){
         strokeColor: '#000000',
         strokeOpacity: 0.0,
         strokeWeight: 2,
-        fillColor: color_generated,
+        fillColor: color_generated, //falta una funcion para los colores
         fillOpacity: 0.45,
         map: map,
         bounds: bounds
@@ -65,32 +71,50 @@ function iterateByGrid(positions_length,arrayExample,map,indice){
 	}
 }
 
-function iterateByTime(arrayExample,increment, percentage,map,array_length,progress_form){
-	let counter = 1;
-	arrayExample.forEach( function(valor, indice, array) {
-      percentage = increment + percentage;
-      let positions_length = arrayExample[indice]['has_qhawax'].length;
-      console.log("Entrando a un elemento del arreglo");
-      setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-	    iterateByGrid(positions_length,arrayExample,map,indice);   //  your code here
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form){
+	setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+		percentage = increment + percentage;
+		if (counter+1 == array_length) {
+	    	percentage = 100;
+	    }
+    	let positions_length = arrayExample[counter]['has_qhawax'].length;
+	    iterateByGrid(positions_length,arrayExample,map,counter);
 	    progress_form.innerHTML=progress_bar(percentage);
 	    counter++;                    //  increment the counter
-	    if (counter > array_length) {           //  if the counter < 10, call the loop function
-	      console.log("Llego a 100");             //  ..  again which will trigger another 
-	    }                       //  ..  setTimeout()
-	  }, 5000);
-
-    });
+	    if (counter< array_length) {  //  if the counter < 10, call the loop function
+	    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form)
+	    }
+	    if(percentage == 100){
+	    	M.toast({
+		   		html: `Se mostraron todas las horas de dicho contaminante`,
+		    	displayLength: 3000,
+			});
+			setTimeout(()=>window.location.reload(), 5000);
+	    }    
+	}, 3000);
+	
 }
 
-const utilHistorical = async (mapElem,selectedParameters,map) => {
+const startHistorical = async (mapElem,selectedParameters,map) => {
 	//const json_array = await getSpatialMeasurement(selectedParameters);
 	//console.log(json_array)
-	const progress_form = mapElem.querySelector('#form_progress_spatial');
-	const array_length = arrayExample.length;
-	let percentage = 0;
-	const increment = Math.round(100/array_length);
-	iterateByTime(arrayExample,increment, percentage,map,array_length,progress_form)
+	progress_form = mapElem.querySelector('#form_progress_spatial');
+	array_length = arrayExample.length;
+	percentage = 0;
+	counter = 0;
+	increment = Math.round(100/parseFloat(array_length));
+	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form);
+};
+
+const pauseHistorical = async () => { //falta detenerlo
+	console.log('Entre a pausar');
+	clearTimeout(iterateByTime);
+	console.log("luego de pausar");
+};
+
+const restartHistorical = async (map) => { //falta restaurarlo
+	console.log('Entre a reiniciar');
+	iterateByTime(counter,arrayExample,increment,percentage,map,array_length,progress_form)
 };
 
 const viewSpatialHistorical = () => {
@@ -174,7 +198,21 @@ const viewSpatialHistorical = () => {
        
         e.preventDefault();
         console.log(selectedParameters);
-        utilHistorical(mapElem,selectedParameters,map);
+        startHistorical(mapElem,selectedParameters,map);
+    });
+
+    pauseBtn.addEventListener('click',(e)=>{
+       
+        e.preventDefault();
+        console.log(selectedParameters);
+        pauseHistorical();
+    });
+
+    restartBtn.addEventListener('click',(e)=>{
+       
+        e.preventDefault();
+        console.log(selectedParameters);
+        restartHistorical(map);
     });
 
 	return mapElem;
