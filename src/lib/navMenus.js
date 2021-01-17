@@ -412,6 +412,14 @@ const loginMobile = `
 <li id="login-menu-mobile"><a>Login</a></li>
 `;
 
+const positionsMaintain = `
+<li id="positions-menu"><a>Gestion de Puntos</a></li>
+`;
+
+const positionsMaintainMobile = `
+<li id="positions-menu-mobile"><a>Gestion de Puntos</a></li>
+`;
+
 const forecasting = `
 <li id="forecasting-menu"><a>Forecasting</a></li>
 `;
@@ -764,5 +772,7 @@ forecastingMobile,
 spatialRealTime,
 spatialRealTimeMobile,
 spatialHistorical,
-spatialHistoricalMobile
+spatialHistoricalMobile,
+positionsMaintain,
+positionsMaintainMobile
 };

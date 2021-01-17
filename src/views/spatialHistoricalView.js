@@ -1,9 +1,9 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToLogin, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
-login,
+positionsMaintain,
 dropdownLegend,
-loginMobile,
+positionsMaintainMobile,
 chooseSpinnerMenu,
 spinMob,
 styledNavBar,
@@ -24,6 +24,7 @@ let array_length = 0;
 let percentage = 0;
 let counter = 0;
 let increment = 0;
+var rectangle;
 
 const progress_bar =p=> `
 <div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
@@ -36,10 +37,10 @@ const arrayExample = [
 {"has_qhawax": [false,false,true,false],"hour_position": [0,0,0,0],"id": [937,1441,433,1945],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,1.0,3.0]},
 {"has_qhawax": [false,false,false,true],"hour_position": [1,1,1,1],"id": [1442,1946,938,434],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,79.0,23.0,133.0]},
 {"has_qhawax": [false,false,false,true],"hour_position": [2,2,2,2],"id": [1947,1443,939,435],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [89.0,1.0,1.0,10.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [3,3,3,3],"id": [1948,436,1444, 940],"lat":[-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [10.0,25.0,1.0,49.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,20.0,3.0,356.0]},
+{"has_qhawax": [false,true,false,false],"hour_position": [3,3,3,3],"id": [1948,436,1444, 940],"lat":[-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [10.0,25.0,60.0,49.0]},
+{"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [50.0,20.0,150.0,356.0]},
 {"has_qhawax": [false,true,false,false],"hour_position": [5,5,5,5],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,455.0,20.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [6,6,6,6],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [6.0,1.0,3.0,1.0]}]
+{"has_qhawax": [false,true,false,false],"hour_position": [6,6,6,6],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [6.0,100.0,3.0,455.0]}]
 
 function lookforBounds(lat, lon){
   var lat_prima_left=lat+0.0013395;
@@ -54,20 +55,40 @@ function lookforBounds(lat, lon){
   return bounds;
 }
 
+function selectColor(value){
+	if(value>=0 & value<=25){
+		return '#66b768'
+	}else if(value>25 & value<=50){
+		return '#fffe9c'
+	}else if(value>50 & value<=150){
+		return '#d68242'
+	}else if(value>150 & value<=700){
+		return '#f41a29'
+	}
+	return '#3d3939'
+}
+
 function iterateByGrid(positions_length,arrayExample,map,indice){
+	// Remove Previous Rectangle
+    for(let ind=0; ind < positions_length; ind++) {
+	    if(rectangle){
+	      rectangle.setMap(null);
+	    }
+	 }
+	
 	for(let ind=0; ind < positions_length; ind++) {
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
-      	var color_generated = arrayExample[indice]['ppb_value'][ind]>=0 & arrayExample[indice]['ppb_value'][ind]<=10 ?'#f9f254' : '#e83827';
-      	var rectangle = new google.maps.Rectangle({
-        strokeColor: '#000000',
-        strokeOpacity: 0.0,
-        strokeWeight: 2,
-        fillColor: color_generated, //falta una funcion para los colores
-        fillOpacity: 0.45,
-        map: map,
-        bounds: bounds
-      });
+      	var color_generated = selectColor(arrayExample[indice]['ppb_value'][ind]);
+      	rectangle = new google.maps.Rectangle({
+	        strokeColor: '#000000',
+	        strokeOpacity: 0.0,
+	        strokeWeight: 2,
+	        fillColor: color_generated, //falta una funcion para los colores
+	        fillOpacity: 0.45,
+	        map: map,
+	        bounds: bounds
+	    });
 	}
 }
 
@@ -126,13 +147,13 @@ const viewSpatialHistorical = () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = login + forecasting + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+loginMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain + forecasting + spatialRealTime + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
 	mapElem.innerHTML = viewSearchingPanelHistorical;
 	//chooseSpinnerMenu(company);
 
-	const loginBtn = document.querySelector('#login-menu');
-	const loginMobBtn = document.querySelector('#login-menu-mobile');
+	const pointsBtn = document.querySelector('#positions-menu');
+	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
 
 	const forecastingBtn = document.querySelector('#forecasting-menu');
 	const forecastingMobBtn = document.querySelector('#forecasting-menu-mobile');
@@ -143,8 +164,8 @@ const viewSpatialHistorical = () => {
 	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
 	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
 
-	loginBtn.addEventListener('click',()=> goToLogin());
-	loginMobBtn.addEventListener('click',()=> goToLogin());
+	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
+	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
 	forecastingBtn.addEventListener('click',()=> goToForecasting());
 	forecastingMobBtn.addEventListener('click',()=> goToForecasting());

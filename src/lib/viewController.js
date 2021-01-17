@@ -17,17 +17,19 @@ import { viewForecasting} from '../views/forecastingView.js';
 import { viewSpatialRealTime} from '../views/spatialRealTimeView.js';
 import { viewSpatialHistorical} from '../views/spatialHistoricalView.js';
 
+import { landPage } from '../views/landpage.js';
+
 const company_id = Number(sessionStorage.getItem('companyID'));
 const user_name = sessionStorage.getItem('companyName');
 const user_id = Number(sessionStorage.getItem('user_id'));
 const username = sessionStorage.getItem('username');
-const container = document.getElementById('content-page');
 
 const changeView = router => {
-	container.innerHTML = ``;
+	const container = document.getElementById('content-page');
+  	container.innerHTML = '';
 	switch (router) {
 		case '':
-			return container.appendChild(viewGeneratePosition());
+			return container.appendChild(landPage());
 
 		case '#/':
 			return container.appendChild(viewFreeMap(0));
@@ -98,9 +100,16 @@ const changeView = router => {
 			return container.appendChild(viewSpatialRealTime());
 		case '#/spatial_historical':
 			return container.appendChild(viewSpatialHistorical());
+		case '#/positions':
+			return container.appendChild(viewFreeMap());
 
 	}
 	
 };
 
-export { changeView };
+const goTo = (location) => {
+  window.location.assign(`..#/${location}`);
+  window.location.reload();
+};
+
+export { changeView, goTo };

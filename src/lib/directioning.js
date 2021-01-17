@@ -184,6 +184,11 @@ const goToSpatialHistorical = () => {
 	window.location.reload();
 };
 
+const goToPositionsMaintain = () => {
+	window.location.assign('..#/positions');
+	window.location.reload();
+};
+
 export { goToLogin,
      goToLogout,
      goToDownload,
@@ -205,7 +210,8 @@ export { goToLogin,
 	 goToConfig,
 	 goToForecasting,
 	 goToSpatialRealTime,
-	 goToSpatialHistorical
+	 goToSpatialHistorical,
+	 goToPositionsMaintain
 	 
 		}
 		

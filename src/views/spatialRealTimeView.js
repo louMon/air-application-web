@@ -1,9 +1,9 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToLogin, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
-login,
+positionsMaintain,
 dropdownLegend,
-loginMobile,
+positionsMaintainMobile,
 chooseSpinnerMenu,
 spinMob,
 styledNavBar,
@@ -27,13 +27,13 @@ const viewSpatialRealTime = () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = login + forecasting + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+loginMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain + forecasting + spatialRealTime + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
 	mapElem.innerHTML = viewMap;
 	//chooseSpinnerMenu(company);
 
-	const loginBtn = document.querySelector('#login-menu');
-	const loginMobBtn = document.querySelector('#login-menu-mobile');
+	const pointsBtn = document.querySelector('#positions-menu');
+	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
 
 	const forecastingBtn = document.querySelector('#forecasting-menu');
 	const forecastingMobBtn = document.querySelector('#forecasting-menu-mobile');
@@ -53,8 +53,8 @@ const viewSpatialRealTime = () => {
 	const dropMenu = document.querySelectorAll('.dropdown-trigger');
 	M.Dropdown.init(dropMenu,{coverTrigger:false});
 
-	loginBtn.addEventListener('click',()=> goToLogin());
-	loginMobBtn.addEventListener('click',()=> goToLogin());
+	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
+	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
 	forecastingBtn.addEventListener('click',()=> goToForecasting());
 	forecastingMobBtn.addEventListener('click',()=> goToForecasting());
