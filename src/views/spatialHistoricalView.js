@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToForecasting, goToSpatialRealTime} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -10,9 +10,7 @@ styledNavBar,
 forecasting,
 forecastingMobile,
 spatialRealTime,
-spatialRealTimeMobile,
-spatialHistorical,
-spatialHistoricalMobile
+spatialRealTimeMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelHistorical} from '../lib/HtmlComponents.js'
 import { requestAllQhawaxByCompany,getSpatialMeasurement} from '../requests/get.js';
@@ -147,8 +145,8 @@ const viewSpatialHistorical = () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain + forecasting + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain + forecasting + spatialRealTime ;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialRealTimeMobile;
 	mapElem.innerHTML = viewSearchingPanelHistorical;
 	//chooseSpinnerMenu(company);
 
@@ -161,9 +159,6 @@ const viewSpatialHistorical = () => {
 	const spatialRealTimeBtn = document.querySelector('#spatial-real-time-menu');
 	const spatialRealTimeMobBtn = document.querySelector('#spatial-real-time-menu-mobile');
 
-	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
-	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
-
 	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
 	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
@@ -172,9 +167,6 @@ const viewSpatialHistorical = () => {
 
 	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
 	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
-
-	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
-	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: {lat: -12.047926,lng: -77.030437}, 

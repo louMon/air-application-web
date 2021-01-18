@@ -542,7 +542,7 @@ td{
 	color: rgb(88, 77, 77);
 }
 .progress {
-	height: 1em !important;
+	height: 2em !important;
 }
 .progress .indeterminate {
 	background-color: var(--blue) !important;
@@ -599,7 +599,7 @@ textarea.materialize-textarea {
 .card-pannel {
 	padding-top: 1.5em;
 	padding-bottom: 1.5em;
-	border-radius: 10px;
+	border-radius: 14px;
 }
 
 /*--------------TIME PICKER------------------------------------------------------------------*/

@@ -159,10 +159,6 @@ const goToRegisterBinnacle  = ()=>{
     window.location.reload();  
 };
 
-const goToCalibration  = ()=>{
-    window.location.assign('..#/calibration');
-    window.location.reload();  
-};
 
 const goToFirmware = ()=>{
     window.location.assign('..#/firmware');
@@ -189,8 +185,13 @@ const goToPositionsMaintain = () => {
 	window.location.reload();
 };
 
+const goToCalibration  = ()=>{
+    window.location.assign('..#/calibration');
+    window.location.reload();  
+};
+
 export { goToLogin,
-     goToLogout,
+	 goToLogout,
      goToDownload,
      goToDashboard,
      goToDwnGraph,
@@ -212,6 +213,5 @@ export { goToLogin,
 	 goToSpatialRealTime,
 	 goToSpatialHistorical,
 	 goToPositionsMaintain
-	 
 		}
 		

@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToForecasting, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -9,8 +9,6 @@ spinMob,
 styledNavBar,
 forecasting,
 forecastingMobile,
-spatialRealTime,
-spatialRealTimeMobile,
 spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
@@ -27,8 +25,8 @@ const viewSpatialRealTime = () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain + forecasting + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain + forecasting + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialHistoricalMobile;
 	mapElem.innerHTML = viewMap;
 	//chooseSpinnerMenu(company);
 
@@ -37,9 +35,6 @@ const viewSpatialRealTime = () => {
 
 	const forecastingBtn = document.querySelector('#forecasting-menu');
 	const forecastingMobBtn = document.querySelector('#forecasting-menu-mobile');
-
-	const spatialRealTimeBtn = document.querySelector('#spatial-real-time-menu');
-	const spatialRealTimeMobBtn = document.querySelector('#spatial-real-time-menu-mobile');
 
 	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
 	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
@@ -58,9 +53,6 @@ const viewSpatialRealTime = () => {
 
 	forecastingBtn.addEventListener('click',()=> goToForecasting());
 	forecastingMobBtn.addEventListener('click',()=> goToForecasting());
-
-	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
-	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
 
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());

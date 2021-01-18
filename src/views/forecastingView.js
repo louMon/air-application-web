@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -7,8 +7,6 @@ positionsMaintainMobile,
 chooseSpinnerMenu,
 spinMob,
 styledNavBar,
-forecasting,
-forecastingMobile,
 spatialRealTime,
 spatialRealTimeMobile,
 spatialHistorical,
@@ -27,16 +25,13 @@ const viewForecasting= () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain + forecasting + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain + spatialRealTime + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
 	mapElem.innerHTML = viewSearchingPanelForecasting;
 	//chooseSpinnerMenu(company);
 
 	const pointsBtn = document.querySelector('#positions-menu');
 	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
-
-	const forecastingBtn = document.querySelector('#forecasting-menu');
-	const forecastingMobBtn = document.querySelector('#forecasting-menu-mobile');
 
 	const spatialRealTimeBtn = document.querySelector('#spatial-real-time-menu');
 	const spatialRealTimeMobBtn = document.querySelector('#spatial-real-time-menu-mobile');
@@ -55,9 +50,6 @@ const viewForecasting= () => {
 
 	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
 	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
-
-	forecastingBtn.addEventListener('click',()=> goToForecasting());
-	forecastingMobBtn.addEventListener('click',()=> goToForecasting());
 
 	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
 	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());

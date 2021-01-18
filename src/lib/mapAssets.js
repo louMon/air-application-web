@@ -115,7 +115,7 @@ const drawChart = async (sensor, qhawax_id) => {
 		];
 	});
 
-	Plotly.newPlot(chart, data, layout, configuration);
+	//Plotly.newPlot(chart, data, layout, configuration);
 };
 
 

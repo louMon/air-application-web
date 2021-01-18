@@ -477,6 +477,36 @@ const newFirmware = (data) =>{
 		})
 };
 
+const saveGrids = (data) =>{
+	const url = `http://0.0.0.0:5000//api/store_grid_to_predict/`;
+	fetch(url, {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	})	
+		.then(res => res.text())
+		.catch(err => console.error(err))
+		.then(res => {
+			console.log(res);
+			if (res === 'Grid recorded') {
+				{M.toast({
+					html: `El grid seleccionado ha sido almacenado!.`,
+					displayLength: 3000,
+				});}
+			} else if (res === 'Grid already exists') {
+				{M.toast({
+					html: `El grid seleccionado ya se encuentra almacenado!.`,
+					displayLength: 3000,
+				});}
+			}
+			
+			
+			//setTimeout(()=>window.location.reload(), 3000)
+		})
+};
+
 export {requestInstallQhawax, 
 	saveOffsets, 
 	requestEndCalibration, 
@@ -495,5 +525,6 @@ export {requestInstallQhawax,
 	createUser,
 	login,
 	firmwareUpdate,
-	newFirmware
+	newFirmware,
+	saveGrids
 }
