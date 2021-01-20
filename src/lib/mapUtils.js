@@ -1,4 +1,17 @@
 
+function createSpecificMarker(position,map,index){
+  var marker = new google.maps.Marker({
+    position: position,
+    map: map,
+    title: "" + index,
+    icon: {
+      url: "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle.png",
+      size: new google.maps.Size(7, 7),
+      anchor: new google.maps.Point(3.5, 3.5)
+    }
+  });
+  return marker;
+}
 
 function createMarkers(map, positionlat_list,positionlon_list){
   for (var i = 0; i < positionlon_list.length; i++) {
@@ -62,7 +75,6 @@ function lookfor_left_point(positionlon_list){
       the_most_left = positionlon_list[i]
     }
   }
-  console.log("The most left: ",the_most_left);
   return the_most_left;
 }
 
@@ -73,7 +85,6 @@ function lookfor_right_point(positionlon_list){
       the_most_right = positionlon_list[i]
     }
   }
-  console.log("The most right: ",the_most_right);
   return the_most_right;
 }
 
@@ -84,7 +95,6 @@ function lookfor_upper_point(positionlat_list){
       the_most_upper = positionlat_list[i]
     }
   }
-  console.log("The most upper: ",the_most_upper);
   return the_most_upper;
 }
 
@@ -95,8 +105,14 @@ function lookfor_lower_point(positionlat_list){
       the_most_lower = positionlat_list[i]
     }
   }
-  console.log("The most lower: ",the_most_lower);
   return the_most_lower;
+}
+
+function setBounds(first,second,map){
+  var boundsSide = new google.maps.LatLngBounds();
+  boundsSide.extend(first);
+  boundsSide.extend(second);
+  map.fitBounds(boundsSide);
 }
 
 
@@ -109,7 +125,9 @@ getMarker,
 lookfor_left_point,
 lookfor_right_point,
 lookfor_upper_point,
-lookfor_lower_point
+lookfor_lower_point,
+createSpecificMarker,
+setBounds
 };
 
 

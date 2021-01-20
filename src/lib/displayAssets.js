@@ -1,7 +1,5 @@
 import { qhawaxSwitchStatus, qhawaxChangeMode} from '../views/qhawaxListView.js';
-import { usersList} from '../views/companyListView.js';
 import { qhawaxLeaf} from './mapAssets.js';
-import { createCompanyReq} from '../requests/post.js';
 let rows_per_page = 5;
 let current_page = 1;
 const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',hour: '2-digit', minute: '2-digit' };
@@ -17,17 +15,6 @@ const isUrlLink = (str) => {
         return `${str}`;
     }
 }
-const createCompany = (name, ruc, contact, phone, domain, address) => {
-    const data = {
-        company_name: name,
-        email_group: domain,
-        ruc: ruc,
-        phone: phone,
-        contact_person: contact,
-        address:address
-    };
-    createCompanyReq(data)
-};
     
 
 const  row_data =(q,location)=>{
@@ -220,12 +207,6 @@ const displayList = (element, qhawax_list,page,location) =>{
         });   
     }
     paginationSetup(element, qhawax_list,rows_per_page,location )
-    switch (location) {
-        case 'qhawax_list':qhawaxSwitchStatus(element);qhawaxChangeMode(element); break;
-        case 'company_list':usersList(element);break;
-        default:
-            break;
-    }
 };
 
 const toAddOptions = (element, selector, list)=>{

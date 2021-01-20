@@ -147,6 +147,32 @@ const viewSearchingPanelHistorical = `
 </div>
 `;
 
+const viewPointsManagement = `   
+<div class="wrapper_map" id="wrapper_map">
+<div class="animate__animated animate__fadeInDown" id="map"></div>
+<div class="animate__animated animate__zoomIn z-depth-4 none" id="over_map_infowindow"></div>
+<div class="animate__animated animate__zoomIn" id="over_map">
+
+<div class="card-pannel z-depth-5">
+    <h5 class="center-align">Mantenimiento de Puntos</h5>
+    <h6 class="center-align">Puntos para predicción espacial</h6>
+    <div class="row">
+      <div class="col s6"><p><button id="save" class="btn waves-effect waves-light" >Guardar Puntos</button></p></div>
+      <div class="col s6"><p><button id="restart" class="btn waves-effect waves-light" >Borrar Figura</button></p></div>
+    </div>
+</div>
+
+
+</div>
+</div>
+<!-- Modal Graphics -->
+<div id="modalGraphic" class="modal">
+<a id="close" class="modal-close right responsive-img modal-images-close">X</a>
+<div class="modal-content center" id="graphicValues">
+</div>
+</div>
+`;
+
 
 const viewSearchingPanelForecasting = `   
 <div class="wrapper_map" id="wrapper_map">
@@ -1897,5 +1923,6 @@ export { viewMap,
   viewSearchingPanelHistorical,
   viewSearchingPanelForecasting,
   landbar,
-  landpage
+  landpage,
+  viewPointsManagement
 }

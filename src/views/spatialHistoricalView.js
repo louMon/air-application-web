@@ -31,7 +31,7 @@ const progress_bar =p=> `
   </div>
 </div>
 `
-const arrayExample = [
+const arrayStatic = [
 {"has_qhawax": [false,false,true,false],"hour_position": [0,0,0,0],"id": [937,1441,433,1945],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,1.0,3.0]},
 {"has_qhawax": [false,false,false,true],"hour_position": [1,1,1,1],"id": [1442,1946,938,434],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,79.0,23.0,133.0]},
 {"has_qhawax": [false,false,false,true],"hour_position": [2,2,2,2],"id": [1947,1443,939,435],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [89.0,1.0,1.0,10.0]},
@@ -54,14 +54,15 @@ function lookforBounds(lat, lon){
 }
 
 function selectColor(value){
+	console.log(value)
 	if(value>=0 & value<=25){
-		return '#66b768'
+		return '#f41a29'
 	}else if(value>25 & value<=50){
 		return '#fffe9c'
 	}else if(value>50 & value<=150){
 		return '#d68242'
 	}else if(value>150 & value<=700){
-		return '#f41a29'
+		return '#66b768'
 	}
 	return '#3d3939'
 }
@@ -115,14 +116,14 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 }
 
 const startHistorical = async (mapElem,selectedParameters,map) => {
-	//const json_array = await getSpatialMeasurement(selectedParameters);
-	//console.log(json_array)
+	const json_array = await getSpatialMeasurement(selectedParameters);
+	console.log(json_array)
 	progress_form = mapElem.querySelector('#form_progress_spatial');
-	array_length = arrayExample.length;
+	array_length = json_array.length;
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -203,6 +204,7 @@ const viewSpatialHistorical = () => {
 	selectionHours.forEach(radio =>{
 		radio.addEventListener('click',()=>{
 			selectedParameters.hours=radio.id;
+			console.log(selectedParameters.hours)
 		})
 		
 	})

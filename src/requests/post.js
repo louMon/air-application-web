@@ -12,35 +12,6 @@ const replacer = (key, value) => {
 		return value;
 	}
   };
-const requestInstallQhawax= (data)=> {
-    const url = `${sourceAPI}newQhawaxInstallation/`;
-		fetch(url, {
-			method: 'POST',
-			body: JSON.stringify(data, replacer),
-			headers: {
-				'Content-Type': 'application/json',
-			},
-		})
-            .then(res => res.text())
-            .catch(err => {
-				console.error(err)
-				
-			})
-            .then(res => {
-				console.log(res)
-				if (res==='Invalid format') {
-					M.toast({
-						html: 'Formato inválido de la instalación. Por favor verifique los datos.',
-						displayLength: 3000,
-					});
-				}else{
-				M.toast({
-					html: 'La instalación ha sido registrada.',
-					displayLength: 3000,
-				});
-				setTimeout(()=>window.location.reload(), 3000)}
-			})
-};
 
 const saveOffsets = (offsetsValues, offsetsContrValues, offsetsNcValues,offsetsNcValuesPM) => {
     const requests = [
@@ -282,40 +253,6 @@ const binnacleMaintenance = (data) =>{
 		})
 };
 
-const createCompanyReq = (data) =>{
-	const url = `${sourceAPI}create_company/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => {
-			console.error(err);
-			M.toast({
-				html: `La compañía ${data.name} no sido creada, por favor verifique la información.`,
-				displayLength: 3000,
-			})
-		})  
-		.then(res =>{
-			console.log(res)
-			switch (res) {
-				case 'The company name or ruc entered already exists ':  {M.toast({
-					html: `El RUC o NOMBRE de la compañia ya existe.`,
-					displayLength: 3000,
-				});}break;
-
-				case 'Company has been created':  {M.toast({
-					html: `La compañía ${name} ha sido creada.`,
-					displayLength: 3000,
-				});}break;
-			}
-			
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-}
  const changePassword = (email, old_pass, new_pass) => {
 	const url = `${sourceAPI}changePassword/`;
     const data = {
@@ -477,37 +414,42 @@ const newFirmware = (data) =>{
 		})
 };
 
-const saveGrids = (data) =>{
-	const url = `http://0.0.0.0:5000//api/store_grid_to_predict/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})	
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res);
-			if (res === 'Grid recorded') {
-				{M.toast({
-					html: `El grid seleccionado ha sido almacenado!.`,
-					displayLength: 3000,
-				});}
-			} else if (res === 'Grid already exists') {
-				{M.toast({
-					html: `El grid seleccionado ya se encuentra almacenado!.`,
-					displayLength: 3000,
-				});}
-			}
-			
-			
-			//setTimeout(()=>window.location.reload(), 3000)
+
+const saveNewGrid= (lat, lon)=> {
+
+    const data = {
+		lat: lat, 
+		lon: lon,
+		has_qhawax: 0
+	}
+    const url = `http://0.0.0.0:5000/api/store_grid_to_predict/`;
+		fetch(url, {
+			method: 'POST',
+			body: JSON.stringify(data),
+			headers: {
+                'Content-Type': 'application/json',
+			},
 		})
+            .then(res => res.text())
+			.catch(err => console.error(err))
+			.then(res => {
+				console.log(res);
+				if (res === 'Grid recorded') {
+					{M.toast({
+						html: `El grid seleccionado ha sido almacenado!.`,
+						displayLength: 3000,
+					});}
+				} else if (res === 'Grid already exists') {
+					{M.toast({
+						html: `El grid seleccionado ya se encuentra almacenado!.`,
+						displayLength: 3000,
+					});}
+				}
+				//setTimeout(()=>window.location.reload(), 3000)
+			})
 };
 
-export {requestInstallQhawax, 
+export { 
 	saveOffsets, 
 	requestEndCalibration, 
 	turnQhawaxOn, 
@@ -520,11 +462,10 @@ export {requestInstallQhawax,
 	binnacleArea,
 	binnacleEquipment,
 	binnacleMaintenance,
-	createCompanyReq,
 	changePassword,
 	createUser,
 	login,
 	firmwareUpdate,
 	newFirmware,
-	saveGrids
+	saveNewGrid
 }
