@@ -23,6 +23,7 @@ let percentage = 0;
 let counter = 0;
 let increment = 0;
 var rectangle;
+var rectangle_list = [];
 
 const progress_bar =p=> `
 <div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
@@ -54,31 +55,33 @@ function lookforBounds(lat, lon){
 }
 
 function selectColor(value){
-	console.log(value)
 	if(value>=0 & value<=25){
-		return '#f41a29'
+		return '#66b768'
 	}else if(value>25 & value<=50){
 		return '#fffe9c'
 	}else if(value>50 & value<=150){
 		return '#d68242'
 	}else if(value>150 & value<=700){
-		return '#66b768'
+		return '#f41a29'
 	}
 	return '#3d3939'
 }
 
-function iterateByGrid(positions_length,arrayExample,map,indice){
+function iterateByGrid(positions_length,arrayExample,map,indice,pollutant_unit){
 	// Remove Previous Rectangle
-    for(let ind=0; ind < positions_length; ind++) {
-	    if(rectangle){
-	      rectangle.setMap(null);
+    for(let ind=0; ind < rectangle_list.length; ind++) {
+	    if(rectangle_list[ind]){
+	      rectangle_list[ind].setMap(null);
 	    }
 	 }
-	
+	var unit = 'ppb_value';
+	if(pollutant_unit=='ugm3'){
+		unit= 'ug_m3_value';
+	}
 	for(let ind=0; ind < positions_length; ind++) {
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
-      	var color_generated = selectColor(arrayExample[indice]['ppb_value'][ind]);
+      	var color_generated = selectColor(arrayExample[indice][unit][ind]);
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
 	        strokeOpacity: 0.0,
@@ -88,21 +91,22 @@ function iterateByGrid(positions_length,arrayExample,map,indice){
 	        map: map,
 	        bounds: bounds
 	    });
+	    rectangle_list.push(rectangle);
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form){
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,pollutant_unit){
 	setTimeout(function() {   //  call a 3s setTimeout when the loop is called
 		percentage = increment + percentage;
 		if (counter+1 == array_length) {
 	    	percentage = 100;
 	    }
     	let positions_length = arrayExample[counter]['has_qhawax'].length;
-	    iterateByGrid(positions_length,arrayExample,map,counter);
+	    iterateByGrid(positions_length,arrayExample,map,counter,pollutant_unit);
 	    progress_form.innerHTML=progress_bar(percentage);
 	    counter++;                    //  increment the counter
 	    if (counter< array_length) {  //  if the counter < 10, call the loop function
-	    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form)
+	    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,pollutant_unit)
 	    }
 	    if(percentage == 100){
 	    	M.toast({
@@ -115,15 +119,14 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 	
 }
 
-const startHistorical = async (mapElem,selectedParameters,map) => {
+const startHistorical = async (mapElem,selectedParameters,map,pollutant_unit) => {
 	const json_array = await getSpatialMeasurement(selectedParameters);
-	console.log(json_array)
 	progress_form = mapElem.querySelector('#form_progress_spatial');
 	array_length = json_array.length;
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,pollutant_unit);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -134,7 +137,7 @@ const pauseHistorical = async () => { //falta detenerlo
 
 const restartHistorical = async (map) => { //falta restaurarlo
 	console.log('Entre a reiniciar');
-	iterateByTime(counter,arrayExample,increment,percentage,map,array_length,progress_form)
+	//iterateByTime(counter,arrayExample,increment,percentage,map,array_length,progress_form)
 };
 
 const viewSpatialHistorical = () => {
@@ -213,7 +216,7 @@ const viewSpatialHistorical = () => {
        
         e.preventDefault();
         console.log(selectedParameters);
-        startHistorical(mapElem,selectedParameters,map);
+        startHistorical(mapElem,selectedParameters,map,selectedParameters.unit);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
