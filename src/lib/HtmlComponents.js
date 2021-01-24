@@ -157,6 +157,9 @@ const viewPointsManagement = `
     <h5 class="center-align">Mantenimiento de Puntos</h5>
     <h6 class="center-align">Puntos para predicción espacial</h6>
     <div class="row">
+      <div class="col s12"><p><button id="get-all-grids" class="btn waves-effect waves-light" >Ver puntos guardados</button></p></div>
+    </div>
+    <div class="row">
       <div class="col s6"><p><button id="save" class="btn waves-effect waves-light" >Guardar Puntos</button></p></div>
       <div class="col s6"><p><button id="restart" class="btn waves-effect waves-light" >Borrar Figura</button></p></div>
     </div>

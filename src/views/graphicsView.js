@@ -1,7 +1,7 @@
 import {addZero} from '../lib/navMenus.js';
 import { navbarAdmin} from '../lib/navBarAdmin.js';
 import { chartView} from '../lib/HtmlComponents.js';
-import { requestAllQhawaxByCompany, requestStatus, requestGraphicsData} from '../requests/get.js';
+import { requestAllQhawaxByCompany, requestStatus} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 import { configuration} from '../lib/graphAssets.js';
 
@@ -40,7 +40,7 @@ const requestOptions = async (element, company) => {
 	const charts = document.getElementById('charts')
     charts.innerHTML=''
 
-	const json = await requestGraphicsData(qhawax, time)
+	//const json = await requestGraphicsData(qhawax, time)
 	let yAxis = {
 		temperature : {value:[],name: 'Temperatura (C)'},
 		pressure : {value:[],name: 'Presión (hPa)'},
@@ -64,12 +64,12 @@ const requestOptions = async (element, company) => {
 		 UVB : {value:[],name: 'UVB (mW/m2)'},
 	}
 	 let x = [];
-	json.forEach(d => {
-		x.push(dateFormat(d.timestamp_zone));
-		Object.entries(yAxis).forEach(([key, value]) => {
-			yAxis[key].value.push(d[key])
-		});
-	});
+	//json.forEach(d => {
+	//	x.push(dateFormat(d.timestamp_zone));
+	//	Object.entries(yAxis).forEach(([key, value]) => {
+	//		yAxis[key].value.push(d[key])
+	//	});
+	//});
 
 	Object.entries(yAxis).forEach(([key, value]) => {
 		const chart = document.createElement('div')

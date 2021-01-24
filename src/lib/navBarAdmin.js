@@ -39,14 +39,14 @@ import { goToLogout,
     goToConfig
 } from '../lib/directioning.js';
 
-import { requestAllCompanys} from '../requests/get.js'; 
+//import { requestAllCompanys} from '../requests/get.js'; 
 import { toAddOptions} from '../lib/displayAssets.js';
 
-const request = async (element) => {
-    const company_list = await requestAllCompanys();
-    toAddOptions(element, 'company_id_user', company_list);
+//const request = async (element) => {
+//    const company_list = await requestAllCompanys();
+//    toAddOptions(element, 'company_id_user', company_list);
 
-};
+//};
     
 const navbarDrops = dropdownReports.concat(dropdownMonitor).concat(dropdownMaintenance);
 

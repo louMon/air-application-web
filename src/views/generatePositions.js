@@ -1,5 +1,5 @@
 import { drawQhawaxMap  } from '../lib/mapAssets.js';
-import { requestAllQhawaxByCompany} from '../requests/get.js';
+import {getGrids} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 
 import {goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
@@ -49,8 +49,8 @@ function initialize(map, distance, nropuntos_y,nropuntos_x, puntoinicial_lat,pun
   var rigthSide    = new google.maps.LatLng(puntoinicial_lat, puntoinicial_lng+0.0037303);
   var bottomSide   = new google.maps.LatLng(puntoinicial_lat-0.000600, puntoinicial_lng);
   
-  setBounds(rigthSide,initPosition,map);
-  setBounds(bottomSide,initPosition,map);
+  //setBounds(rigthSide,initPosition,map);
+  //setBounds(bottomSide,initPosition,map);
 
   var initMarker = createSpecificMarker(initPosition,map,1);
   var rightMarker = createSpecificMarker(rigthSide,map,2);
@@ -104,6 +104,16 @@ function deleteFigure(polyline) {
   polyline.setMap(null);
 }
 
+const getPoints = async (map) => {
+  const json_points = await getGrids();
+  console.log(json_points);
+  for (let ind=0; ind < json_points.length; ind++) {
+    let coordinates = {'lat': json_points[ind]['lat'], 'lon': json_points[ind]['lon']};
+    console.log(coordinates);
+    putMarker(map, coordinates);
+  }
+};
+
 const generatePositions = () => {
 	
 	const mapElem = document.createElement('div');
@@ -148,7 +158,7 @@ const generatePositions = () => {
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: new google.maps.LatLng(-12.0728433,-77.0817491),
-		zoom: 8,
+		zoom: 13,
     fullscreenControl: true,
     mapTypeControl: true,
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -156,6 +166,7 @@ const generatePositions = () => {
 
   const savePointsBtn =mapElem.querySelector('#save');
   const restartFigureBtn =mapElem.querySelector('#restart');
+  const getPointsBtn = mapElem.querySelector('#get-all-grids');
 
   savePointsBtn.addEventListener('click',(e)=>{
       e.preventDefault();
@@ -165,6 +176,11 @@ const generatePositions = () => {
   restartFigureBtn.addEventListener('click',(e)=>{
       e.preventDefault();
       deleteFigure(polyline);
+  });
+
+  getPointsBtn.addEventListener('click',(e)=>{
+      e.preventDefault();
+      getPoints(map);
   });
 
   var the_most_left_lon = lookfor_left_point(positionlon_list);

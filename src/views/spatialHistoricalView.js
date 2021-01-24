@@ -55,13 +55,13 @@ function lookforBounds(lat, lon){
 }
 
 function selectColor(value){
-	if(value>=0 & value<=25){
+	if(value>=0 & value<=250){
 		return '#66b768'
-	}else if(value>25 & value<=50){
+	}else if(value>250 & value<=450){
 		return '#fffe9c'
-	}else if(value>50 & value<=150){
+	}else if(value>450 & value<=650){
 		return '#d68242'
-	}else if(value>150 & value<=700){
+	}else if(value>650 & value<=1000){
 		return '#f41a29'
 	}
 	return '#3d3939'
@@ -173,8 +173,8 @@ const viewSpatialHistorical = () => {
 	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
-		center: {lat: -12.047926,lng: -77.030437}, 
-		zoom: 14,
+		center: {lat: -12.097926,lng: -77.050437}, 
+		zoom: 12,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 

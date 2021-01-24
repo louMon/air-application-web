@@ -13,41 +13,6 @@ const replacer = (key, value) => {
 	}
   };
 
-const saveOffsets = (offsetsValues, offsetsContrValues, offsetsNcValues,offsetsNcValuesPM) => {
-    const requests = [
-        {url:`${sourceAPI}save_offsets/`, data:offsetsValues},
-        {url:`${sourceAPI}save_controlled_offsets/`, data: offsetsContrValues},
-		{url:`${sourceAPI}save_non_controlled_offsets/`, data: offsetsNcValues},
-		{url:`${sourceAPI}save_opc_variables/`, data: offsetsNcValuesPM}
-    ]
-		requests.forEach(r=>{
-            fetch(r.url, {
-                method: 'POST',
-                body: JSON.stringify(r.data),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-                .then(res => res.text())
-                .then(res => console.log(res));
-    
-        })
-};
-
-const requestEndCalibration = (data) =>{
-const url = `${sourceAPI}end_calibration/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => console.log(res))
-};
-
 const turnQhawaxOn= (ID)=> {
     
     const data = { qhawax_name: ID}
@@ -127,130 +92,6 @@ const createQhawax= (name, type, version)=> {
                 });
                 setTimeout(()=>window.location.reload(), 3000)
             })
-};
-
-const endOfFieldWork = (data) =>{
-	const url = `${sourceAPI}saveEndWorkField/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			M.toast({
-				html: `${data.person_in_charge}: El qHAWAX ${data.qhawax_id} ha terminado su trabajo en campo`,
-				displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-}
-
-const editInstallation = (data) =>{
-	const url = `${sourceAPI}updateQhawaxInstallation/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			M.toast({
-				html: `La instalación del qHAWAX ${data.comercial_name} ha sido actualizada`,
-				displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-
-};
-
-const binnacleObservation = (data) =>{
-	const url = `${sourceAPI}record_observation_binnacle/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			M.toast({
-				html: `La observación ha sido registrada`,
-				displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-};
-const binnacleArea = (data) =>{
-	const url = `${sourceAPI}saveCleaningAreaDate/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			M.toast({
-				html: `La limpieza de área ha sido registrada`,
-				displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-};
-const binnacleEquipment = (data) =>{
-	const url = `${sourceAPI}saveCleaningEquipmentDate/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			M.toast({
-				html: `La limpieza de qHAWAX ha sido registrada`,
-				displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-};
-const binnacleMaintenance = (data) =>{
-	const url = `${sourceAPI}saveMaintenanceDate/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			M.toast({
-				html: `El mantenimiento de qHAWAX ha sido registrado.`,
-				displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 3000)
-		})
 };
 
  const changePassword = (email, old_pass, new_pass) => {
@@ -393,28 +234,6 @@ const binnacleMaintenance = (data) =>{
 		})
 };
 
-const newFirmware = (data) =>{
-	const url = `${sourceAPI}new_firmware_version/`;
-	fetch(url, {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-		},
-	})
-		.then(res => res.text())
-		.catch(err => console.error(err))
-		.then(res => {
-			console.log(res)
-			{M.toast({
-				html: `La nueva versión ha sido creada!.`,
-				displayLength: 3000,
-			});}
-			setTimeout(()=>window.location.reload(), 3000)
-		})
-};
-
-
 const saveNewGrid= (lat, lon)=> {
 
     const data = {
@@ -449,23 +268,14 @@ const saveNewGrid= (lat, lon)=> {
 			})
 };
 
-export { 
-	saveOffsets, 
-	requestEndCalibration, 
+export {
 	turnQhawaxOn, 
 	turnQhawaxOff,
 	changeModeToCalibration,
 	createQhawax,
-	endOfFieldWork,
-	editInstallation,
-	binnacleObservation,
-	binnacleArea,
-	binnacleEquipment,
-	binnacleMaintenance,
 	changePassword,
 	createUser,
 	login,
 	firmwareUpdate,
-	newFirmware,
 	saveNewGrid
 }

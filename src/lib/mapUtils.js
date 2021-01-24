@@ -25,12 +25,16 @@ function createMarkers(map, positionlat_list,positionlon_list){
   }
 }
 
+
+const image ="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png";
+
 function putMarker(map, coordinates){
   var myLatLng = {lat:coordinates['lat'], lng: coordinates['lon']};
   var marker = new google.maps.Marker({
     position: myLatLng,
     map: map,
-    title: 'Qhawax '
+    title: 'Qhawax ',
+    icon: image
   });
 
 }
