@@ -56,14 +56,14 @@ const requestFirmwareVersions = async (type)=>{
 }
 
 const getSpatialMeasurement = async(p) =>{
-    const root = 'http://0.0.0.0:5000/api/'
+    const root = 'http://pucp-calidad-aire-api.qairadrones.com/api/'
     const url = `${root}get_historical_of_spatial/?pollutant=${p.pollutant}&last_hours=${p.hours}&pollutant_unit=${p.unit}`;
     const response = await fetch(url);
     return await response.json();
 }
 
 const getGrids = async() =>{
-    const root = 'http://0.0.0.0:5000/api/'
+    const root = 'http://pucp-calidad-aire-api.qairadrones.com/api/'
     const url = `${root}get_all_grid/`;
     const response = await fetch(url);
     return await response.json();

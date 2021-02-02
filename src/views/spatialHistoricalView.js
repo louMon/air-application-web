@@ -173,8 +173,8 @@ const viewSpatialHistorical = () => {
 	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
-		center: {lat: -12.097926,lng: -77.050437}, 
-		zoom: 12,
+		center: {lat: -12.038338,lng: -77.044061}, 
+		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
@@ -186,9 +186,9 @@ const viewSpatialHistorical = () => {
 	const selectionPollutantUnit = mapElem.querySelectorAll('input[name=unit]');
 	const selectionHours = mapElem.querySelectorAll('input[name=hours]');
 
-	selectedParameters.pollutant = 'no2-gas';
+	selectedParameters.pollutant = 'NO2';
 	selectedParameters.unit = 'ppb';
-	selectedParameters.hours = '24h-last';
+	selectedParameters.hours = '24';
 
 	selectionPollutant.forEach(radio =>{
 		radio.addEventListener('click',()=>{

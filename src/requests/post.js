@@ -241,7 +241,7 @@ const saveNewGrid= (lat, lon)=> {
 		lon: lon,
 		has_qhawax: 0
 	}
-    const url = `http://0.0.0.0:5000/api/store_grid_to_predict/`;
+    const url = `http://pucp-calidad-aire-api.qairadrones.com/api/store_grid_to_predict/`;
 		fetch(url, {
 			method: 'POST',
 			body: JSON.stringify(data),

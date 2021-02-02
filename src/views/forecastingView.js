@@ -58,7 +58,7 @@ const viewForecasting= () => {
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
-		center: {lat: -12.1453674,lng: -77.0240709},
+		center: {lat: -12.038338,lng: -77.071526}, 
 		zoom: 12,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
