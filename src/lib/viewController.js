@@ -2,7 +2,7 @@ import { generatePositions } from '../views/generatePositions.js';
 import { viewForecasting} from '../views/forecastingView.js';
 import { viewSpatialRealTime} from '../views/spatialRealTimeView.js';
 import { viewSpatialHistorical} from '../views/spatialHistoricalView.js';
-import { landPage } from '../views/landpage.js';
+import { landPage } from '../views/landPage.js';
 
 const changeView = router => {
 	const container = document.getElementById('content-page');

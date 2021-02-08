@@ -35,6 +35,11 @@ const requestAllQhawax = async () => {
     return await response.json();
 };
 
+const requestAllModulesAvailable = async () =>{
+    const response = await fetch(`https://qairamapnapi.qairadrones.com/api/AllQhawaxByCompany/?company_array=21,22,23,24,25,26,27,28,&number_companies=8`);
+    return await response.json();
+}
+
 const requestLastQhawax = async () => {
     const response = await fetch(`${sourceAPI}get_last_qhawax`);
     return await response.json();
@@ -57,7 +62,7 @@ const requestFirmwareVersions = async (type)=>{
 
 const getSpatialMeasurement = async(p) =>{
     const root = 'http://pucp-calidad-aire-api.qairadrones.com/api/'
-    const url = `${root}get_historical_of_spatial/?pollutant=${p.pollutant}&last_hours=${p.hours}&pollutant_unit=${p.unit}`;
+    const url = `${root}get_historical_of_spatial/?pollutant=${p.pollutant}&last_hours=${p.hours}&pollutant_unit=ugm3`;
     const response = await fetch(url);
     return await response.json();
 }
@@ -79,5 +84,6 @@ export { requestAllQhawaxByCompany,
     requestStatus,
     requestFirmwareVersions,
     getSpatialMeasurement,
+    requestAllModulesAvailable,
     getGrids
 }

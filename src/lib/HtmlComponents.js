@@ -88,19 +88,8 @@ const viewSearchingPanelHistorical = `
       </div>
 
       </div>
-    </form>
-    <form action="">
       <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona la unidad del contaminante:</b></p>
-
-      <div class="col s3">
-      <label for="ppb"> <input id="ppb" class="with-gap" name="unit" type="radio" value="ppb" checked /><span>PPB</span></label>
-      </div>
-
-      <div class="col s3">
-      <label for="ugm3"><input id="ugm3" class="with-gap" name="unit" type="radio" value="ugm3" /><span>UG/M3</span></label>
-      </div>
-
+        <p class="left-align" style="padding-left:20px">La unidad del contaminante es ug/m3</p>
       </div>
     </form>
     <form action="">
@@ -231,20 +220,9 @@ const viewSearchingPanelForecasting = `
 
       </div>
     </form>
-    <form action="">
-      <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona la unidad del contaminante:</b></p>
-
-      <div class="col s3">
-      <label for="ppb"> <input id="ppb" class="with-gap" name="unit" type="radio" value="ppb" checked /><span>PPB</span></label>
+    <div class="row">
+        <p class="left-align" style="padding-left:20px">La unidad del contaminante es ug/m3</p>
       </div>
-
-      <div class="col s3">
-      <label for="ugm3"><input id="ugm3" class="with-gap" name="unit" type="radio" value="ugm3" /><span>UG/M3</span></label>
-      </div>
-
-      </div>
-    </form>
     <div class="row">
       <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">send</i></button></p></div>
       <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">send</i></button></p></div>
@@ -319,20 +297,9 @@ const viewSearchingPanelRealTime = `
 
       </div>
     </form>
-    <form action="">
-      <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona la unidad del contaminante:</b></p>
-
-      <div class="col s3">
-      <label for="ppb"> <input id="ppb" class="with-gap" name="unit" type="radio" value="ppb" checked /><span>PPB</span></label>
-      </div>
-
-      <div class="col s3">
-      <label for="ugm3"><input id="ugm3" class="with-gap" name="unit" type="radio" value="ugm3" /><span>UG/M3</span></label>
-      </div>
-
-      </div>
-    </form>
+    <div class="row">
+      <p class="left-align" style="padding-left:20px">La unidad del contaminante es ug/m3</p>
+    </div>
     <div class="row">
       <div class="col s12"><p><button id="submit-btn" class="btn waves-effect waves-light" >Mediciones de la ultima hora<i class="material-icons right">send</i></button></p></div>
     </div>

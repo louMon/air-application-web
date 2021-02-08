@@ -67,17 +67,14 @@ function selectColor(value){
 	return '#3d3939'
 }
 
-function iterateByGrid(positions_length,arrayExample,map,indice,pollutant_unit){
+function iterateByGrid(positions_length,arrayExample,map,indice){
 	// Remove Previous Rectangle
     for(let ind=0; ind < rectangle_list.length; ind++) {
 	    if(rectangle_list[ind]){
 	      rectangle_list[ind].setMap(null);
 	    }
 	 }
-	var unit = 'ppb_value';
-	if(pollutant_unit=='ugm3'){
-		unit= 'ug_m3_value';
-	}
+	var unit= 'ug_m3_value';
 	for(let ind=0; ind < positions_length; ind++) {
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
@@ -95,18 +92,18 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant_unit){
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,pollutant_unit){
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form){
 	setTimeout(function() {   //  call a 3s setTimeout when the loop is called
 		percentage = increment + percentage;
 		if (counter+1 == array_length) {
 	    	percentage = 100;
 	    }
     	let positions_length = arrayExample[counter]['has_qhawax'].length;
-	    iterateByGrid(positions_length,arrayExample,map,counter,pollutant_unit);
+	    iterateByGrid(positions_length,arrayExample,map,counter);
 	    progress_form.innerHTML=progress_bar(percentage);
 	    counter++;                    //  increment the counter
 	    if (counter< array_length) {  //  if the counter < 10, call the loop function
-	    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,pollutant_unit)
+	    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form)
 	    }
 	    if(percentage == 100){
 	    	M.toast({
@@ -119,14 +116,14 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 	
 }
 
-const startHistorical = async (mapElem,selectedParameters,map,pollutant_unit) => {
+const startHistorical = async (mapElem,selectedParameters,map) => {
 	const json_array = await getSpatialMeasurement(selectedParameters);
 	progress_form = mapElem.querySelector('#form_progress_spatial');
 	array_length = json_array.length;
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,pollutant_unit);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -183,23 +180,14 @@ const viewSpatialHistorical = () => {
 	const restartBtn =mapElem.querySelector('#restart');
 
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
-	const selectionPollutantUnit = mapElem.querySelectorAll('input[name=unit]');
 	const selectionHours = mapElem.querySelectorAll('input[name=hours]');
 
 	selectedParameters.pollutant = 'NO2';
-	selectedParameters.unit = 'ppb';
 	selectedParameters.hours = '24';
 
 	selectionPollutant.forEach(radio =>{
 		radio.addEventListener('click',()=>{
 			selectedParameters.pollutant=radio.id;
-		})
-		
-	})
-
-	selectionPollutantUnit.forEach(radio =>{
-		radio.addEventListener('click',()=>{
-			selectedParameters.unit=radio.id;
 		})
 		
 	})
@@ -216,7 +204,7 @@ const viewSpatialHistorical = () => {
        
         e.preventDefault();
         console.log(selectedParameters);
-        startHistorical(mapElem,selectedParameters,map,selectedParameters.unit);
+        startHistorical(mapElem,selectedParameters,map);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
