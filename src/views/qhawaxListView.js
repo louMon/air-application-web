@@ -7,7 +7,7 @@ import {
     changeModeToCalibration, 
     createQhawax
 }from '../requests/post.js';
-import { requestAllQhawax, requestLastQhawax, requestFirmwareVersions} from '../requests/get.js';
+import { requestAllQhawax} from '../requests/get.js';
 
 let page= 1;
 const location = 'qhawax_list';
@@ -63,17 +63,7 @@ const request = async (element) => {
     displayList(element, qhawax_list,page,location);
 };
 
-const requestVersions = async (type) => {    
-    const versions_list = await requestFirmwareVersions(type);
-    const select = document.getElementById('version');
-    select.innerHTML='<option value="" disabled selected>Selecciona la versión</option>';
-    versions_list.forEach(v=>{
-        const option = document.createElement('option');
-        option.innerText=v.name;
-        option.value=v.id;
-        select.appendChild(option);
-    })
-};
+
 
 const toNumber = (num) => {
     if(num<10){
@@ -85,15 +75,6 @@ const toNumber = (num) => {
     }
 }
 
-
-const nameQhawaxRequest = async(element)=>{
-    const initName = await requestLastQhawax()
-    const qnameLabel = element.querySelector('#qhawax_name_label');
-    const qnameNumberstr = Number(initName.name.split('qH')[1])+1;
-    qnameLabel.innerText = `qH${toNumber(qnameNumberstr)+qnameNumberstr}`
-    qnameLabel.setAttribute('data-name',`qH${toNumber(qnameNumberstr)+qnameNumberstr}` )
-};
-
 const viewQhawaxList = (company) =>{
     const listElem = document.createElement('div');
     listElem.classList.add('container')
@@ -102,7 +83,7 @@ const viewQhawaxList = (company) =>{
     let type = '';
     let version='';
 
-    nameQhawaxRequest(listElem)
+    //nameQhawaxRequest(listElem)
 
     const selection =listElem.querySelector('select');
     const versionSelect = listElem.querySelector('#version');
@@ -119,7 +100,7 @@ const viewQhawaxList = (company) =>{
     
     selection.addEventListener('change', () =>{
         type=selection.value;
-        requestVersions(type)
+        //requestVersions(type)
     });
 
     versionSelect.addEventListener('change', ()=>{

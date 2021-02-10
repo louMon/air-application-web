@@ -1,7 +1,8 @@
 import { changeView } from './lib/viewController.js';
 
-const sourceAPI = 'https://qairamapnapi.qairadrones.com/api/';
-const sourceSocket = 'https://qairamapnapi.qairadrones.com/';
+const sourceAPI = 'http://pucp-calidad-aire-api.qairadrones.com/api/';
+const sourceSocket = 'http://pucp-calidad-aire-api.qairadrones.com/';
+const qairamapAPI = 'https://qairamapnapi.qairadrones.com/api/';
 
 	window.onload = () => {
 
@@ -27,4 +28,4 @@ const sourceSocket = 'https://qairamapnapi.qairadrones.com/';
 	
 
 
-export {sourceAPI, sourceSocket}
+export {sourceAPI, sourceSocket,qairamapAPI}

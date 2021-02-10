@@ -13,19 +13,35 @@ spatialRealTime,
 spatialRealTimeMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelHistorical} from '../lib/HtmlComponents.js'
-import { requestAllQhawaxByCompany,getSpatialMeasurement} from '../requests/get.js';
+import { requestAllQhawaxByCompany,getSpatialMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 
+let progress_form;
+let array_length ;
+let percentage;
+let counter;
+let increment;
+let rectangle;
+let myVarSetTimeOut;
+let json_array;
+let map;
+let running_timestamp;
 let selectedParameters = {};
-let progress_form = "";
-let array_length = 0;
-let percentage = 0;
-let counter = 0;
-let increment = 0;
-var rectangle;
+//let progress_form = "";
+//let array_length = 0;
+//let percentage = 0;
+//let counter = 0;
+//let increment = 0;
+//var rectangle;
 var rectangle_list = [];
+//var myVarSetTimeOut;
+//let json_array = [];
+//var map;
 
-const progress_bar =p=> `
+const progress_bar =(p,running_timestamp)=> `
+<div class="row">
+	<p><center>${running_timestamp}</center></p>
+</div>
 <div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
   <div class="progress" style="height:40px;">
         <div class="determinate" id="spatial_progress_bar" style="height:40px; width: ${p}% ">${p}%</div>
@@ -40,6 +56,14 @@ const arrayStatic = [
 {"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [50.0,20.0,150.0,356.0]},
 {"has_qhawax": [false,true,false,false],"hour_position": [5,5,5,5],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,455.0,20.0]},
 {"has_qhawax": [false,true,false,false],"hour_position": [6,6,6,6],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [6.0,100.0,3.0,455.0]}]
+
+const addMinutes =  function (dt, minutos) {
+    return new Date(dt.getTime() + minutos*60000);
+}
+
+const substractMinutes =  function (dt, minutos) {
+    return new Date(dt.getTime() - minutos*60000);
+}
 
 function lookforBounds(lat, lon){
   var lat_prima_left=lat+0.0013395;
@@ -92,49 +116,52 @@ function iterateByGrid(positions_length,arrayExample,map,indice){
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form){
-	setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-		percentage = increment + percentage;
-		if (counter+1 == array_length) {
-	    	percentage = 100;
-	    }
-    	let positions_length = arrayExample[counter]['has_qhawax'].length;
-	    iterateByGrid(positions_length,arrayExample,map,counter);
-	    progress_form.innerHTML=progress_bar(percentage);
-	    counter++;                    //  increment the counter
-	    if (counter< array_length) {  //  if the counter < 10, call the loop function
-	    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form)
-	    }
-	    if(percentage == 100){
-	    	M.toast({
-		   		html: `Se mostraron todas las horas de dicho contaminante`,
-		    	displayLength: 3000,
-			});
-			setTimeout(()=>window.location.reload(), 5000);
-	    }    
-	}, 3000);
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp){
+	myVarSetTimeOut = setTimeout(function() {   //  call a 1s setTimeout when the loop is called
+						percentage = increment + percentage;
+						if (counter+1 == array_length) {
+					    	percentage = 100;
+					    }
+				    	let positions_length = arrayExample[counter]['has_qhawax'].length;
+					    iterateByGrid(positions_length,arrayExample,map,counter);
+					    progress_form.innerHTML=progress_bar(percentage,running_timestamp);
+					    counter++;                    //  increment the counter
+					    running_timestamp = addMinutes(running_timestamp, 60)
+					    console.log(running_timestamp)
+					    if (counter< array_length) {  //  if the counter < 10, call the loop function
+					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp)
+					    }
+					    if(percentage == 100){
+					    	M.toast({
+						   		html: `Se mostraron todas las horas de dicho contaminante`,
+						    	displayLength: 3000,
+							});
+							setTimeout(()=>window.location.reload(), 5000);
+					    }    
+					}, 1000);
+
 	
 }
 
 const startHistorical = async (mapElem,selectedParameters,map) => {
-	const json_array = await getSpatialMeasurement(selectedParameters);
+	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Spatial'); //1 means Spatial Prediction
+	running_timestamp = new Date(running_timestamp);
+	running_timestamp = substractMinutes(running_timestamp, selectedParameters.hours*60 + 5*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
+	json_array = await getSpatialMeasurement(selectedParameters);
 	progress_form = mapElem.querySelector('#form_progress_spatial');
 	array_length = json_array.length;
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
-	console.log('Entre a pausar');
-	clearTimeout(iterateByTime);
-	console.log("luego de pausar");
+	clearTimeout(myVarSetTimeOut);
 };
 
-const restartHistorical = async (map) => { //falta restaurarlo
-	console.log('Entre a reiniciar');
-	//iterateByTime(counter,arrayExample,increment,percentage,map,array_length,progress_form)
+const restartHistorical = async () => { //falta restaurarlo
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp)
 };
 
 const viewSpatialHistorical = () => {
@@ -169,7 +196,7 @@ const viewSpatialHistorical = () => {
 	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
 	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
 
-	const map = new google.maps.Map(mapElem.querySelector('#map'), {
+	map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: {lat: -12.038338,lng: -77.044061}, 
 		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
@@ -201,24 +228,17 @@ const viewSpatialHistorical = () => {
 	})
 
 	playBtn.addEventListener('click',(e)=>{
-       
-        e.preventDefault();
         console.log(selectedParameters);
+        playBtn.disabled = true
         startHistorical(mapElem,selectedParameters,map);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
-       
-        e.preventDefault();
-        console.log(selectedParameters);
         pauseHistorical();
     });
 
     restartBtn.addEventListener('click',(e)=>{
-       
-        e.preventDefault();
-        console.log(selectedParameters);
-        restartHistorical(map);
+        restartHistorical();
     });
 
 	return mapElem;

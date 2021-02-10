@@ -1,7 +1,7 @@
 import {addZero} from '../lib/navMenus.js';
 import { navbarAdmin} from '../lib/navBarAdmin.js';
 import { chartView} from '../lib/HtmlComponents.js';
-import { requestAllQhawaxByCompany, requestStatus} from '../requests/get.js';
+import { requestStatus} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 import { configuration} from '../lib/graphAssets.js';
 
@@ -17,20 +17,6 @@ const dateFormat = (timestamp)=>{
 	);
 
 }
-
-const requestOptions = async (element, company) => {
-	const qhawax_list = await requestAllQhawaxByCompany(company);
-	qhawax_list.forEach(async qhawax => {
-		const status = await requestStatus(qhawax.name);
-		const addOptions = element.querySelector('#selectQhawax');
-		const option = document.createElement('option');
-		option.setAttribute('value', qhawax.name);
-		option.innerText =
-			qhawax.name + ': ' + qhawax.comercial_name;
-		status==='ON'?addOptions.appendChild(option):false;
-	});
- };
-
 
  const createTraces = async (time, qhawax) => {
 	let trace={}
@@ -112,7 +98,7 @@ const viewGraphics = company => {
 	const selection = graphElem.querySelectorAll('select');
 	M.FormSelect.init(selection);
 
-	 requestOptions(graphElem, company);
+	//requestOptions(graphElem, company);
 
 	let selectedQhawax = '';
 	selection[0].onchange = () => {
