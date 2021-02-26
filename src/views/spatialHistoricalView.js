@@ -79,11 +79,11 @@ function lookforBounds(lat, lon){
 }
 
 function selectColor(value){
-	if(value>=0 & value<=250){
+	if(value>=0 & value<=20){
 		return '#66b768'
-	}else if(value>250 & value<=450){
+	}else if(value>20 & value<=250){
 		return '#fffe9c'
-	}else if(value>450 & value<=650){
+	}else if(value>250 & value<=650){
 		return '#d68242'
 	}else if(value>650 & value<=1000){
 		return '#f41a29'

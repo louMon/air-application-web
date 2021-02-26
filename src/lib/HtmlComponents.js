@@ -80,7 +80,7 @@ const viewSearchingPanelHistorical = `
       <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
 
       <div class="col s3">
-      <label for="PM2.5"><input id="PM2.5" class="with-gap" name="pollutant" type="radio" value="PM2.5" /><span>PM2.5</span></label>
+      <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
       </div>
       
       <div class="col s3">
