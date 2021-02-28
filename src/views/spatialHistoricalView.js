@@ -78,20 +78,94 @@ function lookforBounds(lat, lon){
   return bounds;
 }
 
-function selectColor(value){
-	if(value>=0 & value<=20){
-		return '#66b768'
-	}else if(value>20 & value<=250){
-		return '#fffe9c'
-	}else if(value>250 & value<=650){
-		return '#d68242'
-	}else if(value>650 & value<=1000){
-		return '#f41a29'
+function selectColor(value,polutant){
+	if(polutant=='NO2'){
+		if(value>=0 & value<=100){
+			return '#66b768'
+		}else if(value>100 & value<=200){
+			return '#fffe9c'
+		}else if(value>200 & value<=300){
+			return '#d68242'
+		}else if(value>300){
+			return '#f41a29'
+		}
 	}
-	return '#3d3939'
+
+	if(polutant=='O3'){
+		if(value>=0 & value<=60){
+			return '#66b768'
+		}else if(value>60 & value<=120){
+			return '#fffe9c'
+		}else if(value>120 & value<=210){
+			return '#d68242'
+		}else if(value>210){
+			return '#f41a29'
+		}
+	}
+
+	if(polutant=='PM25'){
+		if(value>=0 & value<=12.5){
+			return '#66b768'
+		}else if(value>12.5 & value<=25){
+			return '#fffe9c'
+		}else if(value>25 & value<=125){
+			return '#d68242'
+		}else if(value>125){
+			return '#f41a29'
+		}
+	}
+
+	if(polutant=='H2S'){
+		if(value>=0 & value<=75){
+			return '#66b768'
+		}else if(value>75 & value<=150){
+			return '#fffe9c'
+		}else if(value>150 & value<=1500){
+			return '#d68242'
+		}else if(value>1500){
+			return '#f41a29'
+		}
+	}
+
+	if(polutant=='CO'){
+		if(value>=0 & value<=5049){
+			return '#66b768'
+		}else if(value>5049 & value<=10049){
+			return '#fffe9c'
+		}else if(value>10049 & value<=15049){
+			return '#d68242'
+		}else if(value>15049){
+			return '#f41a29'
+		}
+	}
+
+	if(polutant=='SO2'){
+		if(value>=0 & value<=10){
+			return '#66b768'
+		}else if(value>10 & value<=20){
+			return '#fffe9c'
+		}else if(value>20 & value<=500){
+			return '#d68242'
+		}else if(value>500){
+			return '#f41a29'
+		}
+	}
+
+	if(polutant=='PM10'){
+		if(value>=0 & value<=75){
+			return '#66b768'
+		}else if(value>75 & value<=150){
+			return '#fffe9c'
+		}else if(value>150 & value<=250){
+			return '#d68242'
+		}else if(value>250){
+			return '#f41a29'
+		}
+	}
+
 }
 
-function iterateByGrid(positions_length,arrayExample,map,indice){
+function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	// Remove Previous Rectangle
     for(let ind=0; ind < rectangle_list.length; ind++) {
 	    if(rectangle_list[ind]){
@@ -102,7 +176,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice){
 	for(let ind=0; ind < positions_length; ind++) {
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
-      	var color_generated = selectColor(arrayExample[indice][unit][ind]);
+      	var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
 	        strokeOpacity: 0.0,
@@ -116,20 +190,20 @@ function iterateByGrid(positions_length,arrayExample,map,indice){
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp){
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant){
 	myVarSetTimeOut = setTimeout(function() {   //  call a 1s setTimeout when the loop is called
 						percentage = increment + percentage;
 						if (counter+1 == array_length) {
 					    	percentage = 100;
 					    }
 				    	let positions_length = arrayExample[counter]['has_qhawax'].length;
-					    iterateByGrid(positions_length,arrayExample,map,counter);
+					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
 					    progress_form.innerHTML=progress_bar(percentage,running_timestamp);
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    console.log(running_timestamp)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
-					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp)
+					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant)
 					    }
 					    if(percentage == 100){
 					    	M.toast({
@@ -143,7 +217,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 	
 }
 
-const startHistorical = async (mapElem,selectedParameters,map) => {
+const startHistorical = async (mapElem,selectedParameters,map,pollutant) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Spatial'); //1 means Spatial Prediction
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, selectedParameters.hours*60 + 5*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
@@ -153,15 +227,15 @@ const startHistorical = async (mapElem,selectedParameters,map) => {
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
 	clearTimeout(myVarSetTimeOut);
 };
 
-const restartHistorical = async () => { //falta restaurarlo
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp)
+const restartHistorical = async (pollutant) => { //falta restaurarlo
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
 };
 
 const viewSpatialHistorical = () => {
@@ -198,7 +272,7 @@ const viewSpatialHistorical = () => {
 
 	map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: {lat: -12.038338,lng: -77.044061}, 
-		zoom: 13,
+		zoom: 14,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
@@ -230,7 +304,7 @@ const viewSpatialHistorical = () => {
 	playBtn.addEventListener('click',(e)=>{
         console.log(selectedParameters);
         playBtn.disabled = true
-        startHistorical(mapElem,selectedParameters,map);
+        startHistorical(mapElem,selectedParameters,map,selectedParameters.pollutant);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
@@ -238,7 +312,7 @@ const viewSpatialHistorical = () => {
     });
 
     restartBtn.addEventListener('click',(e)=>{
-        restartHistorical();
+        restartHistorical(selectedParameters.pollutant);
     });
 
 	return mapElem;
