@@ -29,7 +29,8 @@ createSpecificMarker,
 setBounds } from '../lib/mapUtils.js';
 
 import { 
-    saveNewGrid
+    saveNewGrid,
+    deleteAllGrids
 }from '../requests/post.js';
 
 var positionlat_list = [-12.1030555555556,-12.0466667, -12.0411358, -12.04000000, -12.050278, -12.044182, -12.006479,];
@@ -114,6 +115,11 @@ const getPoints = async (map) => {
   }
 };
 
+const deleteAllPoints = async (map) => {
+  deleteAllGrids();
+  console.log("Puntos borrados");
+};
+
 const generatePositions = () => {
 	
 	const mapElem = document.createElement('div');
@@ -167,6 +173,7 @@ const generatePositions = () => {
   const savePointsBtn =mapElem.querySelector('#save');
   const restartFigureBtn =mapElem.querySelector('#restart');
   const getPointsBtn = mapElem.querySelector('#get-all-grids');
+  const deleteAllPointsBtn = mapElem.querySelector('#delete-all-grids');
 
   savePointsBtn.addEventListener('click',(e)=>{
       e.preventDefault();
@@ -181,6 +188,11 @@ const generatePositions = () => {
   getPointsBtn.addEventListener('click',(e)=>{
       e.preventDefault();
       getPoints(map);
+  });
+
+  deleteAllPointsBtn.addEventListener('click',(e)=>{
+      e.preventDefault();
+      deleteAllPoints(map);
   });
 
   var the_most_left_lon = lookfor_left_point(positionlon_list);

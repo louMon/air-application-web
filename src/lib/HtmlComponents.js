@@ -142,11 +142,13 @@ const viewPointsManagement = `
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
-    <h5 class="center-align">Mantenimiento de Puntos</h5>
-    <h6 class="center-align">Puntos para predicción espacial</h6>
+    <h6 class="center-align"><b>Mantenimiento de Puntos<b/></h6>
+    <h6 class="left-align">Gestion de puntos históricos</h6>
     <div class="row">
-      <div class="col s12"><p><button id="get-all-grids" class="btn waves-effect waves-light" >Omitir puntos guardados</button></p></div>
+      <div class="col 6"><p><button id="get-all-grids" class="btn waves-effect waves-light" >Mostrar Puntos</button></p></div>
+      <div class="col 6"><p><button id="delete-all-grids" class="btn waves-effect waves-light" >Borrar Puntos</button></p></div>
     </div>
+    <h6 class="left-align">Gestion de puntos nuevos</h6>
     <div class="row">
       <div class="col s6"><p><button id="save" class="btn waves-effect waves-light" >Guardar Puntos</button></p></div>
       <div class="col s6"><p><button id="restart" class="btn waves-effect waves-light" >Borrar Figura</button></p></div>

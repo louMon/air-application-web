@@ -81,85 +81,85 @@ function lookforBounds(lat, lon){
 function selectColor(value,polutant){
 	if(polutant=='NO2'){
 		if(value>=0 & value<=100){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>100 & value<=200){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>200 & value<=300){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>300){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
 	if(polutant=='O3'){
 		if(value>=0 & value<=60){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>60 & value<=120){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>120 & value<=210){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>210){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
 	if(polutant=='PM25'){
 		if(value>=0 & value<=12.5){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>12.5 & value<=25){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>25 & value<=125){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>125){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
 	if(polutant=='H2S'){
 		if(value>=0 & value<=75){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>75 & value<=150){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>150 & value<=1500){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>1500){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
 	if(polutant=='CO'){
 		if(value>=0 & value<=5049){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>5049 & value<=10049){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>10049 & value<=15049){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>15049){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
 	if(polutant=='SO2'){
 		if(value>=0 & value<=10){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>10 & value<=20){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>20 & value<=500){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>500){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
 	if(polutant=='PM10'){
 		if(value>=0 & value<=75){
-			return '#66b768'
+			return '#57cc59'
 		}else if(value>75 & value<=150){
-			return '#fffe9c'
+			return '#edeb74'
 		}else if(value>150 & value<=250){
-			return '#d68242'
+			return '#d8251c'
 		}else if(value>250){
-			return '#f41a29'
+			return '#9b0f0f'
 		}
 	}
 
