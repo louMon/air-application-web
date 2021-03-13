@@ -698,42 +698,27 @@ i.icon-green {
 	width: 120px;
 }
 
-@media only screen and (max-width: 768px)  {
-	.inca-qairito {
-		width: 2em;
-	}
-	.inca-color1 {
-		font-size: x-small;
-	}
-	.inca-title {
-		font-size: small;
-		margin: 6px;
-	}
-	#over_map_infowindow {
-		top: 70px;
-		right: 11px;
-		height: 518px;
-		width: 192px;
-	}
-	.pannel-inca {
-		margin: 6px 0px 0px 3px;
-	}
-	#graphicValues{
-		padding: 0;
-	}
-	.icon-eye{
-		padding-block-start: 15px;
-		padding-block-end: 5px;
-	}
-	#qairito-back-img{
-		width: 83px;
-	}
-	#qairito-back {
-		width: 100px;
-		height: 100px;
-		left: 0;
-	}
-}
+
+
+#background {
+	/* -webkit-animation: filter-animation 5s infinite; */
+	
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat:no-repeat;
+    background: -webkit-linear-gradient( to left top, var(--blue),var(--yellow)) fixed;
+    background: -moz-linear-gradient( to left top, var(--blue),var(--yellow))fixed;
+    background: -ms-linear-gradient( to left top, var(--blue),var(--yellow))fixed;
+    background: -o-linear-gradient( to left top, var(--blue),var(--yellow))fixed;
+	background: linear-gradient( to left top, var(--blue),var(--yellow))fixed;
+	background: -prefix-linear-gradient(left top, var(--blue),var(--yellow))fixed; 
+	background: linear-gradient(to bottom right,var(--blue),var(--yellow))fixed;
+  }
 
 .wrapper {
   width: 100%;
@@ -741,6 +726,8 @@ i.icon-green {
   z-index: 5;
   position: absolute;
 }
+
+
 
 .cards_wrap {
   display: flex;
@@ -791,4 +778,65 @@ i.icon-green {
 
 .cards_wrap .card_bottom .card_creator {
   text-align: center;
+}
+
+@media only screen and (max-width: 768px)  {
+	.inca-qairito {
+		width: 2em;
+	}
+	.inca-color1 {
+		font-size: x-small;
+	}
+	.inca-title {
+		font-size: small;
+		margin: 6px;
+	}
+	#over_map_infowindow {
+		top: 70px;
+		right: 11px;
+		height: 518px;
+		width: 192px;
+	}
+	.pannel-inca {
+		margin: 6px 0px 0px 3px;
+	}
+	#graphicValues{
+		padding: 0;
+	}
+	.icon-eye{
+		padding-block-start: 15px;
+		padding-block-end: 5px;
+	}
+	#qairito-back-img{
+		width: 83px;
+	}
+	#qairito-back {
+		width: 100px;
+		height: 100px;
+		left: 0;
+	}
+}
+
+@media (max-width: 1024px) {
+  .cards_wrap .card_item {
+    width: 33.3%;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards_wrap .card_item {
+    width: 50%;
+  }
+}
+
+@media (max-width: 528px) {
+	.wrapper {
+		margin: 0rem auto;
+	  }
+  .cards_wrap .card_top {
+    height: auto;
+  }
+  .cards_wrap .card_item {
+    width: 100%;
+  }
 }

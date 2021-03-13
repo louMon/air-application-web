@@ -1822,13 +1822,14 @@ const landbar = `
 <div class="navbar-fixed">
 <nav id="nav-menu-bar" class="transparent" style="padding: 0px 10px;">
 <div id="nav-wrapper-menu-bar" class="nav-wrapper">
-    <ul id="menu-left-bar" class="left hide-on-med-and-down">
-    </ul> 
     <a href="https://www.qairadrones.com" class="brand-logo center"id="brand-logo-menu-bar">
-        <img src="/img/logo-white.png" alt="logo qAIRa"id="logo-menu-qAIRa"style="max-width: 4.5em; max-height: 2em"/>
+      <img src="/img/fondecyt.png" alt="logo fondecyt"id="logo-menu-fondecyt"style="max-width: 4.5em; max-height: 3em; position:relative; left:80px"/>
     </a>
-    <a href="#" id="menu-trigger" class="sidenav-trigger" data-target="mobile-nav" ><i class="material-icons">menu</i></a>
+    <a href="https://www.qairadrones.com" class="brand-logo center"id="brand-logo-menu-bar">
+      <img src="/img/logopupc.png" alt="logo pucp"id="logo-menu-pucp"style="max-width: 4.5em; max-height: 3em; position:relative; right:80px"/>
+    </a>  
 </div>
+
 </nav>
 </div>
 `;
@@ -1841,7 +1842,7 @@ const landpage = `
     <div class="card_item hoverable z-depth-4" id="historical">
       <div class="card_inner">
         <div class="card_top">
-          <img src="img/historical.png" alt="historical" style="width:auto ; height:180px;" />
+          <img src="img/historical-min.png" alt="historical" style="width:auto ; height:180px;" />
         </div>
         <div class="card_bottom">
           <div class="card_category">
@@ -1859,7 +1860,7 @@ const landpage = `
     <div class="card_item hoverable z-depth-4" id="real_time">
       <div class="card_inner">
         <div class="card_top">
-          <img src="img/real-time.png" alt="real_time" style="width:auto ; height:180px;" />
+          <img src="img/real-time-min.png" alt="real_time" style="width:auto ; height:180px;" />
         </div>
         <div class="card_bottom">
           <div class="card_category">
@@ -1877,7 +1878,7 @@ const landpage = `
     <div class="card_item hoverable z-depth-4" id="forecasting">
       <div class="card_inner">
         <div class="card_top">
-          <img src="img/forecasting.png" alt="forecasting" style="width:auto ; height:180px;"/>
+          <img src="img/forecasting-min.png" alt="forecasting" style="width:auto ; height:180px;"/>
         </div>
         <div class="card_bottom">
           <div class="card_category">

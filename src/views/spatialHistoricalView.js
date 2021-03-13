@@ -27,16 +27,7 @@ let json_array;
 let map;
 let running_timestamp;
 let selectedParameters = {};
-//let progress_form = "";
-//let array_length = 0;
-//let percentage = 0;
-//let counter = 0;
-//let increment = 0;
-//var rectangle;
 var rectangle_list = [];
-//var myVarSetTimeOut;
-//let json_array = [];
-//var map;
 
 const progress_bar =(p,running_timestamp)=> `
 <div class="row">
@@ -213,8 +204,6 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 							setTimeout(()=>window.location.reload(), 5000);
 					    }    
 					}, 1000);
-
-	
 }
 
 const startHistorical = async (mapElem,selectedParameters,map,pollutant) => {
@@ -272,7 +261,7 @@ const viewSpatialHistorical = () => {
 
 	map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: {lat: -12.038338,lng: -77.044061}, 
-		zoom: 14,
+		zoom: 12,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 

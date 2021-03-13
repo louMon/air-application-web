@@ -12,7 +12,7 @@ forecastingMobile,
 spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
-import { viewMap,viewSearchingPanelRealTime} from '../lib/HtmlComponents.js'
+import { viewMap,viewSearchingPanelRealTime,landbar} from '../lib/HtmlComponents.js'
 import { requestAllQhawaxByCompany} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 
@@ -31,7 +31,7 @@ const viewSpatialRealTime = () => {
 	const menuNavBar = document.querySelector('header');
 	
 	menuNavBar.innerHTML = navbar(dropdownLegend);
-	
+
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	

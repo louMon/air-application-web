@@ -144,8 +144,11 @@ const navbar = (structure) =>`
         <li class="client-spin" id="spinNav"></li>
     </ul>
     <a href="https://www.qairadrones.com" class="brand-logo center"id="brand-logo-menu-bar">
-    <img src="/img/logo-white.png" alt="logo qAIRa" id="logo-menu-qAIRa" style="max-width: 4.5em; max-height: 2em" />
+      <img src="/img/fondecyt.png" alt="logo fondecyt"id="logo-menu-fondecyt"style="max-width: 4.5em; max-height: 3em; position:relative; left:65px"/>
     </a>
+    <a href="https://www.qairadrones.com" class="brand-logo center"id="brand-logo-menu-bar">
+      <img src="/img/logopupc.png" alt="logo pucp"id="logo-menu-pucp"style="max-width: 4.5em; max-height: 3em; position:relative; right:65px"/>
+    </a> 
 
     <a class="brand-logo right" id="brand-logo-menu-bar-client"  ></a>
   
