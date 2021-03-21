@@ -192,7 +192,6 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					    progress_form.innerHTML=progress_bar(percentage,running_timestamp);
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
-					    console.log(running_timestamp)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
 					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant)
 					    }
@@ -209,7 +208,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 const startHistorical = async (mapElem,selectedParameters,map,pollutant) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Spatial'); //1 means Spatial Prediction
 	running_timestamp = new Date(running_timestamp);
-	running_timestamp = substractMinutes(running_timestamp, selectedParameters.hours*60 + 5*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
+	running_timestamp = substractMinutes(running_timestamp, (selectedParameters.hours-2)*60 + 5*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
 	json_array = await getSpatialMeasurement(selectedParameters);
 	progress_form = mapElem.querySelector('#form_progress_spatial');
 	array_length = json_array.length;
@@ -260,8 +259,8 @@ const viewSpatialHistorical = () => {
 	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
 
 	map = new google.maps.Map(mapElem.querySelector('#map'), {
-		center: {lat: -12.038338,lng: -77.044061}, 
-		zoom: 12,
+		center: new google.maps.LatLng(-12.060956, -77.078970),
+		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
@@ -273,7 +272,7 @@ const viewSpatialHistorical = () => {
 	const selectionHours = mapElem.querySelectorAll('input[name=hours]');
 
 	selectedParameters.pollutant = 'NO2';
-	selectedParameters.hours = '24';
+	selectedParameters.hours = '6';
 
 	selectionPollutant.forEach(radio =>{
 		radio.addEventListener('click',()=>{
@@ -285,13 +284,12 @@ const viewSpatialHistorical = () => {
 	selectionHours.forEach(radio =>{
 		radio.addEventListener('click',()=>{
 			selectedParameters.hours=radio.id;
-			console.log(selectedParameters.hours)
 		})
 		
 	})
 
 	playBtn.addEventListener('click',(e)=>{
-        console.log(selectedParameters);
+		console.log(selectedParameters,selectedParameters.pollutant)
         playBtn.disabled = true
         startHistorical(mapElem,selectedParameters,map,selectedParameters.pollutant);
     });
