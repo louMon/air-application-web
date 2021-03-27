@@ -12,7 +12,7 @@ forecastingMobile,
 spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
-import { viewMap,viewSearchingPanelRealTime,landbar} from '../lib/HtmlComponents.js'
+import { viewMap,viewSearchingPanelFuture,landbar} from '../lib/HtmlComponents.js'
 import { requestAllQhawaxByCompany} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 
@@ -37,7 +37,7 @@ const viewSpatialRealTime = () => {
 	
 	menulist.innerHTML = positionsMaintain + forecasting + spatialHistorical;
 	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile +spatialHistoricalMobile;
-	mapElem.innerHTML = viewSearchingPanelRealTime;
+	mapElem.innerHTML = viewSearchingPanelFuture;
 	//chooseSpinnerMenu(company);
 
 	const pointsBtn = document.querySelector('#positions-menu');

@@ -46,65 +46,36 @@ const viewSearchingPanelHistorical = `
 <div class="card-pannel z-depth-5">
     <form id="form_update_firmware">
       <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
+      <p class="left-align" style="padding-left:30px"><b>Contaminante (ug/m3)</b></p>
 
-        <div class="col s2">
-        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
+        <div class="col s4">
+        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2 (gas)</span></label>
         </div>
 
-        <div class="col s2">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
-        </div>
-        
-        <div class="col s2">
-        <label for="SO2"><input id="SO2" class="with-gap" name="pollutant" type="radio" value="SO2" /><span>SO2</span></label>
+        <div class="col s4">
+        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO (gas)</span></label>
         </div>
 
-
-        <div class="col s2">
-        <label for="O3"> <input id="O3" class="with-gap" name="pollutant" type="radio" value="O3" /><span>O3</span></label>
-        </div>
-
-        <div class="col s2">
-        <label for="H2S"><input id="H2S" class="with-gap" name="pollutant" type="radio" value="H2S" /><span>H2S</span></label>
-        </div>
-
-        <div class="col s2">
-        <input id="H2S" class="with-gap" name="pollutant" type="hidden" value="raw-data" />
-        </div>
-      
+        <div class="col s4">
+        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5 (polvo)</span></label>
+        </div>    
 
       </div>
 
-      <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
-
-      <div class="col s3">
-      <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
-      </div>
-      
-      <div class="col s3">
-      <label for="PM10"><input id="PM10" class="with-gap" name="pollutant" type="radio" value="PM10" /><span>PM10</span></label>
-      </div>
-
-      </div>
-      <div class="row">
-        <p class="left-align" style="padding-left:20px">La unidad del contaminante es ug/m3</p>
-      </div>
     </form>
     <form action="">
       <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona las últimas horas de búsqueda:</b></p>
+      <p class="left-align" style="padding-left:30px"><b>Selecciona las últimas horas de búsqueda:</b></p>
 
-      <div class="col s2">
+      <div class="col s3">
       <label for="6"> <input id="6" class="with-gap" name="hours" type="radio" value="6" checked /><span>6h </span></label>
       </div>
 
-      <div class="col s2">
+      <div class="col s3">
       <label for="12"><input id="12" class="with-gap" name="hours" type="radio" value="12" /><span>12h </span></label>
       </div>
       
-      <div class="col s2">
+      <div class="col s3">
       <label for="24"><input id="24" class="with-gap" name="hours" type="radio" value="24" /><span>24h </span></label>
       </div>
 
@@ -178,53 +149,22 @@ const viewSearchingPanelForecasting = `
     <h8 class="center-align">Próximas 24 horas</h8>
     <form action="">
       <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante:</b></p>
-      <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
+      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante (ug/m3)</b></p>
 
-        <div class="col s2">
+        <div class="col s4">
         <label for="no2-gas"> <input id="no2-gas" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>NO2</span></label>
         </div>
 
-        <div class="col s2">
+        <div class="col s4">
         <label for="co-gas"><input id="co-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>CO</span></label>
         </div>
-        
-        <div class="col s2">
-        <label for="so2-gas"><input id="so2-gas" class="with-gap" name="group1" type="radio" value="5min-average" /><span>SO2</span></label>
-        </div>
 
-
-        <div class="col s2">
-        <label for="o3-gas"> <input id="o3-gas" class="with-gap" name="group1" type="radio" value="hourly-average" /><span>O3</span></label>
-        </div>
-
-        <div class="col s2">
-        <label for="h2s-gas"><input id="h2s-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>H2S</span></label>
-        </div>
-
-        <div class="col s2">
-        <input id="h2s-gas" class="with-gap" name="group1" type="hidden" value="raw-data" />
+        <div class="col s4">
+        <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
         </div>
       
-
-      </div>
-
-      <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
-
-      <div class="col s4">
-      <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
-      </div>
-      
-      <div class="col s4">
-      <label for="pm10-dust"><input id="pm10-dust" class="with-gap" name="group1" type="radio" value="5min-average" /><span>PM10</span></label>
-      </div>
-
       </div>
     </form>
-    <div class="row">
-        <p class="left-align" style="padding-left:20px">La unidad del contaminante es ug/m3</p>
-      </div>
     <div class="row">
       <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">send</i></button></p></div>
       <div class="col s4"><p><button id="submit-btn" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">send</i></button></p></div>
@@ -244,64 +184,34 @@ const viewSearchingPanelForecasting = `
 `;
 
 
-const viewSearchingPanelRealTime = `   
+const viewSearchingPanelFuture = `   
 <div class="wrapper_map" id="wrapper_map">
 <div class="animate__animated animate__fadeInDown" id="map"></div>
 <div class="animate__animated animate__zoomIn z-depth-4 none" id="over_map_infowindow"></div>
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
-    <h6 class="center-align"><b>Prediccion Espacial</b></h6>
-    <h8 class="center-align">Última Hora</h8>
+    <h6 class="center-align"><b>Prediccion Espacial a Futuro</b></h6>
+    <h8 class="center-align"><b>Próximas 6h</b></h8>
     <form action="">
       <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante:</b></p>
-      <p class="left-align" style="padding-left:30px"><b>Contaminante tipo gas</b></p>
+      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante (ug/m3)</b></p>
 
-        <div class="col s2">
+        <div class="col s4">
         <label for="no2-gas"> <input id="no2-gas" class="with-gap" name="group1" type="radio" value="hourly-average" checked /><span>NO2</span></label>
         </div>
 
-        <div class="col s2">
+        <div class="col s4">
         <label for="co-gas"><input id="co-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>CO</span></label>
         </div>
-        
-        <div class="col s2">
-        <label for="so2-gas"><input id="so2-gas" class="with-gap" name="group1" type="radio" value="5min-average" /><span>SO2</span></label>
-        </div>
 
-
-        <div class="col s2">
-        <label for="o3-gas"> <input id="o3-gas" class="with-gap" name="group1" type="radio" value="hourly-average" /><span>O3</span></label>
-        </div>
-
-        <div class="col s2">
-        <label for="h2s-gas"><input id="h2s-gas" class="with-gap" name="group1" type="radio" value="raw-data" /><span>H2S</span></label>
-        </div>
-
-        <div class="col s2">
-        <input id="h2s-gas" class="with-gap" name="group1" type="hidden" value="raw-data" />
+        <div class="col s4">
+        <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
         </div>
       
-
       </div>
 
-      <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminate tipo polvo</b></p>
-
-      <div class="col s4">
-      <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="group1" type="radio" value="raw-data" /><span>PM2.5</span></label>
-      </div>
-      
-      <div class="col s4">
-      <label for="pm10-dust"><input id="pm10-dust" class="with-gap" name="group1" type="radio" value="5min-average" /><span>PM10</span></label>
-      </div>
-
-      </div>
     </form>
-    <div class="row">
-      <p class="left-align" style="padding-left:20px">La unidad del contaminante es ug/m3</p>
-    </div>
     <div class="row">
       <div class="col s12"><p><button id="submit-btn" class="btn waves-effect waves-light" >Mediciones de la ultima hora<i class="material-icons right">send</i></button></p></div>
     </div>
@@ -1992,7 +1902,7 @@ export { viewMap,
   configuration,
   viewSearchingPanelHistorical,
   viewSearchingPanelForecasting,
-  viewSearchingPanelRealTime,
+  viewSearchingPanelFuture,
   landbar,
   landpage,
   viewPointsManagement

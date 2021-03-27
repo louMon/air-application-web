@@ -1,6 +1,6 @@
 import { generatePositions } from '../views/generatePositions.js';
 import { viewForecasting} from '../views/forecastingView.js';
-import { viewSpatialRealTime} from '../views/spatialRealTimeView.js';
+import { viewSpatialRealTime} from '../views/spatialFutureView.js';
 import { viewSpatialHistorical} from '../views/spatialHistoricalView.js';
 import { landPage } from '../views/landPage.js';
 
