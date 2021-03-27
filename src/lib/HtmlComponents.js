@@ -1756,12 +1756,12 @@ const landpage = `
         </div>
         <div class="card_bottom">
           <div class="card_category">
-            Historical Spatial Prediction
+            Interpolación Histórica
           </div>
           <div class="card_info">
             <p class="title">Description</p>
             <p>
-            The last 12, 24 or 48 hours of our air quality spatial model.
+            The last 6, 12 or 24 hours of our air quality spatial model.
             </p>
           </div>
         </div>
@@ -1774,12 +1774,12 @@ const landpage = `
         </div>
         <div class="card_bottom">
           <div class="card_category">
-            Real time Spatial Prediction
+            Interpolación Futura
           </div>
           <div class="card_info">
             <p class="title">Description</p>
             <p>
-            We show air quality data of every hour in different positions
+            We show air quality data of next 6 hours.
             </p>
           </div>
         </div>
@@ -1792,12 +1792,12 @@ const landpage = `
         </div>
         <div class="card_bottom">
           <div class="card_category">
-            Temporal Prediction
+            Predicción Temporal
           </div>
           <div class="card_info">
             <p class="title">Description</p>
             <p>
-            We show air quality data about the next twelve hours
+            We show air quality data about the next 6 hours.
             </p>
           </div>
         </div>
