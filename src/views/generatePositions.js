@@ -33,12 +33,12 @@ import {
     deleteAllGrids
 }from '../requests/post.js';
 
-var positionlat_list = [-12.1030555555556,-12.0466667, -12.0411358, -12.04000000, -12.050278, -12.044182, -12.006479,];
-var positionlon_list = [-76.9891666666667,-77.0802777, -77.0435054, -77.01583333, -77.026111, -77.050756, -77.058347];
+var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
+var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
 var distance = 300
 let matrix_seleccionados = []
 var distance_y_between = 250
-var distance_x_between = 200
+var distance_x_between = 100
 var polyline = null;
 var polygon_points = null;
 var times =0;
@@ -163,7 +163,7 @@ const generatePositions = () => {
 	// hazta aqui todo el menu
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
-		center: new google.maps.LatLng(-12.0728433,-77.0817491),
+		center: new google.maps.LatLng(-12.0708433,-77.0817491),
 		zoom: 13,
     fullscreenControl: true,
     mapTypeControl: true,
@@ -201,9 +201,9 @@ const generatePositions = () => {
   var the_most_lower_lat = lookfor_lower_point(positionlat_list);
 
   var mean_lat = (the_most_upper_lat + the_most_lower_lat)/2;
-  var distance_y = 1000*(getDistanceFromLatLonInKm(mean_lat, the_most_left_lon-0.037303, mean_lat,the_most_right_lon+0.037303));
+  var distance_y = 1000*(getDistanceFromLatLonInKm(mean_lat, the_most_left_lon-0.038303, mean_lat,the_most_right_lon+0.038303));
   var points_y = Math.ceil(distance_y / distance_y_between);
-  var distance_x = 1000*(getDistanceFromLatLonInKm(the_most_lower_lat, the_most_left_lon-0.037303, the_most_upper_lat,the_most_left_lon-0.037303));
+  var distance_x = 1000*(getDistanceFromLatLonInKm(the_most_lower_lat, the_most_left_lon-0.038303, the_most_upper_lat,the_most_left_lon-0.038303));
   var points_x = Math.ceil(distance_x / distance_x_between);
 
 	createMarkers(map, positionlat_list,positionlon_list)

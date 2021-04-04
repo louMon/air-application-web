@@ -13,7 +13,7 @@ spatialRealTime,
 spatialRealTimeMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelHistorical} from '../lib/HtmlComponents.js'
-import { requestAllQhawaxByCompany,getSpatialMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
+import { getSpatialMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 
 let progress_form;
@@ -39,14 +39,6 @@ const progress_bar =(p,running_timestamp)=> `
   </div>
 </div>
 `
-const arrayStatic = [
-{"has_qhawax": [false,false,true,false],"hour_position": [0,0,0,0],"id": [937,1441,433,1945],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,1.0,3.0]},
-{"has_qhawax": [false,false,false,true],"hour_position": [1,1,1,1],"id": [1442,1946,938,434],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,79.0,23.0,133.0]},
-{"has_qhawax": [false,false,false,true],"hour_position": [2,2,2,2],"id": [1947,1443,939,435],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [89.0,1.0,1.0,10.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [3,3,3,3],"id": [1948,436,1444, 940],"lat":[-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [10.0,25.0,60.0,49.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [50.0,20.0,150.0,356.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [5,5,5,5],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,455.0,20.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [6,6,6,6],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [6.0,100.0,3.0,455.0]}]
 
 const addMinutes =  function (dt, minutos) {
     return new Date(dt.getTime() + minutos*60000);
@@ -82,18 +74,6 @@ function selectColor(value,polutant){
 		}
 	}
 
-	if(polutant=='O3'){
-		if(value>=0 & value<=60){
-			return '#57cc59'
-		}else if(value>60 & value<=120){
-			return '#edeb74'
-		}else if(value>120 & value<=210){
-			return '#d8251c'
-		}else if(value>210){
-			return '#9b0f0f'
-		}
-	}
-
 	if(polutant=='PM25'){
 		if(value>=0 & value<=12.5){
 			return '#57cc59'
@@ -106,18 +86,6 @@ function selectColor(value,polutant){
 		}
 	}
 
-	if(polutant=='H2S'){
-		if(value>=0 & value<=75){
-			return '#57cc59'
-		}else if(value>75 & value<=150){
-			return '#edeb74'
-		}else if(value>150 & value<=1500){
-			return '#d8251c'
-		}else if(value>1500){
-			return '#9b0f0f'
-		}
-	}
-
 	if(polutant=='CO'){
 		if(value>=0 & value<=5049){
 			return '#57cc59'
@@ -126,30 +94,6 @@ function selectColor(value,polutant){
 		}else if(value>10049 & value<=15049){
 			return '#d8251c'
 		}else if(value>15049){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='SO2'){
-		if(value>=0 & value<=10){
-			return '#57cc59'
-		}else if(value>10 & value<=20){
-			return '#edeb74'
-		}else if(value>20 & value<=500){
-			return '#d8251c'
-		}else if(value>500){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='PM10'){
-		if(value>=0 & value<=75){
-			return '#57cc59'
-		}else if(value>75 & value<=150){
-			return '#edeb74'
-		}else if(value>150 & value<=250){
-			return '#d8251c'
-		}else if(value>250){
 			return '#9b0f0f'
 		}
 	}
@@ -206,7 +150,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 }
 
 const startHistorical = async (mapElem,selectedParameters,map,pollutant) => {
-	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Spatial'); //1 means Spatial Prediction
+	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Historical_Spatial');
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, (selectedParameters.hours-2)*60 + 5*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
 	json_array = await getSpatialMeasurement(selectedParameters);

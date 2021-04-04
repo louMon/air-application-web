@@ -19,8 +19,8 @@ function createMarkers(map, positionlat_list,positionlon_list){
     var marker = new google.maps.Marker({
       position: myLatLng,
       map: map,
-      title: 'Qhawax '+ i,
-      icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/library_maps.png'
+      title: 'qHAWAX'+ i,
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
     });
   }
 }

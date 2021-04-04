@@ -44,6 +44,12 @@ const getLastRunnintTimestamp_ByPredictionModel = async(p) =>{
     return await response.json();
 }
 
+const getForecastingMeasurement = async(p) =>{
+    const url = `${sourceAPI}get_historical_of_temporal/?pollutant=${p.pollutant}&last_hours=6&pollutant_unit=ugm3`;
+    const response = await fetch(url);
+    return await response.json();
+}
+
 export { requestQhawaxByMode,
     requestInstallationRecord,
     requestAllQhawax,
@@ -51,5 +57,6 @@ export { requestQhawaxByMode,
     getSpatialMeasurement,
     requestAllModulesAvailable,
     getGrids,
-    getLastRunnintTimestamp_ByPredictionModel
+    getLastRunnintTimestamp_ByPredictionModel,
+    getForecastingMeasurement
 }
