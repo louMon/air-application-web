@@ -1,6 +1,6 @@
 import { changeView } from './lib/viewController.js';
 
-const sourceAPI = 'http://0.0.0.0:5000/api/';
+const sourceAPI = 'https://pucp-calidad-aire-api.qairadrones.com/api/';
 const sourceSocket = 'https://pucp-calidad-aire-api.qairadrones.com/';
 const qairamapAPI = 'https://qairamapnapi.qairadrones.com/api/';
 
