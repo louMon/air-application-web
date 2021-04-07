@@ -157,7 +157,7 @@ const startHistorical = async (mapElem,selectedParameters,map) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Future_Spatial');
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, 4*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
-	json_array = await getSpatialMeasurement(selectedParameters);
+	json_array = await getFutureSpatialMeasurement(selectedParameters);
 	progress_form = mapElem.querySelector('#form_progress_future_spatial');
 	array_length = 6;
 	percentage = 0;

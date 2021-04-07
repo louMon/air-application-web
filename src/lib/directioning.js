@@ -176,7 +176,7 @@ const goToSpatialRealTime = () => {
 };
 
 const goToSpatialHistorical = () => {
-	window.location.assign('..#/historical_interpolation');
+	window.location.assign('..#/spatial_historical');
 	window.location.reload();
 };
 

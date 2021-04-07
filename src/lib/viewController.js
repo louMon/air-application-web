@@ -14,7 +14,7 @@ const changeView = router => {
 			return container.appendChild(viewForecasting());
 		case '#/future_interpolation':
 			return container.appendChild(viewFutureInterpolation());
-		case '#/historical_interpolation':
+		case '#/spatial_historical':
 			return container.appendChild(viewSpatialHistorical());
 		case '#/positions':
 			return container.appendChild(generatePositions());
