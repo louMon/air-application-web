@@ -1,6 +1,6 @@
 import { generatePositions } from '../views/generatePositions.js';
 import { viewForecasting} from '../views/forecastingView.js';
-import { viewSpatialRealTime} from '../views/spatialFutureView.js';
+import { viewFutureInterpolation} from '../views/spatialFutureView.js';
 import { viewSpatialHistorical} from '../views/spatialHistoricalView.js';
 import { landPage } from '../views/landPage.js';
 
@@ -12,9 +12,9 @@ const changeView = router => {
 			return container.appendChild(landPage());
 		case '#/forecasting':
 			return container.appendChild(viewForecasting());
-		case '#/spatial_real_time':
-			return container.appendChild(viewSpatialRealTime());
-		case '#/spatial_historical':
+		case '#/future_interpolation':
+			return container.appendChild(viewFutureInterpolation());
+		case '#/historical_interpolation':
 			return container.appendChild(viewSpatialHistorical());
 		case '#/positions':
 			return container.appendChild(generatePositions());

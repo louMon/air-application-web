@@ -50,6 +50,12 @@ const getForecastingMeasurement = async(p) =>{
     return await response.json();
 }
 
+const getFutureSpatialMeasurement = async(p) =>{
+    const url = `${sourceAPI}get_future_records_of_spatial/?pollutant=${p.pollutant}&last_hours=6&pollutant_unit=ugm3`;
+    const response = await fetch(url);
+    return await response.json();
+}
+
 export { requestQhawaxByMode,
     requestInstallationRecord,
     requestAllQhawax,
@@ -58,5 +64,6 @@ export { requestQhawaxByMode,
     requestAllModulesAvailable,
     getGrids,
     getLastRunnintTimestamp_ByPredictionModel,
-    getForecastingMeasurement
+    getForecastingMeasurement,
+    getFutureSpatialMeasurement
 }

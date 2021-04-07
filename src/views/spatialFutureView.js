@@ -13,21 +13,25 @@ spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
 import { viewMap,viewSearchingPanelFuture,landbar} from '../lib/HtmlComponents.js'
-import { requestAllQhawaxByCompany} from '../requests/get.js';
+import { getFutureSpatialMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 import { createMarkers} from '../lib/mapUtils.js';
 
+let progress_form;
+let array_length ;
+let percentage;
+let counter;
+let increment;
+let rectangle;
+let myVarSetTimeOut;
+let json_array;
+let map;
+let running_timestamp;
+let selectedParameters = {};
+var rectangle_list = [];
+
 var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
-
-const arrayStatic = [
-{"has_qhawax": [false,false,true,false],"hour_position": [0,0,0,0],"id": [937,1441,433,1945],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,1.0,3.0]},
-{"has_qhawax": [false,false,false,true],"hour_position": [1,1,1,1],"id": [1442,1946,938,434],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [1.0,79.0,23.0,133.0]},
-{"has_qhawax": [false,false,false,true],"hour_position": [2,2,2,2],"id": [1947,1443,939,435],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [89.0,1.0,1.0,10.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [3,3,3,3],"id": [1948,436,1444, 940],"lat":[-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [10.0,25.0,60.0,49.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [4,4,4,4],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [50.0,20.0,150.0,356.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [5,5,5,5],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [100.0,2.0,455.0,20.0]},
-{"has_qhawax": [false,true,false,false],"hour_position": [6,6,6,6],"id": [1445,437,941,1949],"lat": [-12.048839,-12.046069,-12.053161,-12.054798],"lon":[-77.024212,-77.018590,-77.017345,-77.027731],"ppb_value": [6.0,100.0,3.0,455.0]}]
 
 const progress_bar =(p,running_timestamp)=> `
 <div class="row">
@@ -149,7 +153,28 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					}, 1000);
 }
 
-const viewSpatialRealTime = () => {
+const startHistorical = async (mapElem,selectedParameters,map) => {
+	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Future_Spatial');
+	running_timestamp = new Date(running_timestamp);
+	running_timestamp = substractMinutes(running_timestamp, 4*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
+	json_array = await getSpatialMeasurement(selectedParameters);
+	progress_form = mapElem.querySelector('#form_progress_future_spatial');
+	array_length = 6;
+	percentage = 0;
+	counter = 0;
+	increment = Math.round(100/parseFloat(array_length));
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
+};
+
+const pauseHistorical = async () => { //falta detenerlo
+	clearTimeout(myVarSetTimeOut);
+};
+
+const restartHistorical = async (pollutant) => { //falta restaurarlo
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
+};
+
+const viewFutureInterpolation = () => {
 	const mapElem = document.createElement('div');
 	const menuNavBar = document.querySelector('header');
 	
@@ -198,8 +223,37 @@ const viewSpatialRealTime = () => {
 
 	createMarkers(map, positionlat_list,positionlon_list)
 
+	const playBtn =mapElem.querySelector('#play');
+	const pauseBtn =mapElem.querySelector('#pause');
+	const restartBtn =mapElem.querySelector('#restart');
+
+	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
+	selectedParameters.pollutant = 'NO2';
+
+	selectionPollutant.forEach(radio =>{
+		radio.addEventListener('click',()=>{
+			selectedParameters.pollutant=radio.id;
+		})
+		
+	})
+
+	playBtn.addEventListener('click',(e)=>{
+		console.log(selectedParameters,selectedParameters.pollutant)
+        playBtn.disabled = true
+        startHistorical(mapElem,selectedParameters,map);
+    });
+
+    pauseBtn.addEventListener('click',(e)=>{
+        pauseHistorical();
+    });
+
+    restartBtn.addEventListener('click',(e)=>{
+        restartHistorical(selectedParameters.pollutant);
+    });
+
 	return mapElem;
 
 };
 
-export { viewSpatialRealTime };
+export { viewFutureInterpolation };
+

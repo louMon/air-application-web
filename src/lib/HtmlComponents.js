@@ -1765,7 +1765,7 @@ const landpage = `
 <div id="background"></div>
 <div class="wrapper">
   <div class="cards_wrap">
-    <div class="card_item hoverable z-depth-4" id="historical">
+    <div class="card_item hoverable z-depth-4" id="historical_interpolation">
       <div class="card_inner">
         <div class="card_top">
           <img src="img/historical-min.png" alt="historical" style="width:auto ; height:180px;" />
@@ -1783,7 +1783,7 @@ const landpage = `
         </div>
       </div>
     </div>
-    <div class="card_item hoverable z-depth-4" id="real_time">
+    <div class="card_item hoverable z-depth-4" id="future_interpolation">
       <div class="card_inner">
         <div class="card_top">
           <img src="img/real-time-min.png" alt="real_time" style="width:auto ; height:180px;" />

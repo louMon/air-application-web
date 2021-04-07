@@ -171,12 +171,12 @@ const goToForecasting = () => {
 };
 
 const goToSpatialRealTime = () => {
-	window.location.assign('..#/spatial_real_time');
+	window.location.assign('..#/future_interpolation');
 	window.location.reload();
 };
 
 const goToSpatialHistorical = () => {
-	window.location.assign('..#/spatial_historical');
+	window.location.assign('..#/historical_interpolation');
 	window.location.reload();
 };
 

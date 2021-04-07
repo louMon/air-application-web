@@ -7,8 +7,8 @@ const landPage = () => {
 
   menuNavBar.innerHTML = landbar;
   landElem.innerHTML = landpage;
-  landElem.querySelector('#historical').addEventListener('click', () => goTo('spatial_historical'));
-  landElem.querySelector('#real_time').addEventListener('click', () => goTo('spatial_real_time'));
+  landElem.querySelector('#historical_interpolation').addEventListener('click', () => goTo('historical_interpolation'));
+  landElem.querySelector('#future_interpolation').addEventListener('click', () => goTo('future_interpolation'));
   landElem.querySelector('#forecasting').addEventListener('click', () => goTo('forecasting'));
   return landElem;
 };
