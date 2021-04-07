@@ -158,7 +158,7 @@ const startForecastingSimulation = async (mapElem,selectedParameters,map) => {
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, 4*60) // las 5 horas de UTC +1 hora siguiente del inicio del forecasting
 	json_array = await getForecastingMeasurement(selectedParameters);
-	array_length = 6;//json_array.length;
+	array_length = json_array.length;
 	progress_form = mapElem.querySelector('#form_progress_forecasting');
 	percentage = 0;
 	counter = 0;

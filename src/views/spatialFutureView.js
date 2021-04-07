@@ -159,7 +159,7 @@ const startHistorical = async (mapElem,selectedParameters,map) => {
 	running_timestamp = substractMinutes(running_timestamp, 4*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
 	json_array = await getFutureSpatialMeasurement(selectedParameters);
 	progress_form = mapElem.querySelector('#form_progress_future_spatial');
-	array_length = 6;
+	array_length = json_array.length;
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
