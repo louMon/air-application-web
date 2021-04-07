@@ -15,6 +15,7 @@ spatialRealTimeMobile
 import { viewSearchingPanelHistorical} from '../lib/HtmlComponents.js'
 import { getSpatialMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
+import { createMarkers} from '../lib/mapUtils.js';
 
 let progress_form;
 let array_length ;
@@ -28,6 +29,10 @@ let map;
 let running_timestamp;
 let selectedParameters = {};
 var rectangle_list = [];
+
+var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
+var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
+
 
 const progress_bar =(p,running_timestamp)=> `
 <div class="row">
@@ -207,6 +212,8 @@ const viewSpatialHistorical = () => {
 		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
+
+	createMarkers(map, positionlat_list,positionlon_list)
 
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
