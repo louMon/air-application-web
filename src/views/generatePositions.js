@@ -201,9 +201,9 @@ const generatePositions = () => {
   var the_most_lower_lat = lookfor_lower_point(positionlat_list);
 
   var mean_lat = (the_most_upper_lat + the_most_lower_lat)/2;
-  var distance_y = 1000*(getDistanceFromLatLonInKm(mean_lat, the_most_left_lon-0.038303, mean_lat,the_most_right_lon+0.038303));
+  var distance_y = 4000*(getDistanceFromLatLonInKm(mean_lat, the_most_left_lon-0.038303, mean_lat,the_most_right_lon+0.038303));
   var points_y = Math.ceil(distance_y / distance_y_between);
-  var distance_x = 1000*(getDistanceFromLatLonInKm(the_most_lower_lat, the_most_left_lon-0.038303, the_most_upper_lat,the_most_left_lon-0.038303));
+  var distance_x = 4000*(getDistanceFromLatLonInKm(the_most_lower_lat, the_most_left_lon-0.038303, the_most_upper_lat,the_most_left_lon-0.038303));
   var points_x = Math.ceil(distance_x / distance_x_between);
 
 	createMarkers(map, positionlat_list,positionlon_list)

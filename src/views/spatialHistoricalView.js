@@ -119,12 +119,13 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
       	var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
-	        strokeOpacity: 0.0,
+	        strokeOpacity: 0.2,
 	        strokeWeight: 2,
 	        fillColor: color_generated, //falta una funcion para los colores
-	        fillOpacity: 0.45,
+	        fillOpacity: 0.75,
 	        map: map,
 	        bounds: bounds
+	        //animation: google.maps.Animation.DROP,
 	    });
 	    rectangle_list.push(rectangle);
 	}
