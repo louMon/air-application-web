@@ -55,11 +55,11 @@ const substractMinutes =  function (dt, minutos) {
 function selectColor(value,polutant){
 	if(polutant=='NO2'){
 		if(value>=0 & value<=100){
-			return '#57cc59'
+			return '#98c600'
 		}else if(value>100 & value<=200){
 			return '#edeb74'
 		}else if(value>200 & value<=300){
-			return '#d8251c'
+			return '#d47602'
 		}else if(value>300){
 			return '#9b0f0f'
 		}
@@ -67,11 +67,11 @@ function selectColor(value,polutant){
 
 	if(polutant=='PM25'){
 		if(value>=0 & value<=12.5){
-			return '#57cc59'
+			return '#98c600'
 		}else if(value>12.5 & value<=25){
 			return '#edeb74'
 		}else if(value>25 & value<=125){
-			return '#d8251c'
+			return '#d47602'
 		}else if(value>125){
 			return '#9b0f0f'
 		}
@@ -79,11 +79,11 @@ function selectColor(value,polutant){
 
 	if(polutant=='CO'){
 		if(value>=0 & value<=5049){
-			return '#57cc59'
+			return '#98c600'
 		}else if(value>5049 & value<=10049){
 			return '#edeb74'
 		}else if(value>10049 & value<=15049){
-			return '#d8251c'
+			return '#d47602'
 		}else if(value>15049){
 			return '#9b0f0f'
 		}
@@ -118,10 +118,10 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
       	var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
-	        strokeOpacity: 0.0,
+	        strokeOpacity: 0.2,
 	        strokeWeight: 2,
 	        fillColor: color_generated, //falta una funcion para los colores
-	        fillOpacity: 0.45,
+	        fillOpacity: 0.75,
 	        map: map,
 	        bounds: bounds
 	    });
@@ -209,7 +209,7 @@ const viewForecasting= () => {
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: {lat: -12.058999,lng: -77.071526}, 
-		zoom: 14,
+		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
