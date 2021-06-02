@@ -205,15 +205,15 @@ const viewSearchingPanelFuture = `
       <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante (ug/m3)</b></p>
 
         <div class="col s4">
-        <label for="no2-gas"> <input id="no2-gas" class="with-gap" name="pollutant" type="radio" value="hourly-average" checked /><span>NO2</span></label>
+        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
         </div>
 
         <div class="col s4">
-        <label for="co-gas"><input id="co-gas" class="with-gap" name="pollutant" type="radio" value="raw-data" /><span>CO</span></label>
+        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO (gas)</span></label>
         </div>
 
         <div class="col s4">
-        <label for="pm25-dust"><input id="pm25-dust" class="with-gap" name="pollutant" type="radio" value="raw-data" /><span>PM2.5</span></label>
+        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
         </div>
       
       </div>
