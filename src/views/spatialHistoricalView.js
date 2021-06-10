@@ -150,12 +150,12 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 						   		html: `Se mostraron todas las horas de dicho contaminante`,
 						    	displayLength: 3000,
 							});
-							setTimeout(()=>window.location.reload(), 5000);
+							//setTimeout(()=>window.location.reload(), 5000);
 					    }    
-					}, 1000);
+					}, 2000);
 }
 
-const startHistorical = async (mapElem,selectedParameters,map,pollutant) => {
+const startHistorical = async (mapElem,selectedParameters,map,pollutant,playBtn) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Historical_Spatial');
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, (selectedParameters.hours-2)*60 + 5*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
@@ -166,6 +166,7 @@ const startHistorical = async (mapElem,selectedParameters,map,pollutant) => {
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
 	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant);
+	playBtn.disabled = false;
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -221,10 +222,10 @@ const viewSpatialHistorical = () => {
 	const restartBtn =mapElem.querySelector('#restart');
 
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
-	const selectionHours = mapElem.querySelectorAll('input[name=hours]');
+	//const selectionHours = mapElem.querySelectorAll('input[name=hours]');
 
 	selectedParameters.pollutant = 'NO2';
-	selectedParameters.hours = '6';
+	selectedParameters.hours = '24';
 
 	selectionPollutant.forEach(radio =>{
 		radio.addEventListener('click',()=>{
@@ -233,17 +234,17 @@ const viewSpatialHistorical = () => {
 		
 	})
 
-	selectionHours.forEach(radio =>{
-		radio.addEventListener('click',()=>{
-			selectedParameters.hours=radio.id;
-		})
-		
-	})
+	//selectionHours.forEach(radio =>{
+	//	radio.addEventListener('click',()=>{
+	//		selectedParameters.hours=radio.id;
+	//	})
+	//	
+	//})
 
 	playBtn.addEventListener('click',(e)=>{
 		console.log(selectedParameters,selectedParameters.pollutant)
         playBtn.disabled = true
-        startHistorical(mapElem,selectedParameters,map,selectedParameters.pollutant);
+        startHistorical(mapElem,selectedParameters,map,selectedParameters.pollutant,playBtn);
     });
 
     pauseBtn.addEventListener('click',(e)=>{

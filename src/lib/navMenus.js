@@ -416,27 +416,27 @@ const loginMobile = `
 `;
 
 const positionsMaintain = `
-<li id="positions-menu"><a>Nuevos Puntos</a></li>
+<li id="positions-menu"><a>Puntos</a></li>
 `;
 
 const positionsMaintainMobile = `
-<li id="positions-menu-mobile"><a>Nuevos Puntos</a></li>
+<li id="positions-menu-mobile"><a>Puntos</a></li>
 `;
 
 const forecasting = `
-<li id="forecasting-menu"><a>Predicción Temporal</a></li>
+<li id="forecasting-menu"><a>Pronóstico de Mapas</a></li>
 `;
 
 const forecastingMobile = `
-<li id="forecasting-menu-mobile"><a>Predicción Temporal</a></li>
+<li id="forecasting-menu-mobile"><a>Pronóstico de Mapas</a></li>
 `;
 
 const spatialRealTime = `
-<li id="spatial-real-time-menu"><a>Interpolación a Futuro</a></li>
+<li id="spatial-real-time-menu"><a>Interpolación Futura</a></li>
 `;
 
 const spatialRealTimeMobile = `
-<li id="spatial-real-time-menu-mobile"><a>Interpolación a Futuro</a></li>
+<li id="spatial-real-time-menu-mobile"><a>Interpolación Futura</a></li>
 `;
 
 const spatialHistorical = `

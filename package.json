@@ -4,11 +4,9 @@
 	"description": "Real-time website for monitoring air quality",
 	"main": "index.js",
 	"scripts": {
-		"test": "jest --coverage",
 		"serve": "webpack-dev-server -p",
 		"webpack": "webpack -d --watch",
 		"start": "npm run webpack",
-		"doc": "jsdoc -c jsdoc.json",
 		"dev": "node config.js"
 	},
 	"jest": {
@@ -27,7 +25,6 @@
 	},
 	"homepage": "https://github.com/louMon/air-application-web#readme",
 	"dependencies": {
-		"babel-jest": "^25.3.0",
 		"webpack": "^4.41.6",
 		"webpack-cli": "^3.3.11",
 		"webpack-dev-server": "^3.11.0"
@@ -35,8 +32,6 @@
 	"devDependencies": {
 		"@babel/core": "^7.9.0",
 		"@babel/plugin-transform-modules-commonjs": "^7.9.0",
-		"babel-core": "^6.26.3",
-		"jest": "^25.3.0",
-		"jsdoc": "^3.6.4"
+		"babel-core": "^6.26.3"
 	}
 }

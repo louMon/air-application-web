@@ -148,12 +148,12 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 						   		html: `Se mostraron todas las horas de dicho contaminante`,
 						    	displayLength: 3000,
 							});
-							setTimeout(()=>window.location.reload(), 5000);
+							//setTimeout(()=>window.location.reload(), 5000);
 					    }    
-					}, 1000);
+					}, 2000);
 }
 
-const startForecastingSimulation = async (mapElem,selectedParameters,map) => {
+const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Forecasting'); //2 means Temporal Prediction
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, 4*60) // las 5 horas de UTC +1 hora siguiente del inicio del forecasting
@@ -164,6 +164,15 @@ const startForecastingSimulation = async (mapElem,selectedParameters,map) => {
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
 	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
+	playBtn.disabled = false;
+};
+
+const pauseHistorical = async () => { //falta detenerlo
+	clearTimeout(myVarSetTimeOut);
+};
+
+const restartHistorical = async (pollutant) => { //falta restaurarlo
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
 };
 
 const viewForecasting= () => {
@@ -231,7 +240,7 @@ const viewForecasting= () => {
 	playBtn.addEventListener('click',(e)=>{
 		console.log(selectedParameters)
         playBtn.disabled = true
-        startForecastingSimulation(mapElem,selectedParameters,map);
+        startForecastingSimulation(mapElem,selectedParameters,map,playBtn);
     });
 
     pauseBtn.addEventListener('click',(e)=>{

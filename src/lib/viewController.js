@@ -9,7 +9,8 @@ const changeView = router => {
   	container.innerHTML = '';
 	switch (router) {
 		case '':
-			return container.appendChild(landPage());
+			return container.appendChild(viewSpatialHistorical());
+			//return container.appendChild(landPage());
 		case '#/forecasting':
 			return container.appendChild(viewForecasting());
 		case '#/future_interpolation':

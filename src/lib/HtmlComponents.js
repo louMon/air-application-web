@@ -63,24 +63,6 @@ const viewSearchingPanelHistorical = `
       </div>
 
     </form>
-    <form action="">
-      <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Selecciona las últimas horas de búsqueda:</b></p>
-
-      <div class="col s3">
-      <label for="6"> <input id="6" class="with-gap" name="hours" type="radio" value="6" checked /><span>6h </span></label>
-      </div>
-
-      <div class="col s3">
-      <label for="12"><input id="12" class="with-gap" name="hours" type="radio" value="12" /><span>12h </span></label>
-      </div>
-      
-      <div class="col s3">
-      <label for="24"><input id="24" class="with-gap" name="hours" type="radio" value="24" /><span>24h </span></label>
-      </div>
-
-      </div>
-    </form>
     <div class="row">
       <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
       <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>

@@ -148,12 +148,12 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 						   		html: `Se mostraron todas las horas de dicho contaminante`,
 						    	displayLength: 3000,
 							});
-							setTimeout(()=>window.location.reload(), 5000);
+							//setTimeout(()=>window.location.reload(), 5000);
 					    }    
-					}, 1000);
+					}, 2000);
 }
 
-const startHistorical = async (mapElem,selectedParameters,map) => {
+const startHistorical = async (mapElem,selectedParameters,map,playBtn) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Future_Spatial');
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, 4*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
@@ -164,6 +164,7 @@ const startHistorical = async (mapElem,selectedParameters,map) => {
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
 	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
+	playBtn.disabled = false;
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -240,7 +241,7 @@ const viewFutureInterpolation = () => {
 	playBtn.addEventListener('click',(e)=>{
 		console.log(selectedParameters,selectedParameters.pollutant)
         playBtn.disabled = true
-        startHistorical(mapElem,selectedParameters,map);
+        startHistorical(mapElem,selectedParameters,map,playBtn);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
