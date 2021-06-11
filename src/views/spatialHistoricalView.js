@@ -34,13 +34,16 @@ var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.04666
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
 
 
-const progress_bar =(p,running_timestamp)=> `
+const progress_bar =(p,running_timestamp,counter)=> `
 <div class="row">
 	<p><center>${running_timestamp}</center></p>
 </div>
-<div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
-  <div class="progress" style="height:40px;">
-        <div class="determinate" id="spatial_progress_bar" style="height:40px; width: ${p}% ">${p}%</div>
+<div class="container" style="margin-bottom:1em; border-radius:5px; position:relative;">
+  <div style="height:20px;">
+        <div class="determinate" id="spatial_progress_bar_2" style="height:20px; width: 100% ">Ultimas ${24 - counter} horas </div>
+  </div>
+  <div class="progress" style="height:20px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width: ${p+5}% "></div>
   </div>
 </div>
 `
@@ -139,7 +142,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					    }
 				    	let positions_length = arrayExample[counter]['has_qhawax'].length;
 					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
-					    progress_form.innerHTML=progress_bar(percentage,running_timestamp);
+					    progress_form.innerHTML=progress_bar(percentage,running_timestamp,counter);
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
