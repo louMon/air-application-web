@@ -33,13 +33,23 @@ var rectangle_list = [];
 var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
 
-const progress_bar =(p,running_timestamp)=> `
-<div class="row">
-	<p><center>${running_timestamp}</center></p>
-</div>
-<div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
-  <div class="progress" style="height:40px;">
-        <div class="determinate" id="spatial_progress_bar" style="height:40px; width: ${p}% ">${p}%</div>
+const getStringBaseOnHour = function(counter){
+	if(counter == 0){
+		return 'Siguiente hora' 
+	}
+	return 'Siguientes '+ (counter+1) +' horas'
+}
+
+const progress_bar =(p,running_timestamp,counter)=> `
+<div class="container" style="margin-bottom:1em; border-radius:5px; position:relative;">
+  <div style="height:40px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:40px; width:100% ">${running_timestamp}</div>
+  </div>
+  <div style="height:20px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width:100% ">${getStringBaseOnHour(counter)}</div>
+  </div>
+  <div class="progress" style="height:20px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width: ${p}% "></div>
   </div>
 </div>
 `
@@ -137,7 +147,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					    }
 				    	let positions_length = arrayExample[counter]['has_qhawax'].length;
 					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
-					    progress_form.innerHTML=progress_bar(percentage,running_timestamp);
+					    progress_form.innerHTML=progress_bar(percentage,running_timestamp,counter);
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
@@ -156,7 +166,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 const startHistorical = async (mapElem,selectedParameters,map,playBtn) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Future_Spatial');
 	running_timestamp = new Date(running_timestamp);
-	running_timestamp = substractMinutes(running_timestamp, 4*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
+	running_timestamp = substractMinutes(running_timestamp, (6-1)*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
 	json_array = await getFutureSpatialMeasurement(selectedParameters);
 	progress_form = mapElem.querySelector('#form_progress_future_spatial');
 	array_length = json_array.length;
@@ -171,9 +181,9 @@ const pauseHistorical = async () => { //falta detenerlo
 	clearTimeout(myVarSetTimeOut);
 };
 
-const restartHistorical = async (pollutant) => { //falta restaurarlo
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
-};
+//const restartHistorical = async (pollutant) => { //falta restaurarlo
+//	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
+//};
 
 const viewFutureInterpolation = () => {
 	const mapElem = document.createElement('div');
@@ -226,7 +236,7 @@ const viewFutureInterpolation = () => {
 
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
-	const restartBtn =mapElem.querySelector('#restart');
+	//const restartBtn =mapElem.querySelector('#restart');
 
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
 	selectedParameters.pollutant = 'NO2';
@@ -248,9 +258,9 @@ const viewFutureInterpolation = () => {
         pauseHistorical();
     });
 
-    restartBtn.addEventListener('click',(e)=>{
-        restartHistorical(selectedParameters.pollutant);
-    });
+    //restartBtn.addEventListener('click',(e)=>{
+    //    restartHistorical(selectedParameters.pollutant);
+    //});
 
 	return mapElem;
 

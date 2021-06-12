@@ -44,37 +44,38 @@ const viewSearchingPanelHistorical = `
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
+    <h6 class="center-align"><b>Interpolacion Espacial Histórica</b></h6>
+    <h8 class="center-align">Últimas 24 horas</h8>
     <form id="form_panel_historical">
       <div class="row">
       <p class="left-align" style="padding-left:30px"><b>Contaminante (ug/m3)</b></p>
 
         <div class="col s4">
-        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2 (gas)</span></label>
+        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
         </div>
 
         <div class="col s4">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO (gas)</span></label>
+        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
         </div>
 
         <div class="col s4">
-        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5 (polvo)</span></label>
+        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
         </div>    
 
       </div>
 
     </form>
-    <div class="row">
-      <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
-      <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>
-      <div class="col s4"><p><button id="restart" class="btn waves-effect waves-light" >Restaurar<i class="material-icons right">restart_alt</i></button></p></div>
-    </div>
     <form id="form_progress_spatial">
       <div class="row">
-        <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:7px">
-          <div class="progress-bar" style="height:20px; background-color:rgb(125,44,255); position:absolute; animation: progress-animation 5s forwards"></div>
+        <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:2px">
+          <div class="determinate style="height:20px; background-color:rgb(125,44,255); position:absolute; animation: progress-animation 5s forwards"></div>
         </div>
       </div>
     </form>
+    <div class="row">
+      <div class="col s6"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
+      <div class="col s6"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>
+    </div>
 </div>
 
 
@@ -134,24 +135,19 @@ const viewSearchingPanelForecasting = `
       <p class="left-align" style="padding-left:30px"><b>Contaminante (ug/m3)</b></p>
 
         <div class="col s4">
-        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2 (gas)</span></label>
+        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
         </div>
 
         <div class="col s4">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO (gas)</span></label>
+        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
         </div>
 
         <div class="col s4">
-        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5 (polvo)</span></label>
+        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
         </div>    
 
       </div>
     </form>
-    <div class="row">
-      <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
-      <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>
-      <div class="col s4"><p><button id="restart" class="btn waves-effect waves-light" >Restaurar<i class="material-icons right">restart_alt</i></button></p></div>
-    </div>
     <form id="form_progress_forecasting">
       <div class="row">
         <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:7px">
@@ -159,6 +155,10 @@ const viewSearchingPanelForecasting = `
         </div>
       </div>
     </form>
+    <div class="row">
+      <div class="col s6"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
+      <div class="col s6"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>
+    </div>
 </div>
 
 
@@ -184,14 +184,14 @@ const viewSearchingPanelFuture = `
     <h8 class="center-align">Próximas 6 horas</h8>
     <form action="">
       <div class="row">
-      <p class="left-align" style="padding-left:20px"><b>Selecciona el contaminante (ug/m3)</b></p>
+      <p class="left-align" style="padding-left:20px"><b>Contaminante (ug/m3)</b></p>
 
         <div class="col s4">
         <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
         </div>
 
         <div class="col s4">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO (gas)</span></label>
+        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
         </div>
 
         <div class="col s4">
@@ -201,11 +201,6 @@ const viewSearchingPanelFuture = `
       </div>
 
     </form>
-    <div class="row">
-      <div class="col s4"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
-      <div class="col s4"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>
-      <div class="col s4"><p><button id="restart" class="btn waves-effect waves-light" >Restaurar<i class="material-icons right">restart_alt</i></button></p></div>
-    </div>
     <form id="form_progress_future_spatial">
       <div class="row">
         <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:7px">
@@ -213,6 +208,10 @@ const viewSearchingPanelFuture = `
         </div>
       </div>
     </form>
+    <div class="row">
+      <div class="col s6"><p><button id="play" class="btn waves-effect waves-light" >Iniciar<i class="material-icons right">play_arrow</i></button></p></div>
+      <div class="col s6"><p><button id="pause" class="btn waves-effect waves-light" >Pausar<i class="material-icons right">pause</i></button></p></div>
+    </div>
 </div>
 
 

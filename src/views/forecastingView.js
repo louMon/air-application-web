@@ -33,13 +33,24 @@ var rectangle_list = [];
 var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
 
-const progress_bar =(p,running_timestamp)=> `
-<div class="row">
-	<p><center>${running_timestamp}</center></p>
-</div>
-<div class="container" style="margin-bottom:1em; border-radius:7px; position:relative;">
-  <div class="progress" style="height:40px;">
-        <div class="determinate" id="forecasting_progress_bar" style="height:40px; width: ${p}% ">${p}%</div>
+const getStringBaseOnHour = function(counter){
+	if(counter == 0){
+		return 'Siguiente hora' 
+	}
+	return 'Siguientes '+ (counter+1) +' horas'
+}
+
+
+const progress_bar =(p,running_timestamp,counter)=> `
+<div class="container" style="margin-bottom:1em; border-radius:5px; position:relative;">
+  <div style="height:40px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:40px; width:100% ">${running_timestamp}</div>
+  </div>
+  <div style="height:20px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width:100% ">${getStringBaseOnHour(counter)}</div>
+  </div>
+  <div class="progress" style="height:20px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width: ${p}% "></div>
   </div>
 </div>
 `
@@ -137,7 +148,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					    }
 				    	let positions_length = 6 // arrayExample[counter]['has_qhawax'].length;
 					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
-					    progress_form.innerHTML=progress_bar(percentage,running_timestamp);
+					    progress_form.innerHTML=progress_bar(percentage,running_timestamp,counter);
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
@@ -156,7 +167,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Forecasting'); //2 means Temporal Prediction
 	running_timestamp = new Date(running_timestamp);
-	running_timestamp = substractMinutes(running_timestamp, 4*60) // las 5 horas de UTC +1 hora siguiente del inicio del forecasting
+	running_timestamp = substractMinutes(running_timestamp, (6-1)*60) // las 5 horas de UTC +1 hora siguiente del inicio del forecasting
 	json_array = await getForecastingMeasurement(selectedParameters);
 	array_length = json_array.length;
 	progress_form = mapElem.querySelector('#form_progress_forecasting');
@@ -164,7 +175,6 @@ const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
 	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
-	playBtn.disabled = false;
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -226,7 +236,7 @@ const viewForecasting= () => {
 
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
-	const restartBtn =mapElem.querySelector('#restart');
+	//const restartBtn =mapElem.querySelector('#restart');
 
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
 	selectedParameters.pollutant = 'NO2';
@@ -241,15 +251,17 @@ const viewForecasting= () => {
 		console.log(selectedParameters)
         playBtn.disabled = true
         startForecastingSimulation(mapElem,selectedParameters,map,playBtn);
+        playBtn.disabled = false;
     });
 
     pauseBtn.addEventListener('click',(e)=>{
+    	playBtn.disabled = false
         pauseHistorical();
     });
 
-    restartBtn.addEventListener('click',(e)=>{
-        restartHistorical(selectedParameters.pollutant);
-    });
+    //restartBtn.addEventListener('click',(e)=>{
+    //    restartHistorical(selectedParameters.pollutant);
+    //});
 
 	return mapElem;
 
