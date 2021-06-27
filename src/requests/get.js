@@ -25,12 +25,6 @@ const requestStatus = async (ID) =>{
     return await response.text()
 };
 
-const getSpatialMeasurement = async(p) =>{
-    const url = `${sourceAPI}get_historical_of_spatial/?pollutant=${p.pollutant}&last_hours=${p.hours}&pollutant_unit=ugm3`;
-    const response = await fetch(url);
-    return await response.json();
-}
-
 const getGrids = async() =>{
     const url = `${sourceAPI}get_all_grid/`;
     const response = await fetch(url);
@@ -50,8 +44,20 @@ const getForecastingMeasurement = async(p) =>{
     return await response.json();
 }
 
-const getFutureSpatialMeasurement = async(p) =>{
-    const url = `${sourceAPI}get_future_records_of_spatial/?pollutant=${p.pollutant}&last_hours=6&pollutant_unit=ugm3`;
+const getMaxAndMinMeasurement = async(p) =>{
+    const url =`${sourceAPI}/api/get_max_min_by_pollutant/?pollutant=${p.pollutant}`;
+    const response = await fetch(url);
+    return await response.json();
+}
+
+const getTotalSpatialMeasurement = async(p) =>{
+    const url = `${sourceAPI}get_total_spatial_interpolation/?pollutant=${p.pollutant}`;
+    const response = await fetch(url);
+    return await response.json();
+}
+
+const get24hoursMeasurements = async(p)=>{
+    const url = `${sourceAPI}/api/get_forecasting_by_pollutant_of_one_station/?environmental_station_id=${p.station_id}&pollutant=${p.pollutant}`;
     const response = await fetch(url);
     return await response.json();
 }
@@ -60,10 +66,11 @@ export { requestQhawaxByMode,
     requestInstallationRecord,
     requestAllQhawax,
     requestStatus,
-    getSpatialMeasurement,
     requestAllModulesAvailable,
     getGrids,
     getLastRunnintTimestamp_ByPredictionModel,
     getForecastingMeasurement,
-    getFutureSpatialMeasurement
+    getTotalSpatialMeasurement,
+    getMaxAndMinMeasurement,
+    get24hoursMeasurements
 }

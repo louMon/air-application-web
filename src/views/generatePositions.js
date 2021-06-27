@@ -171,7 +171,7 @@ const generatePositions = () => {
 	});
 
   const savePointsBtn =mapElem.querySelector('#save');
-  const restartFigureBtn =mapElem.querySelector('#restart');
+  //const restartFigureBtn =mapElem.querySelector('#restart');
   const getPointsBtn = mapElem.querySelector('#get-all-grids');
   const deleteAllPointsBtn = mapElem.querySelector('#delete-all-grids');
 
@@ -180,10 +180,10 @@ const generatePositions = () => {
       savePointsEvent(matrix_seleccionados);
   });
 
-  restartFigureBtn.addEventListener('click',(e)=>{
-      e.preventDefault();
-      deleteFigure(polyline);
-  });
+  //restartFigureBtn.addEventListener('click',(e)=>{
+  //    e.preventDefault();
+  //    deleteFigure(polyline);
+  //});
 
   getPointsBtn.addEventListener('click',(e)=>{
       e.preventDefault();

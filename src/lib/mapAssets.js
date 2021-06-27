@@ -511,5 +511,6 @@ export {
 	uvColor,
 	optionsDatePicker,
 	optionsTimePicker,
-	addZero
+	addZero,
+	formatDateDB
 };

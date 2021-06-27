@@ -13,9 +13,9 @@ spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelForecasting} from '../lib/HtmlComponents.js'
-import { getForecastingMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
+import { getForecastingMeasurement,getLastRunnintTimestamp_ByPredictionModel,get24hoursMeasurements} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
-import { createMarkers} from '../lib/mapUtils.js';
+import { selectColor,perc2color,createMarkersForecasting} from '../lib/mapUtils.js';
 
 let progress_form;
 let array_length ;
@@ -32,6 +32,7 @@ var rectangle_list = [];
 
 var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
+
 
 const getStringBaseOnHour = function(counter){
 	if(counter == 0){
@@ -61,45 +62,6 @@ const addMinutes =  function (dt, minutos) {
 
 const substractMinutes =  function (dt, minutos) {
     return new Date(dt.getTime() - minutos*60000);
-}
-
-function selectColor(value,polutant){
-	if(polutant=='NO2'){
-		if(value>=0 & value<=100){
-			return '#98c600'
-		}else if(value>100 & value<=200){
-			return '#edeb74'
-		}else if(value>200 & value<=300){
-			return '#d47602'
-		}else if(value>300){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='PM25'){
-		if(value>=0 & value<=12.5){
-			return '#98c600'
-		}else if(value>12.5 & value<=25){
-			return '#edeb74'
-		}else if(value>25 & value<=125){
-			return '#d47602'
-		}else if(value>125){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='CO'){
-		if(value>=0 & value<=5049){
-			return '#98c600'
-		}else if(value>5049 & value<=10049){
-			return '#edeb74'
-		}else if(value>10049 & value<=15049){
-			return '#d47602'
-		}else if(value>15049){
-			return '#9b0f0f'
-		}
-	}
-
 }
 
 function lookforBounds(lat, lon){
@@ -232,14 +194,13 @@ const viewForecasting= () => {
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
-	createMarkers(map, positionlat_list,positionlon_list)
-
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
-	//const restartBtn =mapElem.querySelector('#restart');
 
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
-	selectedParameters.pollutant = 'NO2';
+	selectedParameters.pollutant = 'PM25';
+
+	createMarkersForecasting(map, positionlat_list,positionlon_list, 19, selectedParameters.pollutant)
 
 	selectionPollutant.forEach(radio =>{
 		radio.addEventListener('click',()=>{
@@ -258,10 +219,6 @@ const viewForecasting= () => {
     	playBtn.disabled = false
         pauseHistorical();
     });
-
-    //restartBtn.addEventListener('click',(e)=>{
-    //    restartHistorical(selectedParameters.pollutant);
-    //});
 
 	return mapElem;
 
