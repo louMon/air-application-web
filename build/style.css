@@ -350,18 +350,22 @@ main {
     bottom: 0;
 }
 
+#form_progress_spatial{
+	height: 2em;
+}
+
 #over_map_infowindow {
 	position: absolute;
 	top: 80px;
     right: 25px;
 	z-index: 5;
-	background-color: #fff;
+	/*background-color: #fff;
 	border: 1px solid #999;
 	text-align: center;
 	height: 264px;
     width: 710px;
 	padding: 0;
-	border-radius: 20px;
+	border-radius: 20px;*/
 }
 td{
 	border-radius: 5px;
@@ -791,12 +795,12 @@ i.icon-green {
 		font-size: small;
 		margin: 6px;
 	}
-	#over_map_infowindow {
+	/*#over_map_infowindow {
 		top: 70px;
 		right: 11px;
 		height: 518px;
 		width: 192px;
-	}
+	}*/
 	.pannel-inca {
 		margin: 6px 0px 0px 3px;
 	}

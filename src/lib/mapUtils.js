@@ -17,7 +17,8 @@ function createSpecificMarker(position,map,index){
 }
 
 const drawChart = async (station_id,pollutant) => {
-  const chart = document.querySelector('#graphicValues');
+  const chart = document.querySelector('#over_map_infowindow');
+  chart.classList.remove('none')
   const layout = {
 
     autosize: false,
@@ -105,7 +106,7 @@ function createMarkers(map, positionlat_list,positionlon_list){
         url: qhawaxLeaf(50),
         scaledSize: new google.maps.Size(35, 35),
       },
-      id: 'qHAWAX'+ i,
+      id: i,
     });
   }
 }
@@ -269,24 +270,24 @@ function selectColor(value,polutant){
 function perc2color(max,min,value) {
   console.log("Entrando a perc2color")
   console.log(value)
-  if(value==null){
-    var base = (max - min);
-    console.log(base)
-    var perc = (value - min) / base * 100; 
-    console.log(perc)
-    var r, g, b = 0;
-    if(perc < 50) {
-      r = 255;
-      g = Math.round(5.1 * perc*1.005);
-    }
-    else {
-      g = 255;
-      r = Math.round(510 - 5.10 * perc*1.005);
-    }
-    var h = r * 0x10000 + g * 0x100 + b * 0x1;
-    return '#' + ('000000' + h.toString(16)).slice(-6);
+  //if(value==null){
+  var base = (max - min);
+  console.log(base)
+  var perc = (value - min) / base * 100; 
+  console.log(perc)
+  var r, g, b = 0;
+  if(perc < 50) {
+    r = 255;
+    g = Math.round(5.1 * perc*1.005);
   }
-  return '#FFFFFF'
+  else {
+    g = 255;
+    r = Math.round(510 - 5.10 * perc*1.005);
+  }
+  var h = r * 0x10000 + g * 0x100 + b * 0x1;
+  return '#' + ('000000' + h.toString(16)).slice(-6);
+  //}
+  //return '#FFFFFF'
 }
 
 export { 

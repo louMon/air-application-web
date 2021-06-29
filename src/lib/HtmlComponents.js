@@ -1784,24 +1784,6 @@ const landpage = `
         </div>
       </div>
     </div>
-    <div class="card_item hoverable z-depth-4" id="future_interpolation">
-      <div class="card_inner">
-        <div class="card_top">
-          <img src="img/real-time-min.png" alt="real_time" style="width:auto ; height:180px;" />
-        </div>
-        <div class="card_bottom">
-          <div class="card_category">
-            Interpolación Futura
-          </div>
-          <div class="card_info">
-            <p class="title">Description</p>
-            <p>
-            We show air quality data of next 6 hours.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="card_item hoverable z-depth-4" id="forecasting">
       <div class="card_inner">
         <div class="card_top">

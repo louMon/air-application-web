@@ -45,7 +45,7 @@ const getForecastingMeasurement = async(p) =>{
 }
 
 const getMaxAndMinMeasurement = async(p) =>{
-    const url =`${sourceAPI}/api/get_max_min_by_pollutant/?pollutant=${p.pollutant}`;
+    const url =`${sourceAPI}get_max_min_by_pollutant/?pollutant=${p.pollutant}`;
     const response = await fetch(url);
     return await response.json();
 }
@@ -57,7 +57,7 @@ const getTotalSpatialMeasurement = async(p) =>{
 }
 
 const get24hoursMeasurements = async(p)=>{
-    const url = `${sourceAPI}/api/get_forecasting_by_pollutant_of_one_station/?environmental_station_id=${p.station_id}&pollutant=${p.pollutant}`;
+    const url = `${sourceAPI}get_forecasting_by_pollutant_of_one_station/?environmental_station_id=${p.station_id}&pollutant=${p.pollutant}`;
     const response = await fetch(url);
     return await response.json();
 }

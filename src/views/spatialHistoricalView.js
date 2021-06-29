@@ -13,7 +13,7 @@ spatialRealTime,
 spatialRealTimeMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelHistorical} from '../lib/HtmlComponents.js'
-import { getLastRunnintTimestamp_ByPredictionModel,getTotalSpatialMeasurement} from '../requests/get.js';
+import { getLastRunnintTimestamp_ByPredictionModel,getTotalSpatialMeasurement,getMaxAndMinMeasurement} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 import { createMarkers,selectColor,perc2color} from '../lib/mapUtils.js';
 
@@ -29,6 +29,7 @@ let map;
 let running_timestamp;
 let selectedParameters = {};
 var rectangle_list = [];
+let json_min_max;
 
 var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
@@ -77,7 +78,7 @@ function lookforBounds(lat, lon){
   return bounds;
 }
 
-function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
+function iterateByGrid(positions_length,arrayExample,map,indice,pollutant,max,min){
 	// Remove Previous Rectangle
     for(let ind=0; ind < rectangle_list.length; ind++) {
 	    if(rectangle_list[ind]){
@@ -89,11 +90,11 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
       	//var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
-      	console.log("ITERACION ==========")
-      	console.log(arrayExample[indice]['max'])
-      	console.log(arrayExample[indice]['min'])
+      	console.log(max)
+      	console.log(min)
       	console.log(arrayExample[indice][unit][ind])
-      	var color_generated = perc2color(arrayExample[indice]['max'],arrayExample[indice]['min'],arrayExample[indice][unit][ind]);
+      	var color_generated = perc2color(max,min,arrayExample[indice][unit][ind]);
+      	console.log(color_generated)
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
 	        strokeOpacity: 0.2,
@@ -108,19 +109,19 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant){
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,max,min){
 	myVarSetTimeOut = setTimeout(function() {   //  call a 1s setTimeout when the loop is called
 						percentage = increment + percentage;
 						if (counter+1 == array_length) {
 					    	percentage = 100;
 					    }
-				    	let positions_length = arrayExample[counter]['hour_position'].length;
-					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
+				    	let positions_length = arrayExample[counter]['lat'].length;
+					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant,max,min);
 					    progress_form.innerHTML=progress_bar(percentage,running_timestamp,counter);
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
-					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant)
+					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,max,min)
 					    }
 					    if(percentage == 100){
 					    	M.toast({
@@ -143,7 +144,7 @@ const startHistoricalByPollutant = async (mapElem,selectedParameters,map,polluta
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,selectedParameters.max_pollutant,selectedParameters.min_pollutant);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -153,6 +154,8 @@ const pauseHistorical = async () => { //falta detenerlo
 //const restartHistorical = async (pollutant) => { //falta restaurarlo
 //	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
 //};
+
+const getMinMax = async (selectedParameters) => await getMaxAndMinMeasurement(selectedParameters);
 
 const viewSpatialHistorical = () => {
 	const mapElem = document.createElement('div');
@@ -209,11 +212,24 @@ const viewSpatialHistorical = () => {
 	selectedParameters.velocity = '1000';
 
 	const pollutantSelection= mapElem.querySelector('#selectPollutant');
-	const mapColorSelection= mapElem.querySelector('#selectMapColors');
+	const mapColorSelection= mapElem.querySelector('#selectMapColor');
 	const velocitySelection= mapElem.querySelector('#selectVelocity');
-	/*  
+
+	json_min_max = getMinMax(selectedParameters)
+
+	json_min_max = {"max":409.344,"median":60.136,"min":20.627}
+	console.log(json_min_max)
+	console.log(json_min_max.max)
+
+	selectedParameters.min_pollutant =json_min_max.min
+	selectedParameters.max_pollutant =json_min_max.max
+
+	console.log(selectedParameters)
+	
+	  
 	pollutantSelection.addEventListener('change',e=>{
 		selectedParameters.pollutant=e.target.value;
+		//json_min_max = getMinMax(selectedParameters)
 		console.log(selectedParameters)
 	})
 
@@ -225,7 +241,7 @@ const viewSpatialHistorical = () => {
 	velocitySelection.addEventListener('change',e=>{
 		selectedParameters.velocity=e.target.value;
 		console.log(selectedParameters)
-	})*/
+	})
 
 	playBtn.addEventListener('click',(e)=>{
 		console.log(selectedParameters,selectedParameters.pollutant)
