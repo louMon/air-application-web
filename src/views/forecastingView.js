@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -7,13 +7,12 @@ positionsMaintainMobile,
 chooseSpinnerMenu,
 spinMob,
 styledNavBar,
-spatialRealTime,
-spatialRealTimeMobile,
 spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelForecasting} from '../lib/HtmlComponents.js'
-import { getForecastingMeasurement,getLastRunnintTimestamp_ByPredictionModel,get24hoursMeasurements} from '../requests/get.js';
+import { getForecastingMeasurement,getLastRunnintTimestamp_ByPredictionModel,
+		 get24hoursMeasurements, getFondecytQhawax} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 import { selectColor,perc2color,createMarkersForecasting} from '../lib/mapUtils.js';
 
@@ -29,10 +28,7 @@ let map;
 let running_timestamp;
 let selectedParameters = {};
 var rectangle_list = [];
-
-var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
-var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
-
+let monitoringStations;
 
 const getStringBaseOnHour = function(counter){
 	if(counter == 0){
@@ -44,14 +40,14 @@ const getStringBaseOnHour = function(counter){
 
 const progress_bar =(p,running_timestamp,counter)=> `
 <div class="container" style="margin-bottom:1em; border-radius:5px; position:relative;">
-  <div style="height:40px;">
+  <div style="height:20px;">
         <div class="determinate" id="spatial_progress_bar" style="height:40px; width:100% ">${running_timestamp}</div>
   </div>
-  <div style="height:20px;">
-        <div class="determinate" id="spatial_progress_bar" style="height:20px; width:100% ">${getStringBaseOnHour(counter)}</div>
-  </div>
-  <div class="progress" style="height:20px;">
+  <div class="progress" style="height:10px;">
         <div class="determinate" id="spatial_progress_bar" style="height:20px; width: ${p}% "></div>
+  </div>
+  <div style="height:10px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width:100% ">${getStringBaseOnHour(counter)}</div>
   </div>
 </div>
 `
@@ -147,6 +143,11 @@ const restartHistorical = async (pollutant) => { //falta restaurarlo
 	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
 };
 
+const setMarkers = async (map,selectedParameters) => {
+	monitoringStations = await getFondecytQhawax();
+	createMarkersForecasting(map, monitoringStations,selectedParameters.pollutant)
+};
+
 const viewForecasting= () => {
 	const mapElem = document.createElement('div');
 	const menuNavBar = document.querySelector('header');
@@ -156,16 +157,12 @@ const viewForecasting= () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain  + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile + spatialHistoricalMobile;
 	mapElem.innerHTML = viewSearchingPanelForecasting;
-	//chooseSpinnerMenu(company);
 
 	const pointsBtn = document.querySelector('#positions-menu');
 	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
-
-	const spatialRealTimeBtn = document.querySelector('#spatial-real-time-menu');
-	const spatialRealTimeMobBtn = document.querySelector('#spatial-real-time-menu-mobile');
 
 	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
 	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
@@ -182,9 +179,6 @@ const viewForecasting= () => {
 	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
 	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
-	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
-	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
-
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
 
@@ -200,7 +194,7 @@ const viewForecasting= () => {
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
 	selectedParameters.pollutant = 'PM25';
 
-	createMarkersForecasting(map, positionlat_list,positionlon_list, 19, selectedParameters.pollutant)
+	setMarkers(map,selectedParameters)
 
 	selectionPollutant.forEach(radio =>{
 		radio.addEventListener('click',()=>{

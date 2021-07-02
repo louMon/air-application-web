@@ -350,9 +350,9 @@ main {
     bottom: 0;
 }
 
-#form_progress_spatial{
+/*#form_progress_spatial{
 	height: 2em;
-}
+}*/
 
 #over_map_infowindow {
 	position: absolute;

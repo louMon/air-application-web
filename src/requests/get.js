@@ -62,6 +62,12 @@ const get24hoursMeasurements = async(p)=>{
     return await response.json();
 }
 
+const getFondecytQhawax = async(p) =>{
+    const url = `${sourceAPI}get_all_fondecyt_env_station`;
+    const response = await fetch(url);
+    return await response.json();
+}
+
 export { requestQhawaxByMode,
     requestInstallationRecord,
     requestAllQhawax,
@@ -72,5 +78,6 @@ export { requestQhawaxByMode,
     getForecastingMeasurement,
     getTotalSpatialMeasurement,
     getMaxAndMinMeasurement,
-    get24hoursMeasurements
+    get24hoursMeasurements,
+    getFondecytQhawax
 }

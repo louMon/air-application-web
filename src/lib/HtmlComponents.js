@@ -45,36 +45,33 @@ const viewSearchingPanelHistorical = `
 
 <div class="card-pannel z-depth-5">
     <div class="row">
-    <h6 class="center-align"><b>Interpolación Espacial Histórica</b></h6>
-    <h8 class="center-align">Últimas 24 horas</h8>
+    <h6 class="center-align"><b>Interpolación Espacial</b></h6>
+    <h8 class="center-align">Últimas 24 horas y Siguientes 6 horas</h8>
     </div>
     <form id="form_panel_historical">
       <div class="row">
         <div class="col s12">
           <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectPollutant">
-            <option value="" disabled="" selected="">Selecciona el contaminante</option>
+            <option value="PM25" >Mapa de PM2,5(ug/m3)</option>
             <option value="CO" > Mapa de CO(ug/m3)</option>
             <option value="NO2" >Mapa de NO2(ug/m3)</option>
-            <option value="PM25" >Mapa de PM2,5(ug/m3)</option>
           </select>     
         </div>
       </div>
       <div class="row">
         <div class="col s12">
           <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectMapColor">
-            <option value="" disabled="" selected="">Selecciona el tipo de mapa</option>
-            <option value="INCA" > Mapa INCA</option>
-            <option value="HEATMAP" >Heatmap</option>
+            <option value="heatmap" >Heatmap</option>
+            <option value="inca" > Mapa INCA</option>
           </select>     
         </div>
       </div>
       <div class="row">
         <div class="col s12">
           <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectVelocity">
-            <option value="" disabled="" selected="">Selecciona la velocidad</option>
-            <option value="1X" > Velocidad 1x</option>
-            <option value="15X" >Velocidad 1.5x</option>
-            <option value="2X" >Velocidad 2x</option>
+            <option value="2000" > Velocidad 1x</option>
+            <option value="1000" >Velocidad 1.5x</option>
+            <option value="500" >Velocidad 2x</option>
           </select>     
         </div>
       </div>
@@ -83,9 +80,6 @@ const viewSearchingPanelHistorical = `
       <div class="row">
         <div class="container" style="height:20px; background-color:#CCC; position:relative; border-radius:2px">
           <div class="determinate style="height:20px; background-color:rgb(125,44,255); position:absolute; animation: progress-animation 5s forwards"></div>
-        </div>
-        <div class="slideContainer">
-          <input type="range" min="1" max="30" value="24" id="myRange" class="slider">
         </div>
       </div>
     </form>
@@ -160,10 +154,9 @@ const viewSearchingPanelForecasting = `
       <div class="row">
         <div class="col s12">
           <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center">
-            <option value="" disabled="" selected="">Selecciona la velocidad</option>
-            <option value="1X" > Velocidad 1x</option>
-            <option value="15X" >Velocidad 1.5x</option>
-            <option value="2X" >Velocidad 2x</option>
+            <option value="2000" > Velocidad 1x</option>
+            <option value="1000" >Velocidad 1.5x</option>
+            <option value="500" >Velocidad 2x</option>
           </select>     
         </div>
       </div>

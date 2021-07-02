@@ -1,6 +1,7 @@
+import { configuration } from '../lib/graphAssets.js';
 import {sourceAPI} from '../index.js';
-
 import {addZero,formatDateDB,qhawaxLeaf} from '../lib/mapAssets.js';
+
 
 function createSpecificMarker(position,map,index){
   var marker = new google.maps.Marker({
@@ -17,6 +18,8 @@ function createSpecificMarker(position,map,index){
 }
 
 const drawChart = async (station_id,pollutant) => {
+  console.log(station_id)
+  console.log(pollutant)
   const chart = document.querySelector('#over_map_infowindow');
   chart.classList.remove('none')
   const layout = {
@@ -27,7 +30,7 @@ const drawChart = async (station_id,pollutant) => {
         ? window.innerWidth * 0.5
         : window.innerWidth * 0.85,
     height: window.innerHeight * 0.6,
-    title: `${station_id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
+    title: `Estacion ${station_id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
     showlegend: true,
     colorway: ['#0000FF', '#FF0000'],
     legend:{
@@ -85,17 +88,15 @@ const drawChart = async (station_id,pollutant) => {
       //  type: 'scatter',
       //}),
     ];
-    console.log(data)
-    console.log("============================================")
   });
 
-  Plotly.newPlot(chart, data, layout);
+  Plotly.newPlot(chart, data, layout,configuration);
 };
 
 
-function createMarkers(map, positionlat_list,positionlon_list){
-  for (var i = 0; i < positionlon_list.length; i++) {
-    var myLatLng = {lat:positionlat_list[i], lng: positionlon_list[i]};
+function createMarkers(map, monitoringStations){
+  for (var i = 0; i < monitoringStations.length; i++) {
+    var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
     const qhawax_marker = new google.maps.Marker({
       position: {
         lat: myLatLng.lat,
@@ -106,14 +107,15 @@ function createMarkers(map, positionlat_list,positionlon_list){
         url: qhawaxLeaf(50),
         scaledSize: new google.maps.Size(35, 35),
       },
-      id: i,
+      id:'qHAWAX'+ i,
     });
   }
 }
 
-function createMarkersForecasting(map, positionlat_list,positionlon_list,pollutant,station_id){
-  for (var i = 0; i < positionlon_list.length; i++) {
-    var myLatLng = {lat:positionlat_list[i], lng: positionlon_list[i]};
+function createMarkersForecasting(map, monitoringStations,pollutant){
+  var station_id = 0
+  for (var i = 0; i < monitoringStations.length; i++) {
+    var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
     const qhawax_marker = new google.maps.Marker({
       position: {
         lat: myLatLng.lat,
@@ -126,9 +128,9 @@ function createMarkersForecasting(map, positionlat_list,positionlon_list,polluta
       },
       id: 'qHAWAX'+ i,
     });
+    station_id = monitoringStations[i].id
     qhawax_marker.addListener('click', () => {
-      //setPannelData(qhawax,map,pollutant)
-      drawChart(pollutant, station_id) //station_id_list[i]
+      drawChart(station_id,pollutant)
     });
   }
 }
@@ -227,7 +229,6 @@ function setBounds(first,second,map){
   map.fitBounds(boundsSide);
 }
 
-
 function selectColor(value,polutant){
   if(polutant=='NO2'){
     if(value>=0 & value<=100){
@@ -268,19 +269,14 @@ function selectColor(value,polutant){
 }
 
 function perc2color(max,min,value) {
-  console.log("Entrando a perc2color")
-  console.log(value)
-  //if(value==null){
   var base = (max - min);
-  console.log(base)
-  var perc = (value - min) / base * 100; 
-  console.log(perc)
+  var perc = (value - min) / base * 100;
   var r, g, b = 0;
   if(perc < 50) {
     r = 255;
     g = Math.round(5.1 * perc*1.005);
   }
-  else {
+  else{
     g = 255;
     r = Math.round(510 - 5.10 * perc*1.005);
   }
