@@ -41,6 +41,7 @@ var distance_x_between = 100
 var polyline = null;
 var polygon_points = null;
 var times =0;
+let monitoringStations;
 
 function initialize(map, distance, nropuntos_y,nropuntos_x, puntoinicial_lat,puntoinicial_lng ) {
   var matrix = [];
@@ -121,12 +122,7 @@ const deleteAllPoints = async (map) => {
 
 const setMarkers = async (map) => {
   monitoringStations = await getFondecytQhawax();
-  console.log(monitoringStations)
   createMarkers(map, monitoringStations);
-  //for (var ind=0; ind < monitoringStations.length; ind++) { 
-  //  positionlat_list.push(monitoringStations[ind].lat)
-  //  positionlon_list.push(monitoringStations[ind].lon)
-  //}
 };
 
 const generatePositions = () => {
@@ -163,14 +159,13 @@ const generatePositions = () => {
 
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
-	// hazta aqui todo el menu
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
 		center: new google.maps.LatLng(-12.048156, -77.076242),
 		zoom: 13,
     fullscreenControl: true,
     mapTypeControl: true,
-    mapTypeId: "satellite"
+    mapTypeId: "hybrid"
 	});
 
   const savePointsBtn =mapElem.querySelector('#save');
