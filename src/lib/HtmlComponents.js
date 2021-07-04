@@ -131,29 +131,22 @@ const viewSearchingPanelForecasting = `
 
 <div class="card-pannel z-depth-5">
     <div class="row">
-      <h6 class="center-align"><b>Predicción Temporal</b></h6>
-      <h8 class="center-align">Próximas 6 horas</h8>
+      <h6 class="center-align"><b>Predicción Temporal </b></h6>
+      <h8 class="center-align">Mediciones de las próximas 6 horas</h8>
     </div>
     <form id="form_panel_forecasting">
       <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminante (ug/m3)</b></p>
-
-        <div class="col s4">
-        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
+        <div class="col s12">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectPollutant">
+            <option value="PM25" >Mapa de PM2,5(ug/m3)</option>
+            <option value="CO" > Mapa de CO(ug/m3)</option>
+            <option value="NO2" >Mapa de NO2(ug/m3)</option>
+          </select>     
         </div>
-
-        <div class="col s4">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
-        </div>
-
-        <div class="col s4">
-        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
-        </div>    
-
       </div>
       <div class="row">
         <div class="col s12">
-          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectVelocity">
             <option value="2000" > Velocidad 1x</option>
             <option value="1000" >Velocidad 1.5x</option>
             <option value="500" >Velocidad 2x</option>

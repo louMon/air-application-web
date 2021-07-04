@@ -1,6 +1,6 @@
 import { configuration } from '../lib/graphAssets.js';
 import {sourceAPI} from '../index.js';
-import {addZero,formatDateDB,qhawaxLeaf} from '../lib/mapAssets.js';
+import {addZero,formatDateDB,qhawaxLeaf, ECAlimits} from '../lib/mapAssets.js';
 
 
 function createSpecificMarker(position,map,index){
@@ -17,9 +17,7 @@ function createSpecificMarker(position,map,index){
   return marker;
 }
 
-const drawChart = async (station_id,pollutant) => {
-  console.log(station_id)
-  console.log(pollutant)
+const drawChart = async (station_id,pollutant, map) => {
   const chart = document.querySelector('#over_map_infowindow');
   chart.classList.remove('none')
   const layout = {
@@ -30,16 +28,16 @@ const drawChart = async (station_id,pollutant) => {
         ? window.innerWidth * 0.5
         : window.innerWidth * 0.85,
     height: window.innerHeight * 0.6,
-    title: `Estacion ${station_id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
+    title: `Estacion ${station_id.id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
     showlegend: true,
     colorway: ['#0000FF', '#FF0000'],
     legend:{
       orientation:'h',
-      y:window.innerWidth >= 800? -0.1:2,
+      y:window.innerWidth >= 1300? -0.1:2,
         },
     xaxis: {
       title: {
-        text: 'Hora del día',
+        text: '\n\nHora del día',
         font: {
           family: 'Courier New, monospace',
           size: 12,
@@ -60,37 +58,44 @@ const drawChart = async (station_id,pollutant) => {
   };
   let data = [];
   const response = await fetch(
-    `${sourceAPI}get_forecasting_by_pollutant_of_one_station/?environmental_station_id=${station_id}&pollutant=${pollutant}`
+    `${sourceAPI}get_forecasting_by_pollutant_of_one_station/?environmental_station_id=${station_id.id}&pollutant=${pollutant}`
   );
   const json = await response.json();
-  let yValues = [];
-  let xValues = [];
-  //let yECA = [];
+  let yValuesHistorical = [];
+  let xValuesHistorical = [];
+  let yValuesForecasting = [];
+  let xValuesForecasting = [];
   Object.entries(json).forEach(d => {
-    console.log(d[1].ug_m3_value)
-    console.log(d[1].timestamp)
-    yValues.push(d[1].ug_m3_value);
-    xValues.push(formatDateDB(d[1].timestamp));
-    //yECA.push(ECAlimits(sensor));
+    if(d[1].qhawax == 0){
+      yValuesHistorical.push(d[1].ug_m3_value);
+      xValuesHistorical.push(formatDateDB(d[1].timestamp));
+    }else{
+      yValuesForecasting.push(d[1].ug_m3_value);
+      xValuesForecasting.push(formatDateDB(d[1].timestamp));
+    }
+    
     let trace1 = {};
-    //let trace2 = {};
+    let trace2 = {};
     data = [
       (trace1 = {
-        y: yValues,
-        x: xValues,
-        name: `${pollutant} (µg/m3)`,
+        y: yValuesHistorical,
+        x: xValuesHistorical,
+        name: `${pollutant} (µg/m3) histórico`,
         type: 'scatter',
-      })
-      //(trace2 = {
-      //  y: yECA,
-      //  x: xValues,
-      //  name: 'Límite ECA',
-      //  type: 'scatter',
-      //}),
+      }),
+      (trace2 = {
+        y: yValuesForecasting,
+        x: xValuesForecasting,
+        name: `${pollutant} (µg/m3) predicho`,
+        type: 'scatter',
+      }),
     ];
   });
 
   Plotly.newPlot(chart, data, layout,configuration);
+  google.maps.event.addListener(map,'click',() =>{
+    chart.classList.add('none')
+  });
 };
 
 
@@ -114,6 +119,7 @@ function createMarkers(map, monitoringStations){
 
 function createMarkersForecasting(map, monitoringStations,pollutant){
   var station_id = 0
+  let markers = []
   for (var i = 0; i < monitoringStations.length; i++) {
     var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
     const qhawax_marker = new google.maps.Marker({
@@ -126,13 +132,17 @@ function createMarkersForecasting(map, monitoringStations,pollutant){
         url: qhawaxLeaf(50),
         scaledSize: new google.maps.Size(35, 35),
       },
-      id: 'qHAWAX'+ i,
+      id: monitoringStations[i].id,
     });
     station_id = monitoringStations[i].id
-    qhawax_marker.addListener('click', () => {
-      drawChart(station_id,pollutant)
-    });
+    markers.push(qhawax_marker)
   }
+  markers.forEach(marker => {
+    marker.addListener('click', () => {
+      drawChart(marker,pollutant,map)
+    });
+  })
+  
 }
 
 

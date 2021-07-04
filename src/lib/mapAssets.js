@@ -512,5 +512,6 @@ export {
 	optionsDatePicker,
 	optionsTimePicker,
 	addZero,
-	formatDateDB
+	formatDateDB,
+	ECAlimits
 };

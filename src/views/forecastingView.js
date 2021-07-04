@@ -98,7 +98,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant){
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,velocity){
 	myVarSetTimeOut = setTimeout(function() {   //  call a 1s setTimeout when the loop is called
 						percentage = increment + percentage;
 						if (counter+1 == array_length) {
@@ -110,7 +110,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
-					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant)
+					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,velocity)
 					    }
 					    if(percentage == 100){
 					    	M.toast({
@@ -119,10 +119,12 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 							});
 							//setTimeout(()=>window.location.reload(), 5000);
 					    }    
-					}, 2000);
+					}, parseInt(velocity));
 }
 
-const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn) => {
+const startForecastingSimulation = async (mapElem,selectedParameters,map) => {
+	var velocity = selectedParameters.velocity
+	var pollutant = selectedParameters.pollutant
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Forecasting'); //2 means Temporal Prediction
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, (6-1)*60) // las 5 horas de UTC +1 hora siguiente del inicio del forecasting
@@ -132,7 +134,7 @@ const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,velocity);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -191,26 +193,32 @@ const viewForecasting= () => {
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
 
-	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
 	selectedParameters.pollutant = 'PM25';
+	selectedParameters.velocity = '2000';
+
+	const pollutantSelection= mapElem.querySelector('#selectPollutant');
+	const velocitySelection= mapElem.querySelector('#selectVelocity');
 
 	setMarkers(map,selectedParameters)
 
-	selectionPollutant.forEach(radio =>{
-		radio.addEventListener('click',()=>{
-			selectedParameters.pollutant=radio.id;
-		})
+	pollutantSelection.addEventListener('change',e=>{
+		selectedParameters.pollutant=e.target.value;
+		setMarkers(map,selectedParameters)
+	})
+
+	velocitySelection.addEventListener('change',e=>{
+		selectedParameters.velocity=e.target.value;
 	})
 
 	playBtn.addEventListener('click',(e)=>{
-		console.log(selectedParameters)
-        playBtn.disabled = true
-        startForecastingSimulation(mapElem,selectedParameters,map,playBtn);
-        playBtn.disabled = false;
+        playBtn.disabled = true;
+        pauseBtn.disabled = false;
+        startForecastingSimulation(mapElem,selectedParameters,map);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
-    	playBtn.disabled = false
+    	playBtn.disabled = false;
+    	pauseBtn.disabled = true;
         pauseHistorical();
     });
 
