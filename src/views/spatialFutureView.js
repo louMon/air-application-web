@@ -13,9 +13,9 @@ spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
 import { viewMap,viewSearchingPanelFuture,landbar} from '../lib/HtmlComponents.js'
-import { getFutureSpatialMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
+import { getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
-import { createMarkers} from '../lib/mapUtils.js';
+import { createMarkers, selectColor, perc2color} from '../lib/mapUtils.js';
 
 let progress_form;
 let array_length ;
@@ -30,6 +30,7 @@ let running_timestamp;
 let selectedParameters = {};
 var rectangle_list = [];
 
+//hay que volverlo dinamico con el endpoint de qaira
 var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
 var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
 
@@ -75,45 +76,6 @@ function lookforBounds(lat, lon){
   return bounds;
 }
 
-function selectColor(value,polutant){
-	if(polutant=='NO2'){
-		if(value>=0 & value<=100){
-			return '#98c600'
-		}else if(value>100 & value<=200){
-			return '#edeb74'
-		}else if(value>200 & value<=300){
-			return '#d47602'
-		}else if(value>300){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='PM25'){
-		if(value>=0 & value<=12.5){
-			return '#98c600'
-		}else if(value>12.5 & value<=25){
-			return '#edeb74'
-		}else if(value>25 & value<=125){
-			return '#d47602'
-		}else if(value>125){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='CO'){
-		if(value>=0 & value<=5049){
-			return '#98c600'
-		}else if(value>5049 & value<=10049){
-			return '#edeb74'
-		}else if(value>10049 & value<=15049){
-			return '#d47602'
-		}else if(value>15049){
-			return '#9b0f0f'
-		}
-	}
-
-}
-
 function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	// Remove Previous Rectangle
     for(let ind=0; ind < rectangle_list.length; ind++) {
@@ -145,7 +107,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 						if (counter+1 == array_length) {
 					    	percentage = 100;
 					    }
-				    	let positions_length = arrayExample[counter]['has_qhawax'].length;
+				    	let positions_length = arrayExample[counter]['hour_position'].length;
 					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
 					    progress_form.innerHTML=progress_bar(percentage,running_timestamp,counter);
 					    counter++;                    //  increment the counter
@@ -167,23 +129,20 @@ const startHistorical = async (mapElem,selectedParameters,map,playBtn) => {
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Future_Spatial');
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, (6-1)*60) // las horas que ha seleccionado el usuario y las 5 horas de UTC
-	json_array = await getFutureSpatialMeasurement(selectedParameters);
-	progress_form = mapElem.querySelector('#form_progress_future_spatial');
-	array_length = json_array.length;
-	percentage = 0;
-	counter = 0;
-	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
-	playBtn.disabled = false;
+	//json_array = await getFutureSpatialMeasurement(selectedParameters);
+	//progress_form = mapElem.querySelector('#form_progress_future_spatial');
+	//array_length = json_array.length;
+	//percentage = 0;
+	//counter = 0;
+	//increment = Math.round(100/parseFloat(array_length));
+	//iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
+	//playBtn.disabled = false;
 };
 
 const pauseHistorical = async () => { //falta detenerlo
 	clearTimeout(myVarSetTimeOut);
 };
 
-//const restartHistorical = async (pollutant) => { //falta restaurarlo
-//	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
-//};
 
 const viewFutureInterpolation = () => {
 	const mapElem = document.createElement('div');
@@ -236,7 +195,6 @@ const viewFutureInterpolation = () => {
 
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
-	//const restartBtn =mapElem.querySelector('#restart');
 
 	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
 	selectedParameters.pollutant = 'NO2';
@@ -257,10 +215,6 @@ const viewFutureInterpolation = () => {
     pauseBtn.addEventListener('click',(e)=>{
         pauseHistorical();
     });
-
-    //restartBtn.addEventListener('click',(e)=>{
-    //    restartHistorical(selectedParameters.pollutant);
-    //});
 
 	return mapElem;
 

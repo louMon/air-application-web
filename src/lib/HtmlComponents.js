@@ -44,26 +44,37 @@ const viewSearchingPanelHistorical = `
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
-    <h6 class="center-align"><b>Interpolacion Espacial Histórica</b></h6>
-    <h8 class="center-align">Últimas 24 horas</h8>
+    <div class="row">
+    <h6 class="center-align"><b>Interpolación Espacial</b></h6>
+    <h8 class="center-align">Últimas 24 horas y Siguientes 6 horas</h8>
+    </div>
     <form id="form_panel_historical">
       <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminante (ug/m3)</b></p>
-
-        <div class="col s4">
-        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
+        <div class="col s12">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectPollutant">
+            <option value="PM25" >Mapa de PM2,5(ug/m3)</option>
+            <option value="CO" > Mapa de CO(ug/m3)</option>
+            <option value="NO2" >Mapa de NO2(ug/m3)</option>
+          </select>     
         </div>
-
-        <div class="col s4">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
-        </div>
-
-        <div class="col s4">
-        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
-        </div>    
-
       </div>
-
+      <div class="row">
+        <div class="col s12">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectMapColor">
+            <option value="heatmap" >Heatmap</option>
+            <option value="inca" > Mapa INCA</option>
+          </select>     
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectVelocity">
+            <option value="2000" > Velocidad 1x</option>
+            <option value="1000" >Velocidad 1.5x</option>
+            <option value="500" >Velocidad 2x</option>
+          </select>     
+        </div>
+      </div>
     </form>
     <form id="form_progress_spatial">
       <div class="row">
@@ -97,25 +108,16 @@ const viewPointsManagement = `
 
 <div class="card-pannel z-depth-5">
     <h6 class="center-align"><b>Mantenimiento de Puntos<b/></h6>
-    <h6 class="left-align">Gestion de puntos históricos</h6>
+    <h6 class="left-align">Posiciones Almacenadas</h6>
     <div class="row">
-      <div class="col 6"><p><button id="get-all-grids" class="btn waves-effect waves-light" >Mostrar Puntos</button></p></div>
+      <div class="col 6"><p><button id="get-all-grids" class="btn waves-effect waves-light" >Ver Puntos</button></p></div>
       <div class="col 6"><p><button id="delete-all-grids" class="btn waves-effect waves-light" >Borrar Puntos</button></p></div>
     </div>
-    <h6 class="left-align">Gestion de puntos nuevos</h6>
+    <h6 class="left-align">Nuevos puntos</h6>
     <div class="row">
-      <div class="col s6"><p><button id="save" class="btn waves-effect waves-light" >Guardar Puntos</button></p></div>
-      <div class="col s6"><p><button id="restart" class="btn waves-effect waves-light" >Borrar Figura</button></p></div>
+      <div class="col s12"><p><button id="save" class="btn waves-effect waves-light" >Registrar</button></p></div>
     </div>
 </div>
-
-
-</div>
-</div>
-<!-- Modal Graphics -->
-<div id="modalGraphic" class="modal">
-<a id="close" class="modal-close right responsive-img modal-images-close">X</a>
-<div class="modal-content center" id="graphicValues">
 </div>
 </div>
 `;
@@ -128,24 +130,28 @@ const viewSearchingPanelForecasting = `
 <div class="animate__animated animate__zoomIn" id="over_map">
 
 <div class="card-pannel z-depth-5">
-    <h6 class="center-align"><b>Predicción Temporal</b></h6>
-    <h8 class="center-align">Próximas 6 horas</h8>
+    <div class="row">
+      <h6 class="center-align"><b>Predicción Temporal </b></h6>
+      <h8 class="center-align">Mediciones de las próximas 6 horas</h8>
+    </div>
     <form id="form_panel_forecasting">
       <div class="row">
-      <p class="left-align" style="padding-left:30px"><b>Contaminante (ug/m3)</b></p>
-
-        <div class="col s4">
-        <label for="NO2"> <input id="NO2" class="with-gap" name="pollutant" type="radio" value="NO2" checked /><span>NO2</span></label>
+        <div class="col s12">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectPollutant">
+            <option value="PM25" >Mapa de PM2,5(ug/m3)</option>
+            <option value="CO" > Mapa de CO(ug/m3)</option>
+            <option value="NO2" >Mapa de NO2(ug/m3)</option>
+          </select>     
         </div>
-
-        <div class="col s4">
-        <label for="CO"><input id="CO" class="with-gap" name="pollutant" type="radio" value="CO" /><span>CO</span></label>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <select class="browser-default col s12" name="" style="padding-left:15px;text-align-last:center; border: 1px solid #aaa" id="selectVelocity">
+            <option value="2000" > Velocidad 1x</option>
+            <option value="1000" >Velocidad 1.5x</option>
+            <option value="500" >Velocidad 2x</option>
+          </select>     
         </div>
-
-        <div class="col s4">
-        <label for="PM25"><input id="PM25" class="with-gap" name="pollutant" type="radio" value="PM25" /><span>PM2.5</span></label>
-        </div>    
-
       </div>
     </form>
     <form id="form_progress_forecasting">
@@ -1759,24 +1765,6 @@ const landpage = `
             <p class="title">Description</p>
             <p>
             The last 6, 12 or 24 hours of our air quality spatial model.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card_item hoverable z-depth-4" id="future_interpolation">
-      <div class="card_inner">
-        <div class="card_top">
-          <img src="img/real-time-min.png" alt="real_time" style="width:auto ; height:180px;" />
-        </div>
-        <div class="card_bottom">
-          <div class="card_category">
-            Interpolación Futura
-          </div>
-          <div class="card_info">
-            <p class="title">Description</p>
-            <p>
-            We show air quality data of next 6 hours.
             </p>
           </div>
         </div>

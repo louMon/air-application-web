@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToPositionsMaintain, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -7,15 +7,14 @@ positionsMaintainMobile,
 chooseSpinnerMenu,
 spinMob,
 styledNavBar,
-spatialRealTime,
-spatialRealTimeMobile,
 spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
 import { viewSearchingPanelForecasting} from '../lib/HtmlComponents.js'
-import { getForecastingMeasurement,getLastRunnintTimestamp_ByPredictionModel} from '../requests/get.js';
+import { getForecastingMeasurement,getLastRunnintTimestamp_ByPredictionModel,
+		 get24hoursMeasurements, getFondecytQhawax} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
-import { createMarkers} from '../lib/mapUtils.js';
+import { selectColor,perc2color,createMarkersForecasting} from '../lib/mapUtils.js';
 
 let progress_form;
 let array_length ;
@@ -29,9 +28,7 @@ let map;
 let running_timestamp;
 let selectedParameters = {};
 var rectangle_list = [];
-
-var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
-var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
+let monitoringStations;
 
 const getStringBaseOnHour = function(counter){
 	if(counter == 0){
@@ -43,14 +40,14 @@ const getStringBaseOnHour = function(counter){
 
 const progress_bar =(p,running_timestamp,counter)=> `
 <div class="container" style="margin-bottom:1em; border-radius:5px; position:relative;">
-  <div style="height:40px;">
+  <div style="height:20px;">
         <div class="determinate" id="spatial_progress_bar" style="height:40px; width:100% ">${running_timestamp}</div>
   </div>
-  <div style="height:20px;">
-        <div class="determinate" id="spatial_progress_bar" style="height:20px; width:100% ">${getStringBaseOnHour(counter)}</div>
-  </div>
-  <div class="progress" style="height:20px;">
+  <div class="progress" style="height:10px;">
         <div class="determinate" id="spatial_progress_bar" style="height:20px; width: ${p}% "></div>
+  </div>
+  <div style="height:10px;">
+        <div class="determinate" id="spatial_progress_bar" style="height:20px; width:100% ">${getStringBaseOnHour(counter)}</div>
   </div>
 </div>
 `
@@ -61,45 +58,6 @@ const addMinutes =  function (dt, minutos) {
 
 const substractMinutes =  function (dt, minutos) {
     return new Date(dt.getTime() - minutos*60000);
-}
-
-function selectColor(value,polutant){
-	if(polutant=='NO2'){
-		if(value>=0 & value<=100){
-			return '#98c600'
-		}else if(value>100 & value<=200){
-			return '#edeb74'
-		}else if(value>200 & value<=300){
-			return '#d47602'
-		}else if(value>300){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='PM25'){
-		if(value>=0 & value<=12.5){
-			return '#98c600'
-		}else if(value>12.5 & value<=25){
-			return '#edeb74'
-		}else if(value>25 & value<=125){
-			return '#d47602'
-		}else if(value>125){
-			return '#9b0f0f'
-		}
-	}
-
-	if(polutant=='CO'){
-		if(value>=0 & value<=5049){
-			return '#98c600'
-		}else if(value>5049 & value<=10049){
-			return '#edeb74'
-		}else if(value>10049 & value<=15049){
-			return '#d47602'
-		}else if(value>15049){
-			return '#9b0f0f'
-		}
-	}
-
 }
 
 function lookforBounds(lat, lon){
@@ -140,7 +98,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	}
 }
 
-function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant){
+function iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,velocity){
 	myVarSetTimeOut = setTimeout(function() {   //  call a 1s setTimeout when the loop is called
 						percentage = increment + percentage;
 						if (counter+1 == array_length) {
@@ -152,7 +110,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 					    counter++;                    //  increment the counter
 					    running_timestamp = addMinutes(running_timestamp, 60)
 					    if (counter< array_length) {  //  if the counter < 10, call the loop function
-					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant)
+					    	iterateByTime(counter,arrayExample,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,velocity)
 					    }
 					    if(percentage == 100){
 					    	M.toast({
@@ -161,10 +119,12 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 							});
 							//setTimeout(()=>window.location.reload(), 5000);
 					    }    
-					}, 2000);
+					}, parseInt(velocity));
 }
 
-const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn) => {
+const startForecastingSimulation = async (mapElem,selectedParameters,map) => {
+	var velocity = selectedParameters.velocity
+	var pollutant = selectedParameters.pollutant
 	running_timestamp = await getLastRunnintTimestamp_ByPredictionModel('Forecasting'); //2 means Temporal Prediction
 	running_timestamp = new Date(running_timestamp);
 	running_timestamp = substractMinutes(running_timestamp, (6-1)*60) // las 5 horas de UTC +1 hora siguiente del inicio del forecasting
@@ -174,7 +134,7 @@ const startForecastingSimulation = async (mapElem,selectedParameters,map,playBtn
 	percentage = 0;
 	counter = 0;
 	increment = Math.round(100/parseFloat(array_length));
-	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,selectedParameters.pollutant);
+	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form,running_timestamp,pollutant,velocity);
 };
 
 const pauseHistorical = async () => { //falta detenerlo
@@ -183,6 +143,11 @@ const pauseHistorical = async () => { //falta detenerlo
 
 const restartHistorical = async (pollutant) => { //falta restaurarlo
 	iterateByTime(counter,json_array,increment, percentage,map,array_length,progress_form, running_timestamp,pollutant)
+};
+
+const setMarkers = async (map,selectedParameters) => {
+	monitoringStations = await getFondecytQhawax();
+	createMarkersForecasting(map, monitoringStations,selectedParameters.pollutant)
 };
 
 const viewForecasting= () => {
@@ -194,16 +159,12 @@ const viewForecasting= () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = positionsMaintain  + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile + spatialHistoricalMobile;
 	mapElem.innerHTML = viewSearchingPanelForecasting;
-	//chooseSpinnerMenu(company);
 
 	const pointsBtn = document.querySelector('#positions-menu');
 	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
-
-	const spatialRealTimeBtn = document.querySelector('#spatial-real-time-menu');
-	const spatialRealTimeMobBtn = document.querySelector('#spatial-real-time-menu-mobile');
 
 	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
 	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
@@ -220,9 +181,6 @@ const viewForecasting= () => {
 	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
 	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
-	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
-	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
-
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
 
@@ -232,36 +190,37 @@ const viewForecasting= () => {
 		mapTypeId: google.maps.MapTypeId.ROADMAP,
 	});
 
-	createMarkers(map, positionlat_list,positionlon_list)
-
 	const playBtn =mapElem.querySelector('#play');
 	const pauseBtn =mapElem.querySelector('#pause');
-	//const restartBtn =mapElem.querySelector('#restart');
 
-	const selectionPollutant = mapElem.querySelectorAll('input[name=pollutant]');
-	selectedParameters.pollutant = 'NO2';
+	selectedParameters.pollutant = 'PM25';
+	selectedParameters.velocity = '2000';
 
-	selectionPollutant.forEach(radio =>{
-		radio.addEventListener('click',()=>{
-			selectedParameters.pollutant=radio.id;
-		})
+	const pollutantSelection= mapElem.querySelector('#selectPollutant');
+	const velocitySelection= mapElem.querySelector('#selectVelocity');
+
+	setMarkers(map,selectedParameters)
+
+	pollutantSelection.addEventListener('change',e=>{
+		selectedParameters.pollutant=e.target.value;
+		setMarkers(map,selectedParameters)
+	})
+
+	velocitySelection.addEventListener('change',e=>{
+		selectedParameters.velocity=e.target.value;
 	})
 
 	playBtn.addEventListener('click',(e)=>{
-		console.log(selectedParameters)
-        playBtn.disabled = true
-        startForecastingSimulation(mapElem,selectedParameters,map,playBtn);
-        playBtn.disabled = false;
+        playBtn.disabled = true;
+        pauseBtn.disabled = false;
+        startForecastingSimulation(mapElem,selectedParameters,map);
     });
 
     pauseBtn.addEventListener('click',(e)=>{
-    	playBtn.disabled = false
+    	playBtn.disabled = false;
+    	pauseBtn.disabled = true;
         pauseHistorical();
     });
-
-    //restartBtn.addEventListener('click',(e)=>{
-    //    restartHistorical(selectedParameters.pollutant);
-    //});
 
 	return mapElem;
 

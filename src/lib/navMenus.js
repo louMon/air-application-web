@@ -424,11 +424,11 @@ const positionsMaintainMobile = `
 `;
 
 const forecasting = `
-<li id="forecasting-menu"><a>Pronóstico de Mapas</a></li>
+<li id="forecasting-menu"><a>Pronóstico de Calidad del Aire</a></li>
 `;
 
 const forecastingMobile = `
-<li id="forecasting-menu-mobile"><a>Pronóstico de Mapas</a></li>
+<li id="forecasting-menu-mobile"><a>Pronóstico de Calidad del Aire</a></li>
 `;
 
 const spatialRealTime = `

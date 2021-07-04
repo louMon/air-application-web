@@ -1,8 +1,8 @@
 import { drawQhawaxMap  } from '../lib/mapAssets.js';
-import {getGrids} from '../requests/get.js';
+import {getGrids, getFondecytQhawax} from '../requests/get.js';
 import { sourceSocket } from '../index.js';
 
-import {goToForecasting, goToSpatialRealTime, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToForecasting, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 dropdownLegend,
 chooseSpinnerMenu,
@@ -10,8 +10,6 @@ spinMob,
 styledNavBar,
 forecasting,
 forecastingMobile,
-spatialRealTime,
-spatialRealTimeMobile,
 spatialHistorical,
 spatialHistoricalMobile
 } from '../lib/navMenus.js';
@@ -33,8 +31,9 @@ import {
     deleteAllGrids
 }from '../requests/post.js';
 
-var positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
-var positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
+
+let positionlat_list = [-12.045286,-12.050278, -12.041025, -12.044226, -12.0466667, -12.0450749, -12.047538,-12.054722,-12.044236,-12.051526,-12.042525,-12.046736,-12.045394,-12.057582];
+let positionlon_list = [-77.030902,-77.026111, -77.043454, -77.050832, -77.080277778, -77.0278449, -77.035366,-77.029722,-77.012467,-77.077941,-77.033486,-77.047594,-77.036852,-77.071778];
 var distance = 300
 let matrix_seleccionados = []
 var distance_y_between = 250
@@ -120,6 +119,16 @@ const deleteAllPoints = async (map) => {
   console.log("Puntos borrados");
 };
 
+const setMarkers = async (map) => {
+  monitoringStations = await getFondecytQhawax();
+  console.log(monitoringStations)
+  createMarkers(map, monitoringStations);
+  //for (var ind=0; ind < monitoringStations.length; ind++) { 
+  //  positionlat_list.push(monitoringStations[ind].lat)
+  //  positionlon_list.push(monitoringStations[ind].lon)
+  //}
+};
+
 const generatePositions = () => {
 	
 	const mapElem = document.createElement('div');
@@ -130,15 +139,12 @@ const generatePositions = () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = forecasting + spatialRealTime + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+forecastingMobile +spatialRealTimeMobile+ spatialHistoricalMobile;
+	menulist.innerHTML = forecasting + spatialHistorical;
+	menuNavMobile.innerHTML = spinMob+forecastingMobile + spatialHistoricalMobile;
 	mapElem.innerHTML = viewPointsManagement;
 
 	const forecastingBtn = document.querySelector('#forecasting-menu');
 	const forecastingMobBtn = document.querySelector('#forecasting-menu-mobile');
-
-	const spatialRealTimeBtn = document.querySelector('#spatial-real-time-menu');
-	const spatialRealTimeMobBtn = document.querySelector('#spatial-real-time-menu-mobile');
 
 	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
 	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
@@ -155,34 +161,25 @@ const generatePositions = () => {
 	forecastingBtn.addEventListener('click',()=> goToForecasting());
 	forecastingMobBtn.addEventListener('click',()=> goToForecasting());
 
-	spatialRealTimeBtn.addEventListener('click',()=> goToSpatialRealTime());
-	spatialRealTimeMobBtn.addEventListener('click',()=> goToSpatialRealTime());
-
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
 	// hazta aqui todo el menu
 
 	const map = new google.maps.Map(mapElem.querySelector('#map'), {
-		center: new google.maps.LatLng(-12.0708433,-77.0817491),
+		center: new google.maps.LatLng(-12.048156, -77.076242),
 		zoom: 13,
     fullscreenControl: true,
     mapTypeControl: true,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: "satellite"
 	});
 
   const savePointsBtn =mapElem.querySelector('#save');
-  const restartFigureBtn =mapElem.querySelector('#restart');
   const getPointsBtn = mapElem.querySelector('#get-all-grids');
   const deleteAllPointsBtn = mapElem.querySelector('#delete-all-grids');
 
   savePointsBtn.addEventListener('click',(e)=>{
       e.preventDefault();
       savePointsEvent(matrix_seleccionados);
-  });
-
-  restartFigureBtn.addEventListener('click',(e)=>{
-      e.preventDefault();
-      deleteFigure(polyline);
   });
 
   getPointsBtn.addEventListener('click',(e)=>{
@@ -195,6 +192,8 @@ const generatePositions = () => {
       deleteAllPoints(map);
   });
 
+  setMarkers(map);
+
   var the_most_left_lon = lookfor_left_point(positionlon_list);
   var the_most_right_lon = lookfor_right_point(positionlon_list);
   var the_most_upper_lat = lookfor_upper_point(positionlat_list);
@@ -206,7 +205,6 @@ const generatePositions = () => {
   var distance_x = 4000*(getDistanceFromLatLonInKm(the_most_lower_lat, the_most_left_lon-0.038303, the_most_upper_lat,the_most_left_lon-0.038303));
   var points_x = Math.ceil(distance_x / distance_x_between);
 
-	createMarkers(map, positionlat_list,positionlon_list)
   var destinations = new google.maps.MVCArray();
   var matrix_points=initialize(map, distance,points_y, points_x, mean_lat,the_most_left_lon-0.037303);
   

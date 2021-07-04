@@ -1,3 +1,7 @@
+import { configuration } from '../lib/graphAssets.js';
+import {sourceAPI} from '../index.js';
+import {addZero,formatDateDB,qhawaxLeaf, ECAlimits} from '../lib/mapAssets.js';
+
 
 function createSpecificMarker(position,map,index){
   var marker = new google.maps.Marker({
@@ -13,16 +17,132 @@ function createSpecificMarker(position,map,index){
   return marker;
 }
 
-function createMarkers(map, positionlat_list,positionlon_list){
-  for (var i = 0; i < positionlon_list.length; i++) {
-    var myLatLng = {lat:positionlat_list[i], lng: positionlon_list[i]};
-    var marker = new google.maps.Marker({
-      position: myLatLng,
+const drawChart = async (station_id,pollutant, map) => {
+  const chart = document.querySelector('#over_map_infowindow');
+  chart.classList.remove('none')
+  const layout = {
+
+    autosize: false,
+    width:
+      window.innerWidth >= 800
+        ? window.innerWidth * 0.5
+        : window.innerWidth * 0.85,
+    height: window.innerHeight * 0.6,
+    title: `Estacion ${station_id.id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
+    showlegend: true,
+    colorway: ['#0000FF', '#FF0000'],
+    legend:{
+      orientation:'h',
+      y:window.innerWidth >= 1300? -0.1:2,
+        },
+    xaxis: {
+      title: {
+        text: '\n\nHora del día',
+        font: {
+          family: 'Courier New, monospace',
+          size: 12,
+          color: '#7f7f7f',
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: 'Concentración <sub>(µg/m3)</sub>',
+        font: {
+          family: 'Courier New, monospace',
+          size: 12,
+          color: '#7f7f7f',
+        },
+      },
+    },
+  };
+  let data = [];
+  const response = await fetch(
+    `${sourceAPI}get_forecasting_by_pollutant_of_one_station/?environmental_station_id=${station_id.id}&pollutant=${pollutant}`
+  );
+  const json = await response.json();
+  let yValuesHistorical = [];
+  let xValuesHistorical = [];
+  let yValuesForecasting = [];
+  let xValuesForecasting = [];
+  Object.entries(json).forEach(d => {
+    if(d[1].qhawax == 0){
+      yValuesHistorical.push(d[1].ug_m3_value);
+      xValuesHistorical.push(formatDateDB(d[1].timestamp));
+    }else{
+      yValuesForecasting.push(d[1].ug_m3_value);
+      xValuesForecasting.push(formatDateDB(d[1].timestamp));
+    }
+    
+    let trace1 = {};
+    let trace2 = {};
+    data = [
+      (trace1 = {
+        y: yValuesHistorical,
+        x: xValuesHistorical,
+        name: `${pollutant} (µg/m3) histórico`,
+        type: 'scatter',
+      }),
+      (trace2 = {
+        y: yValuesForecasting,
+        x: xValuesForecasting,
+        name: `${pollutant} (µg/m3) predicho`,
+        type: 'scatter',
+      }),
+    ];
+  });
+
+  Plotly.newPlot(chart, data, layout,configuration);
+  google.maps.event.addListener(map,'click',() =>{
+    chart.classList.add('none')
+  });
+};
+
+
+function createMarkers(map, monitoringStations){
+  for (var i = 0; i < monitoringStations.length; i++) {
+    var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
+    const qhawax_marker = new google.maps.Marker({
+      position: {
+        lat: myLatLng.lat,
+        lng: myLatLng.lng,
+      },
       map: map,
-      title: 'qHAWAX'+ i,
-      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+      icon: {
+        url: qhawaxLeaf(50),
+        scaledSize: new google.maps.Size(35, 35),
+      },
+      id:'qHAWAX'+ i,
     });
   }
+}
+
+function createMarkersForecasting(map, monitoringStations,pollutant){
+  var station_id = 0
+  let markers = []
+  for (var i = 0; i < monitoringStations.length; i++) {
+    var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
+    const qhawax_marker = new google.maps.Marker({
+      position: {
+        lat: myLatLng.lat,
+        lng: myLatLng.lng,
+      },
+      map: map,
+      icon: {
+        url: qhawaxLeaf(50),
+        scaledSize: new google.maps.Size(35, 35),
+      },
+      id: monitoringStations[i].id,
+    });
+    station_id = monitoringStations[i].id
+    markers.push(qhawax_marker)
+  }
+  markers.forEach(marker => {
+    marker.addListener('click', () => {
+      drawChart(marker,pollutant,map)
+    });
+  })
+  
 }
 
 
@@ -119,6 +239,62 @@ function setBounds(first,second,map){
   map.fitBounds(boundsSide);
 }
 
+function selectColor(value,polutant){
+  if(polutant=='NO2'){
+    if(value>=0 & value<=100){
+      return '#98c600'
+    }else if(value>100 & value<=200){
+      return '#edeb74'
+    }else if(value>200 & value<=300){
+      return '#d47602'
+    }else if(value>300){
+      return '#9b0f0f'
+    }
+  }
+
+  if(polutant=='PM25'){
+    if(value>=0 & value<=12.5){
+      return '#98c600'
+    }else if(value>12.5 & value<=25){
+      return '#edeb74'
+    }else if(value>25 & value<=125){
+      return '#d47602'
+    }else if(value>125){
+      return '#9b0f0f'
+    }
+  }
+
+  if(polutant=='CO'){
+    if(value>=0 & value<=5049){
+      return '#98c600'
+    }else if(value>5049 & value<=10049){
+      return '#edeb74'
+    }else if(value>10049 & value<=15049){
+      return '#d47602'
+    }else if(value>15049){
+      return '#9b0f0f'
+    }
+  }
+
+}
+
+function perc2color(max,min,value) {
+  var base = (max - min);
+  var perc = (value - min) / base * 100;
+  var r, g, b = 0;
+  if(perc < 50) {
+    r = 255;
+    g = Math.round(5.1 * perc*1.005);
+  }
+  else{
+    g = 255;
+    r = Math.round(510 - 5.10 * perc*1.005);
+  }
+  var h = r * 0x10000 + g * 0x100 + b * 0x1;
+  return '#' + ('000000' + h.toString(16)).slice(-6);
+  //}
+  //return '#FFFFFF'
+}
 
 export { 
 createMarkers, 
@@ -131,7 +307,10 @@ lookfor_right_point,
 lookfor_upper_point,
 lookfor_lower_point,
 createSpecificMarker,
-setBounds
+setBounds,
+selectColor,
+perc2color,
+createMarkersForecasting
 };
 
 
