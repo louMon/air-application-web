@@ -42,7 +42,7 @@ const getStringBaseOnHour = function(counter){
 		return 'Siguientes ' + (counter - 24 +1) +' horas'
 	}
 
-	return 'Últimas '+ (24 - counter) +' horas'
+	return (24 - counter) +' horas anteriores'
 }
 
 const progress_bar =(p,running_timestamp,counter)=> `
