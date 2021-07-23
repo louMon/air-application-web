@@ -33,7 +33,6 @@ const getGrids = async() =>{
 
 const getLastRunnintTimestamp_ByPredictionModel = async(p) =>{
     const url = `${sourceAPI}get_prediction_configure_by_model_type/?model_type=${p}`;
-    console.log(url)
     const response = await fetch(url);
     return await response.json();
 }
