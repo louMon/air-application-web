@@ -28,7 +28,7 @@ const drawChart = async (station_id,pollutant, map) => {
         ? window.innerWidth * 0.5
         : window.innerWidth * 0.85,
     height: window.innerHeight * 0.6,
-    title: `Estacion ${station_id.id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
+    title: `Estacion ${station_id.module_id}: Concentración de ${pollutant}<br> de las últimas 24 horas <sub>(µg/m3)</sub>`,
     showlegend: true,
     colorway: ['#0000FF', '#FF0000'],
     legend:{
@@ -133,6 +133,7 @@ function createMarkersForecasting(map, monitoringStations,pollutant){
         scaledSize: new google.maps.Size(35, 35),
       },
       id: monitoringStations[i].id,
+      module_id:monitoringStations[i].module_id,
     });
     station_id = monitoringStations[i].id
     markers.push(qhawax_marker)
