@@ -1,7 +1,9 @@
 import { changeView } from './lib/viewController.js';
 
-const sourceAPI = 'http://pucp-calidad-aire-api.qairadrones.com/api/';
-const sourceSocket = 'http://pucp-calidad-aire-api.qairadrones.com/';
+//const sourceAPI = 'http://pucp-calidad-aire-api.qairadrones.com/api/';
+//const sourceSocket = 'http://pucp-calidad-aire-api.qairadrones.com/';
+const sourceAPI = 'https://air-quality.pucp-air-quality.cloudns.ph/api/';
+const sourceSocket = 'https://air-quality.pucp-air-quality.cloudns.ph/';
 const qairamapAPI = 'https://qairamapnapi.qairadrones.com/api/';
 
 	window.onload = () => {
