@@ -100,29 +100,7 @@ const drawChart = async (station_id,pollutant, map) => {
 
 
 function createMarkers(map, monitoringStations){
-  for (var i = 0; i < monitoringStations.length; i++) {
-    var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
-    const qhawax_marker = new google.maps.Marker({
-      position: {
-        lat: myLatLng.lat,
-        lng: myLatLng.lng,
-      },
-      map: map,
-      icon: {
-        url: qhawaxLeaf(50),
-        scaledSize: new google.maps.Size(35, 35),
-      },
-      id:'qHAWAX'+ i,
-    });
-  }
-}
-
-function createMarkersForecasting(map, monitoringStations,pollutant){
-  var station_id = 0
-  let markers = []
-  let qhawax_not_cercado_de_lima = ['qH012','qH013','qH014','qH015','qH016','qH017','qH037','qH042','qH043','qH044','qH045','qH051','qH052']
   let qhawax_cercado_de_lima = ['qH038','qH039','qH040','qH041','qH046','qH047','qH048','qH049','qH050','qH054']
-  
   for (var i = 0; i < monitoringStations.length; i++) {
     if(qhawax_cercado_de_lima.includes(monitoringStations[i].name)) {
       var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
@@ -136,10 +114,34 @@ function createMarkersForecasting(map, monitoringStations,pollutant){
           url: qhawaxLeaf(50),
           scaledSize: new google.maps.Size(35, 35),
         },
-        id: monitoringStations[i].id,
-        module_id:monitoringStations[i].module_id,
+        id:'qHAWAX'+ i,
       });
-      station_id = monitoringStations[i].id
+    }
+  }
+}
+
+function createMarkersForecasting(map, monitoringStations,pollutant){
+  var station_id = 0
+  let markers = []
+  let qhawax_not_cercado_de_lima = ['qH012','qH013','qH014','qH015','qH016','qH017','qH037','qH042','qH043','qH044','qH045','qH051','qH052']
+  let qhawax_cercado_de_lima = ['qH038','qH039','qH040','qH041','qH046','qH047','qH048','qH049','qH050','qH054']
+  for (var i = 0; i < monitoringStations.length; i++) {
+    if(qhawax_cercado_de_lima.includes(monitoringStations[i].name)) {
+      var myLatLng = {lat:monitoringStations[i].lat, lng: monitoringStations[i].lon};
+      const qhawax_marker = new google.maps.Marker({
+        position: {
+          lat: myLatLng.lat,
+          lng: myLatLng.lng,
+        },
+        map: map,
+        icon: {
+          url: qhawaxLeaf(50),
+          scaledSize: new google.maps.Size(35, 35),
+        },
+        id: monitoringStations[i].qhawax_id,
+        module_id:monitoringStations[i].name,
+      });
+      station_id = monitoringStations[i].qhawax_id
       markers.push(qhawax_marker)
     }
   }
