@@ -62,7 +62,7 @@ const get24hoursMeasurements = async(p)=>{
 }
 
 const getFondecytQhawax = async(p) =>{
-    const url = `${sourceAPI}get_all_fondecyt_env_station`;
+    const url = `${qairamapAPI}QhawaxFondecyt`;
     const response = await fetch(url);
     return await response.json();
 }
