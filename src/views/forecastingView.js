@@ -87,6 +87,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
       	console.log("El valor de los colores son!!!!")
       	console.log(arrayExample[indice][unit][ind])
       	var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
+      	console.log(color_generated)
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
 	        strokeOpacity: 0.2,
@@ -96,6 +97,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	        map: map,
 	        bounds: bounds
 	    });
+	    console.log(rectangle)
 	    rectangle_list.push(rectangle);
 	}
 }
