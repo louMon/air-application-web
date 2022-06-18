@@ -84,6 +84,8 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	for(let ind=0; ind < positions_length; ind++) {
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
+      	console.log("El valor de los colores son!!!!")
+      	console.log(arrayExample[indice][unit][ind])
       	var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
