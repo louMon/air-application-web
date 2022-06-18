@@ -108,7 +108,7 @@ function iterateByTime(counter,arrayExample,increment, percentage,map,array_leng
 						if (counter+1 == array_length) {
 					    	percentage = 100;
 					    }
-				    	let positions_length = 6 // arrayExample[counter]['has_qhawax'].length;
+				    	let positions_length = 10 // arrayExample[counter]['has_qhawax'].length;
 					    iterateByGrid(positions_length,arrayExample,map,counter,pollutant);
 					    progress_form.innerHTML=progress_bar(percentage,running_timestamp,counter);
 					    counter++;                    //  increment the counter
