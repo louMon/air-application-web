@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {fgoToSpatialHistorical} from '../lib/directioning.js';
+import {goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -159,8 +159,8 @@ const viewForecasting= () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain  + spatialHistorical;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile + spatialHistoricalMobile;
+	menulist.innerHTML =  spatialHistorical;
+	menuNavMobile.innerHTML = spinMob + spatialHistoricalMobile;
 	mapElem.innerHTML = viewSearchingPanelForecasting;
 
 	//const pointsBtn = document.querySelector('#positions-menu');

@@ -170,8 +170,8 @@ const viewSpatialHistorical = () => {
 	const menulist = document.querySelector('#menu-list-bar');
 	const menuNavMobile= document.querySelector('#mobile-nav');
 	
-	menulist.innerHTML = positionsMaintain + forecasting ;
-	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile +forecastingMobile ;
+	menulist.innerHTML =  forecasting ;
+	menuNavMobile.innerHTML = spinMob +forecastingMobile ;
 	mapElem.innerHTML = viewSearchingPanelHistorical;
 
 	//const pointsBtn = document.querySelector('#positions-menu');
