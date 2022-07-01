@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToForecasting, goToSpatialHistorical} from '../lib/directioning.js';
+import {goToForecasting, goToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -158,8 +158,8 @@ const viewFutureInterpolation = () => {
 	mapElem.innerHTML = viewSearchingPanelFuture;
 	//chooseSpinnerMenu(company);
 
-	const pointsBtn = document.querySelector('#positions-menu');
-	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
+	//const pointsBtn = document.querySelector('#positions-menu');
+	//const pointsMobBtn = document.querySelector('#positions-menu-mobile');
 
 	const forecastingBtn = document.querySelector('#forecasting-menu');
 	const forecastingMobBtn = document.querySelector('#forecasting-menu-mobile');
@@ -176,8 +176,8 @@ const viewFutureInterpolation = () => {
 	const dropMenu = document.querySelectorAll('.dropdown-trigger');
 	M.Dropdown.init(dropMenu,{coverTrigger:false});
 
-	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
-	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
+	//pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
+	//pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
 	forecastingBtn.addEventListener('click',()=> goToForecasting());
 	forecastingMobBtn.addEventListener('click',()=> goToForecasting());

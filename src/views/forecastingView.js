@@ -1,5 +1,5 @@
 import { drawQhawaxMap, zoomByCompany } from '../lib/mapAssets.js';
-import {goToPositionsMaintain, goToSpatialHistorical} from '../lib/directioning.js';
+import {fgoToSpatialHistorical} from '../lib/directioning.js';
 import {navbar,
 positionsMaintain,
 dropdownLegend,
@@ -84,10 +84,7 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	for(let ind=0; ind < positions_length; ind++) {
         let coordinates = {'lat': arrayExample[indice]['lat'][ind], 'lon': arrayExample[indice]['lon'][ind]};
       	var bounds = lookforBounds(arrayExample[indice]['lat'][ind],arrayExample[indice]['lon'][ind]);
-      	console.log("El valor de los colores son!!!!")
-      	console.log(arrayExample[indice][unit][ind])
       	var color_generated = selectColor(arrayExample[indice][unit][ind],pollutant);
-      	console.log(color_generated)
       	rectangle = new google.maps.Rectangle({
 	        strokeColor: '#000000',
 	        strokeOpacity: 0.2,
@@ -97,7 +94,6 @@ function iterateByGrid(positions_length,arrayExample,map,indice,pollutant){
 	        map: map,
 	        bounds: bounds
 	    });
-	    console.log(rectangle)
 	    rectangle_list.push(rectangle);
 	}
 }
@@ -167,8 +163,8 @@ const viewForecasting= () => {
 	menuNavMobile.innerHTML = spinMob+positionsMaintainMobile + spatialHistoricalMobile;
 	mapElem.innerHTML = viewSearchingPanelForecasting;
 
-	const pointsBtn = document.querySelector('#positions-menu');
-	const pointsMobBtn = document.querySelector('#positions-menu-mobile');
+	//const pointsBtn = document.querySelector('#positions-menu');
+	//sconst pointsMobBtn = document.querySelector('#positions-menu-mobile');
 
 	const spatialHistoricalBtn = document.querySelector('#spatial-historical-menu');
 	const spatialHistoricalMobBtn = document.querySelector('#spatial-historical-menu-mobile');
@@ -182,8 +178,8 @@ const viewForecasting= () => {
 	const dropMenu = document.querySelectorAll('.dropdown-trigger');
 	M.Dropdown.init(dropMenu,{coverTrigger:false});
 
-	pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
-	pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
+	//pointsBtn.addEventListener('click',()=> goToPositionsMaintain());
+	//pointsMobBtn.addEventListener('click',()=> goToPositionsMaintain());
 
 	spatialHistoricalBtn.addEventListener('click',()=> goToSpatialHistorical());
 	spatialHistoricalMobBtn.addEventListener('click',()=> goToSpatialHistorical());
